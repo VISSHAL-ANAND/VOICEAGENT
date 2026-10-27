@@ -1,7 +1,7 @@
 from datetime import date
 from typing import Literal
 
-from pydantic import BaseModel, Field, model_validator
+from pydantic import BaseModel, ConfigDict, Field, model_validator
 
 
 class HealthResponse(BaseModel):
@@ -76,6 +76,8 @@ class AvailabilityResponse(BaseModel):
 
 
 class BookingSimulationRequest(BaseModel):
+    model_config = ConfigDict(extra="forbid", str_strip_whitespace=True)
+
     property_id: str = Field(min_length=1, max_length=100)
     check_in: date
     check_out: date
@@ -92,7 +94,13 @@ class BookingSimulationRequest(BaseModel):
 
 class BookingSimulationResponse(BaseModel):
     request_id: str
-    status: str
+    status: Literal["simulated_not_reserved"]
+    capacity_status: Literal[
+        "simulated_available",
+        "simulated_unavailable",
+        "simulated_room_capacity_suitable",
+        "simulated_room_capacity_exceeded",
+    ]
     property_id: str
     check_in: date
     check_out: date
@@ -104,6 +112,8 @@ class BookingSimulationResponse(BaseModel):
 
 
 class ManagerHandoffSimulationRequest(BaseModel):
+    model_config = ConfigDict(extra="forbid", str_strip_whitespace=True)
+
     simulated_outcome: Literal["answered", "busy", "no_answer", "failed"]
 
 
