@@ -137,3 +137,8 @@ Keep this log concise. Record decisions that affect project direction, verified 
 - Added optional `room_type_id` to the demo availability endpoint and a typed room-specific response shape. Unknown room IDs and room IDs belonging to another property return 404; blank IDs return 422.
 - Room-specific responses only evaluate guest count against the selected room's declared maximum. They do not check date inventory, prices, or live availability; legacy property-level checks remain supported.
 - Added six regression tests. GitHub Actions run #179 on commit `d83d9fee53e378112c2c3eb3bc84107dfac8c041` passed all 55 tests; one upstream Starlette/httpx TestClient deprecation warning remains.
+
+## Selected-room booking-request guardrails — 2026-10-28
+- Added optional room selection to the simulated booking-request flow, including property-scoped validation and maximum guest-count checks. The outcome always remains `simulated_not_reserved`.
+- Room selection is part of the idempotency payload; invalid room selections do not reserve the key, and changing the room while reusing a key returns 409.
+- Tightened availability response schema consistency and added seven more regression tests. GitHub Actions verification is pending; update after inspecting the run.
