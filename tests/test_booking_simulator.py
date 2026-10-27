@@ -448,3 +448,66 @@ def test_booking_request_without_room_selection_remains_compatible() -> None:
     assert payload["status"] == "simulated_not_reserved"
     assert payload["room_type_id"] is None
     assert payload["room_type_name"] is None
+
+
+def test_selected_room_booking_response_preserves_all_requested_stay_details() -> None:
+    payload = booking_payload(
+        check_in="2026-12-03",
+        check_out="2026-12-07",
+        guests=2,
+        room_type_id="demo-coimbatore-standard",
+        idempotency_key="stay-details-consistent-01",
+    )
+    response = client.post("/api/v1/demo/booking-requests", json=payload)
+
+    assert response.status_code == 200
+    result = response.json()
+    assert result["status"] == "simulated_not_reserved"
+    assert result["capacity_status"] == "simulated_room_capacity_suitable"
+    assert result["property_id"] == payload["property_id"]
+    assert result["check_in"] == payload["check_in"]
+    assert result["check_out"] == payload["check_out"]
+    assert result["guests"] == payload["guests"]
+    assert result["room_type_id"] == payload["room_type_id"]
+    assert result["room_type_name"] == "Standard Room"
+    assert result["demo_only"] is True
+    assert "No room has been reserved" in result["message"]
+
+
+def test_over_capacity_booking_response_preserves_capacity_failure_status() -> None:
+    response = client.post(
+        "/api/v1/demo/booking-requests",
+        json=booking_payload(
+            guests=3,
+            room_type_id="demo-coimbatore-standard",
+            idempotency_key="capacity-status-preserved-01",
+        ),
+    )
+
+    assert response.status_code == 200
+    result = response.json()
+    assert result["status"] == "simulated_not_reserved"
+    assert result["capacity_status"] == "simulated_room_capacity_exceeded"
+    assert result["guests"] == 3
+    assert result["room_type_id"] == "demo-coimbatore-standard"
+
+
+def test_booking_request_rejects_unexpected_fields() -> None:
+    response = client.post(
+        "/api/v1/demo/booking-requests",
+        json=booking_payload(
+            idempotency_key="unexpected-field-rejected-01",
+            authoritative=True,
+        ),
+    )
+
+    assert response.status_code == 422
+
+
+def test_booking_request_rejects_whitespace_only_idempotency_key() -> None:
+    response = client.post(
+        "/api/v1/demo/booking-requests",
+        json=booking_payload(idempotency_key="        "),
+    )
+
+    assert response.status_code == 422
