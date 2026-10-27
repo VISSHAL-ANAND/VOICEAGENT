@@ -87,3 +87,9 @@ For each meaningful change, record the exact commands executed, pass/fail outcom
 - Every property response should include room options with a non-empty ID/name, maximum guest count in the supported range, amenities, non-negative sample nightly price, and `demo_only=True`.
 - Property detail tests verify expected demo room options; unknown property lookup must still return 404.
 - These tests validate fixture shape only. They do not prove room-specific availability, current pricing, or booking behavior.
+
+
+## Synthetic room-type fixture tests — CI pending
+- Every property response should include room options with a non-empty ID/name, maximum guest count in the supported range, amenities, non-negative sample nightly price, and `demo_only=True`.
+- Property detail tests verify expected demo room options; unknown property lookup must still return 404.
+- These tests validate fixture shape only. They do not prove room-specific availability, current pricing, or booking behavior.
