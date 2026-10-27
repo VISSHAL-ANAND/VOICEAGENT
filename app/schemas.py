@@ -53,6 +53,7 @@ class BookingSimulationRequest(BaseModel):
     check_in: date
     check_out: date
     guests: int = Field(ge=1, le=12)
+    room_type_id: str | None = Field(default=None, min_length=1, max_length=100)
     idempotency_key: str = Field(min_length=8, max_length=128)
 
     @model_validator(mode="after")
@@ -69,6 +70,8 @@ class BookingSimulationResponse(BaseModel):
     check_in: date
     check_out: date
     guests: int
+    room_type_id: str | None = None
+    room_type_name: str | None = None
     demo_only: bool = True
     message: str
 
