@@ -1,10 +1,12 @@
 """Local-first FastAPI scaffold for VoiceAgent."""
 
 from datetime import date
+import logging
 
 from fastapi import FastAPI, HTTPException, Query
 
 from app.booking_simulator import check_demo_availability, create_demo_booking_request
+from app.config import settings
 from app.catalog import get_property, list_properties
 from app.handoff_simulator import simulate_manager_handoff
 from app.schemas import (
@@ -18,6 +20,11 @@ from app.schemas import (
     PropertySummary,
 )
 
+logging.basicConfig(
+    level=settings.log_level,
+    format="%(asctime)s %(levelname)s %(name)s %(message)s",
+)
+
 app = FastAPI(
     title="VoiceAgent API",
     version="0.2.0",
@@ -26,7 +33,7 @@ app = FastAPI(
 
 @app.get("/healthz", response_model=HealthResponse, tags=["operations"])
 def health_check() -> HealthResponse:
-    return HealthResponse()
+    return HealthResponse(mode=settings.mode)
 
 @app.get("/api/v1/properties", response_model=PropertyListResponse, tags=["properties"])
 def properties(city: str | None = Query(default=None, min_length=1, max_length=100)) -> PropertyListResponse:
