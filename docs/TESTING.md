@@ -94,8 +94,8 @@ For each meaningful change, record the exact commands executed, pass/fail outcom
 - Property detail tests verify expected demo room options; unknown property lookup returns 404.
 - These tests validate fixture shape only. They do not prove room-specific availability, current pricing, or booking behavior.
 
-## Room-specific demo capacity checks — CI verification pending
+## Room-specific demo capacity checks — passed in CI run #179 (55 tests total)
 - A selected room type must belong to the requested property; unknown or cross-property room IDs return 404.
 - Guests at/below the selected room's maximum capacity return `simulated_room_capacity_suitable`; larger groups return `simulated_room_capacity_exceeded`.
 - Blank `room_type_id` is rejected; omitting it preserves the existing property-level response shape and status behavior.
-- Every selected-room response carries the room identity/capacity and a warning that this is only a synthetic capacity check—not date-based inventory, price, or availability.
+- Every selected-room response carries the room identity/capacity and a warning that this is only a synthetic capacity check—not date-based inventory, price, or availability. These regressions passed in run #179 on commit `d83d9fee53e378112c2c3eb3bc84107dfac8c041`.
