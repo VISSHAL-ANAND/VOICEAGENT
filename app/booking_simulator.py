@@ -18,25 +18,72 @@ _requests_lock = Lock()
 
 
 def check_demo_availability(
-    property_id: str, check_in: date, check_out: date, guests: int
+    property_id: str,
+    check_in: date,
+    check_out: date,
+    guests: int,
+    room_type_id: str | None = None,
 ) -> dict:
-    if get_property(property_id) is None:
+    """Return demo-only capacity guidance, never live room availability."""
+    property_record = get_property(property_id)
+    if property_record is None:
         raise HTTPException(status_code=404, detail="Property not found")
     if check_out <= check_in:
         raise HTTPException(status_code=422, detail="Check-out must be after check-in")
     if guests < 1 or guests > 12:
         raise HTTPException(status_code=422, detail="Guests must be between 1 and 12")
 
-    capacity = _CAPACITY[property_id]
-    available = guests <= capacity
-    return {
+    base = {
         "property_id": property_id,
         "check_in": check_in.isoformat(),
         "check_out": check_out.isoformat(),
         "guests": guests,
-        "status": "simulated_available" if available else "simulated_unavailable",
+        "room_type_id": None,
+        "room_type_name": None,
+        "room_max_guests": None,
         "demo_only": True,
-        "notice": "SIMULATION ONLY — this is not live inventory or a real availability check.",
+    }
+
+    if room_type_id is not None:
+        room = next(
+            (
+                item
+                for item in property_record["room_types"]
+                if item["room_type_id"] == room_type_id
+            ),
+            None,
+        )
+        if room is None:
+            raise HTTPException(
+                status_code=404,
+                detail="Room type not found for this property",
+            )
+
+        suitable = guests <= room["max_guests"]
+        return {
+            **base,
+            "room_type_id": room["room_type_id"],
+            "room_type_name": room["name"],
+            "room_max_guests": room["max_guests"],
+            "status": (
+                "simulated_room_capacity_suitable"
+                if suitable
+                else "simulated_room_capacity_exceeded"
+            ),
+            "notice": (
+                "SIMULATION ONLY — this checks fictional room capacity only. "
+                "It does not check dates, inventory, pricing, or real availability."
+            ),
+        }
+
+    available = guests <= _CAPACITY[property_id]
+    return {
+        **base,
+        "status": "simulated_available" if available else "simulated_unavailable",
+        "notice": (
+            "SIMULATION ONLY — this is a fictional property-level capacity rule, "
+            "not live inventory or a real availability check."
+        ),
     }
 
 
