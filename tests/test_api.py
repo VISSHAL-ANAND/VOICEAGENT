@@ -51,3 +51,19 @@ def test_blank_city_is_rejected() -> None:
     response = client.get("/api/v1/properties", params={"city": ""})
 
     assert response.status_code == 422
+
+
+def test_property_detail_returns_demo_record() -> None:
+    response = client.get("/api/v1/properties/demo-coimbatore-001")
+
+    assert response.status_code == 200
+    payload = response.json()
+    assert payload["property_id"] == "demo-coimbatore-001"
+    assert payload["demo_only"] is True
+
+
+def test_property_detail_unknown_id_returns_404() -> None:
+    response = client.get("/api/v1/properties/unknown-demo-id")
+
+    assert response.status_code == 404
+    assert response.json() == {"detail": "Property not found"}
