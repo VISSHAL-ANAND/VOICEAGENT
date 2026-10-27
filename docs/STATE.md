@@ -11,8 +11,8 @@
   - `POST /api/v1/demo/booking-requests` — idempotent in-memory simulation only
   - `POST /api/v1/demo/manager-handoff` — simulated answered/busy/no-answer/failure outcomes only
 - Demo booking requests always return `simulated_not_reserved`; no real room is held, booked, or confirmed.
-- Automated tests cover health, property listing/filtering/detail/404, demo availability, explicit non-reservation, idempotency, conflicting idempotency-key reuse, capacity failure, invalid date order, unknown-property availability, guest/date validation, and manager handoff outcomes.
-- GitHub Actions workflow `.github/workflows/tests.yml` is active. Latest code-test run #95 for commit `dbb5b20f5d6c9dae79dfaf72ce78fe2a2cade84e` completed successfully: 34 tests passed, including concurrent same-key requests and invalid-input tests. One upstream deprecation warning remains in Starlette's TestClient integration with httpx.
+- Automated tests cover health, property listing/filtering/detail/404, demo availability, explicit non-reservation, idempotency, conflicting idempotency-key reuse, capacity failure, invalid date order, unknown-property availability, guest/date validation, retry after a rejected unknown-property request, booking-result invariants, and manager handoff outcomes.
+- GitHub Actions workflow `.github/workflows/tests.yml` is active. Latest previously verified run #105 for commit `c6b21a3b351a261c778fa0e71a765f053ebf4102` completed successfully with 34 tests; new booking edge-case tests are committed and their CI verification is pending. One upstream deprecation warning remains in Starlette's TestClient integration with httpx.
 - This is still a local prototype. No real property API, live availability, actual booking, voice integration, phone number, manager transfer, or deployment is implemented or verified.
 
 ## Confirmed requirements
@@ -32,8 +32,8 @@ Python + FastAPI; Tamil, Hindi, English, Kannada, Telugu; inbound virtual number
 Update affected Markdown after each project work unit. On the fourth user prompt in a cycle, audit every Markdown file against repository evidence, correct discrepancies, and verify the final tree. Full audit completed on 2026-10-27 for all 12 Markdown files: `AGENTS.md`, `README.md`, `SOUL.md`, `docs/PROJECT.md`, `docs/ARCHITECTURE.md`, `docs/STATE.md`, `docs/TASKS.md`, `docs/DECISIONS.md`, `docs/SECURITY.md`, `docs/TESTING.md`, `docs/CHANGELOG.md`, and `docs/INTERACTION_LOG.md`. Corrected stale architecture/testing/CI status. Cadence reset to 0/4 after this audit; cross-session counting may be imperfect.
 
 ## Latest work in progress
-- Added a process-local lock around the demo idempotency check/insert and a concurrency test issuing 40 same-key requests across 12 threads. GitHub Actions run #95 on commit `dbb5b20f5d6c9dae79dfaf72ce78fe2a2cade84e` passed all 34 tests, including the concurrency test and new invalid-input tests.
+- Added a process-local lock around the demo idempotency check/insert and a concurrency test issuing 40 same-key requests across 12 threads. The current work adds a regression proving a rejected unknown-property request does not reserve/poison its idempotency key, plus a contract test proving even an authoritative `confirmed` result must include a booking reference. CI verification for these new tests is pending.
 - This does not solve durability or multi-process idempotency; production correctness requires support from the authoritative booking API/database.
 
 ## Next action
-Continue tests for uncertain outcomes and review the API error/idempotency behavior. Price-change behavior cannot be implemented faithfully until the authoritative quote/price contract is available. Research voice/telephony options without activating paid services; ask the user before any consequential provider, privacy, budget, or architecture choice.
+Verify CI for the new booking edge-case tests, then continue with safe failure/retry tests. Price-change behavior and true uncertain-outcome recovery cannot be implemented faithfully until the authoritative quote/booking API contract is available. Research voice/telephony options without activating paid services; ask the user before any consequential provider, privacy, budget, or architecture choice.
