@@ -109,3 +109,9 @@ Keep this log concise. Record decisions that affect project direction, verified 
 - Researched official public materials and created `docs/VOICE_PROVIDER_RESEARCH.md`. Shortlist is preliminary: Exotel AgentStream for India telephony/media transport; Nia Voice for realtime multilingual speech (invite-only according to its docs); Vakyam for streaming TTS with a published free tier; Twilio as a pricing comparison only.
 - No vendor was selected, no account created, no phone number purchased, and no paid service activated. Exact eligibility, transfer behavior, price, language quality, and privacy terms remain open.
 - Next: verify CI for the new tests; then request a concrete no-obligation sandbox/cost/call-transfer answer from Exotel or continue official-source research without signing up. External property API docs remain required before real booking integration.
+
+
+## 2026-10-28 — Voice session contract foundation
+- Checked the latest GitHub Actions state: documentation run #132 completed successfully; the last verified application test run remains #118 (38 passed). New voice-contract tests are not yet verified by CI.
+- Added `app/voice_contracts.py` and `tests/test_voice_contracts.py` for a provider-neutral event boundary and `VoiceSessionPort` protocol. No audio transport or provider was assumed, and no paid account or number was activated.
+- Next: inspect the CI result for these changes, then continue safe tests. Real adapter work remains dependent on explicit provider choice and verified provider/API behavior.
