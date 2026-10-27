@@ -34,8 +34,8 @@ Do not use a static JSON export as the production source of truth for availabili
 ## Development
 The repository is currently an initial documentation baseline. Setup and test commands will be added after the application scaffold and dependencies are established. Do not infer that the application runs until a runnable implementation and executed test results are recorded.
 
-## Project rules
-Read [AGENTS.md](AGENTS.md) before contributing. Current project state and next tasks are in [docs/STATE.md](docs/STATE.md) and [docs/TASKS.md](docs/TASKS.md).
+## Project rules and agent identity
+Read [AGENTS.md](AGENTS.md) for engineering rules and [SOUL.md](SOUL.md) for the receptionist's identity, conversational behavior, truthfulness, and escalation boundaries. Current project state and next tasks are in [docs/STATE.md](docs/STATE.md) and [docs/TASKS.md](docs/TASKS.md).
 
 ## Documentation
 - [Project requirements](docs/PROJECT.md)
