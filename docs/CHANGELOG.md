@@ -88,3 +88,8 @@ Changes are recorded after they are actually made and verified.
 - Added optional room selection to the demo booking-request schema and response. The simulator validates the selected room against the requested property and its declared capacity, but always returns `simulated_not_reserved`.
 - Included room selection in idempotency comparison; invalid room selections are not stored, and a different room under an existing key conflicts with 409.
 - Tightened availability response schema validation so room metadata must be complete and consistent with the status. GitHub Actions run #198 on commit `40daa12ba8975b8c575441b3d2775166a8187042` passed all 62 tests (one upstream deprecation warning).
+
+## 2026-10-28 — Stay-detail consistency and strict input validation
+- Added a constrained `capacity_status` separate from the invariant `simulated_not_reserved` booking-request status; response includes the property, dates, guest count, and selected room used by the simulation.
+- Booking and simulated handoff request schemas now reject unexpected JSON fields and normalize surrounding whitespace before validation. Added regressions for stay-detail consistency, over-capacity status preservation, unexpected fields, and whitespace-only idempotency keys.
+- An intermediate CI run exposed that the new response field was not yet wired into the simulator; the simulator was corrected, and GitHub Actions run #216 passed all 66 tests (one upstream deprecation warning).
