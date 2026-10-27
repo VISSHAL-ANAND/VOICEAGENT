@@ -30,3 +30,6 @@ Changes are recorded after they are actually made and verified.
 
 - Added `python-dotenv` support so the app loads a local `.env` file, and documented copying `.env.example` during setup.
 - GitHub Actions run #50 passed all 26 tests after the configuration update.
+
+- Added provider-neutral internal property/availability/booking contracts and an adapter protocol; these do not assume the external management API schema.
+- Added tests for date validation, explicit guest confirmation, and authoritative booking-confirmation invariants. CI verification is pending.
