@@ -105,7 +105,7 @@ Keep this log concise. Record decisions that affect project direction, verified 
 
 
 ## 2026-10-28 — Next work unit
-- Added two regression tests: invalid guest-count request must not poison a later valid retry with the same idempotency key; conflicting key reuse must not mutate the original stored result. GitHub Actions verification is pending.
+- Added two regression tests: invalid guest-count request must not poison a later valid retry with the same idempotency key; conflicting key reuse must not mutate the original stored result. GitHub Actions run #118 passed all 38 tests.
 - Researched official public materials and created `docs/VOICE_PROVIDER_RESEARCH.md`. Shortlist is preliminary: Exotel AgentStream for India telephony/media transport; Nia Voice for realtime multilingual speech (invite-only according to its docs); Vakyam for streaming TTS with a published free tier; Twilio as a pricing comparison only.
 - No vendor was selected, no account created, no phone number purchased, and no paid service activated. Exact eligibility, transfer behavior, price, language quality, and privacy terms remain open.
 - Next: verify CI for the new tests; then request a concrete no-obligation sandbox/cost/call-transfer answer from Exotel or continue official-source research without signing up. External property API docs remain required before real booking integration.
