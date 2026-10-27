@@ -24,10 +24,12 @@ Python + FastAPI; Tamil, Hindi, English, Kannada, Telugu; inbound virtual number
 - Recording, transcription, retention, and production compliance decisions remain open.
 - The demo request store is in memory and resets on process restart; it is not production persistence.
 - `app/config.py` validates environment configuration, loads `.env` when present, and refuses non-local modes until live integrations exist.
+- `app/contracts.py` now defines provider-neutral internal property/availability/booking contracts and a `PropertyManagementPort` protocol. Booking commands require guest confirmation; confirmed results require an authoritative flag and booking reference.
+- Added contract-validation tests; GitHub Actions for the latest commit is pending, so this addition is not yet CI-verified.
 - Manager handoff endpoint is only a simulation; no telephony provider is configured and no real call can be transferred.
 
 ## Conversation audit cadence
 Update affected Markdown after each project work unit. On the fourth user prompt in a cycle, audit every Markdown file against repository evidence, correct discrepancies, and verify the final tree. Cadence checkpoint: 3/4 prompts counted in the current cycle; the next user prompt should trigger the full Markdown audit. Cross-session continuity may be imperfect.
 
 ## Next action
-Finish booking edge-case tests for price changes, concurrency, and uncertain outcomes. Define provider-neutral property/booking interfaces, then research voice and telephony options without activating paid services. Obtain the other developer's API contract before implementing real reservations.
+Verify the new contract tests in CI. Then finish booking edge-case tests for price changes, concurrency, and uncertain outcomes; research voice and telephony options without activating paid services. Obtain the other developer's API contract before implementing real reservations.
