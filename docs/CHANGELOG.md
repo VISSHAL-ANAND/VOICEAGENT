@@ -61,3 +61,9 @@ Changes are recorded after they are actually made and verified.
 ## 2026-10-28 — Provider research and booking regression coverage
 - Added `docs/VOICE_PROVIDER_RESEARCH.md` with a preliminary comparison based on official public information for Exotel AgentStream, Nia Voice, Vakyam AI, and Twilio. No vendor selected or service activated.
 - Added two booking simulation tests for invalid guest-count retry and preservation of the original result after conflicting idempotency-key reuse. GitHub Actions run #118 on commit `dbed4d974af3700541de4755b58826fb31e19621` passed all 38 tests.
+
+
+## 2026-10-28 — Provider-neutral voice session boundary
+- Added `app/voice_contracts.py` with normalized session lifecycle/transcript/error events and a `VoiceSessionPort` protocol.
+- Added tests for the five supported language tags, event-kind parsing, unexpected-field rejection, blank transcript rejection, and normalized error codes.
+- The boundary deliberately does not define audio codecs, transport framing, vendor behavior, or telephony integration. GitHub Actions verification is pending; no real voice provider or paid service was activated.
