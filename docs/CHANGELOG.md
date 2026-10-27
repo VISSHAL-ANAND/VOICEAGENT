@@ -87,4 +87,4 @@ Changes are recorded after they are actually made and verified.
 ## 2026-10-28 — Selected-room booking-request guardrails
 - Added optional room selection to the demo booking-request schema and response. The simulator validates the selected room against the requested property and its declared capacity, but always returns `simulated_not_reserved`.
 - Included room selection in idempotency comparison; invalid room selections are not stored, and a different room under an existing key conflicts with 409.
-- Tightened availability response schema validation so room metadata must be complete and consistent with the status. Added booking-flow and schema regression tests; CI verification is pending.
+- Tightened availability response schema validation so room metadata must be complete and consistent with the status. GitHub Actions run #198 on commit `40daa12ba8975b8c575441b3d2775166a8187042` passed all 62 tests (one upstream deprecation warning).
