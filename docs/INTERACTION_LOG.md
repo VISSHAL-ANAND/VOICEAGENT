@@ -13,18 +13,19 @@ Keep this log concise. Record decisions that affect project direction, verified 
 - Budget: ₹0 for initial local development/testing; client may pay after the prototype.
 - Integration: the other developer is expected to provide an API and JSON data; exact schema is unknown.
 
-### Verified checkpoint
+## Verified documentation checkpoint — 2026-10-27
 - GitHub repository metadata identified `VISSHAL-ANAND/VOICEAGENT`, default branch `main`, with admin/push permissions.
 - Before baseline creation, repository metadata size was 0 and GitHub's contents endpoint reported the repository empty.
-- Documentation baseline is being added. No code, tests, API, voice provider, phone number, or deployment has been verified.
+- Created `AGENTS.md`, `README.md`, and nine `docs/*.md` files covering project, architecture, decisions, security, testing, state, tasks, changelog, and interaction log.
+- Fetched the recursive Git tree after writes. All eleven expected files were present; response reported `truncated=false`.
+- No code, tests, API, voice provider, phone number, or deployment has been verified.
 
-### Blockers
+## Blockers
 - Need sanitized sample JSON/API response and API documentation.
 - Need provider research for five-language voice, inbound virtual number in India, and live transfer.
 - Need client decisions on recording/transcription, retention, and production budget.
 
-### Next handoff
-1. Verify all documentation files exist on the default branch.
-2. Inspect the resulting tree and latest commit.
-3. Begin the local FastAPI scaffold with tests and synthetic fixtures, after confirming repository baseline.
-4. Keep all external services mocked until contracts and approvals are available.
+## Next handoff
+1. Inspect repository/Git state and verify documentation after the final checkpoint updates.
+2. Begin the local FastAPI scaffold with tests and synthetic fixtures.
+3. Keep all external services mocked until contracts and approvals are available.
