@@ -22,9 +22,12 @@ Statuses: **TODO**, **BLOCKED**, **IN PROGRESS**, **DONE**. Mark a task DONE onl
 - [x] **T-016: Add room-specific demo capacity checks** — implemented in `app/booking_simulator.py`, `app/main.py`, and `app/schemas.py`; GitHub Actions run #179 passed all 55 tests.
   - Evidence: optional room type must belong to the requested property; guest count is checked against declared capacity; response explicitly disclaims inventory/date/price checks; property-level requests remain compatible; unknown, cross-property, and blank room IDs are tested.
   - Limitation: capacity suitability is not availability.
-- [x] **T-017: Validate selected room in demo booking requests** — implemented and verified by GitHub Actions run #198 on commit `40daa12ba8975b8c575441b3d2775166a8187042` (62 tests passed).
-  - Evidence: optional room selection is validated against the requested property's fixtures; over-capacity requests remain `simulated_not_reserved`; invalid room requests do not poison idempotency keys; reusing a key with a different room returns 409; response schema rejects inconsistent room metadata.
-  - Limitation: this still does not check date-specific inventory, calculate authoritative prices, or create a reservation.
+- [x] **T-017: Validate selected room in demo booking requests** — verified by GitHub Actions run #198 on commit `40daa12ba8975b8c575441b3d2775166a8187042` (62 tests passed).
+  - Evidence: room selection is property-scoped; over-capacity requests remain `simulated_not_reserved`; invalid room requests do not poison idempotency keys; different-room key reuse returns 409; response schema rejects inconsistent room metadata.
+  - Limitation: no date-specific inventory, authoritative price, or reservation.
+- [x] **T-018: Preserve demo stay details and harden booking input schemas** — verified by GitHub Actions run #216 on commit `3042e590ed8c63a7b503be872a90022d4ded341c` (66 tests passed).
+  - Evidence: result echoes property, dates, guests, room selection, and a separate constrained capacity status; unexpected JSON fields and whitespace-only idempotency keys are rejected.
+  - Limitation: schema validation is not authentication, authorization, rate limiting, or durable idempotency.
 
 - [ ] **T-013: Implement booking workflow with mocks** — IN PROGRESS. Added deterministic demo-capacity checks and an idempotent request simulation. It always returns `simulated_not_reserved` and never claims a real booking.
   - Remaining acceptance: continue failure/retry coverage and keep this simulation separate from the eventual authoritative API adapter. Added tests that invalid unknown-property and invalid guest-count requests do not poison a later valid retry with the same idempotency key, and that conflicting reuse does not change the original result. GitHub Actions run #118 passed all 38 tests. True uncertain-outcome recovery and price-change behavior need the authoritative booking/quote contract.
