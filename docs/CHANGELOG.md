@@ -21,3 +21,6 @@ Changes are recorded after they are actually made and verified.
 
 - Expanded endpoint tests for property detail success/404, unknown-property availability, reversed availability dates, and invalid guest counts.
 - GitHub Actions run #19 passed all 16 pytest tests on the latest application/test commit.
+
+- Added a manager-handoff simulation for answered, busy, no-answer, and failure outcomes. Every response clearly states that no real call was transferred.
+- Added handoff tests and confirmed GitHub Actions run #29 passed all 22 tests. CI currently reports one upstream Starlette/httpx TestClient deprecation warning.
