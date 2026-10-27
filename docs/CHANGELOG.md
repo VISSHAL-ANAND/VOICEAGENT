@@ -46,4 +46,4 @@ Changes are recorded after they are actually made and verified.
 ## 2026-10-27 — Booking simulation concurrency hardening
 - Added a process-local lock around idempotency lookup, payload conflict validation, and request insertion.
 - Added a regression test for 40 concurrent requests with the same idempotency key across 12 threads.
-- The new test's CI result is pending. This is not durable or multi-process idempotency and does not replace authoritative booking-system controls.
+- GitHub Actions run #82 passed all 32 tests, including the concurrency regression. This is not durable or multi-process idempotency and does not replace authoritative booking-system controls.
