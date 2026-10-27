@@ -50,3 +50,10 @@ For each meaningful change, record the exact commands executed, pass/fail outcom
 - Configuration tests verify local-mock defaults, log-level normalization, and rejection of production mode or invalid log levels.
 - CI reports one upstream Starlette/httpx TestClient deprecation warning.
 - The tests validate only the local simulation. They do not validate a real booking API, database durability, concurrency, voice quality, telephony, or production deployment.
+
+## Provider-neutral contract tests
+- Reversed stay dates are rejected.
+- Booking commands require explicit guest confirmation.
+- A booking result cannot claim `confirmed` without an authoritative flag and booking reference.
+- Pending outcomes remain distinct from confirmed outcomes.
+- CI for the newly added contract module is pending; do not count it as verified until the workflow finishes.
