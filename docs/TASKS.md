@@ -12,13 +12,13 @@ Statuses: **TODO**, **BLOCKED**, **IN PROGRESS**, **DONE**. Mark a task DONE onl
 
 ## P1 — Local backend
 - [ ] **T-010: Scaffold FastAPI application** — IN PROGRESS. Health/property/demo endpoints and typed schemas are committed; configuration hardening and additional runtime checks remain.
-  - Evidence: GitHub Actions run #10 passed dependency installation and pytest.
+  - Evidence: GitHub Actions run #19 passed dependency installation and the 16-test pytest suite.
 - [x] **T-011: Add synthetic multi-property fixtures** — three fictional properties, typed schemas, and property list/detail endpoints are committed.
-  - Evidence: GitHub Actions run #10 passed the test job, including tests for demo-only records, city filtering, and unknown-property 404.
+  - Evidence: GitHub Actions run #19 passed, including tests for demo-only records, city filtering, detail lookup, and unknown-property 404.
 - [ ] **T-012: Define internal property/booking contracts** — provider-neutral interfaces and explicit unknowns.
   - Acceptance: contract tests cover valid and invalid responses; no fabricated external schema.
 - [ ] **T-013: Implement booking workflow with mocks** — IN PROGRESS. Added deterministic demo-capacity checks and an idempotent request simulation. It always returns `simulated_not_reserved` and never claims a real booking.
-  - Remaining acceptance: price-change, concurrency, and uncertain-outcome cases; ensure this simulation is kept separate from the eventual authoritative API adapter.
+  - Remaining acceptance: price-change, concurrency, and uncertain-outcome cases; ensure this simulation is kept separate from the eventual authoritative API adapter. Latest CI run #19 passed the current simulation tests.
 - [ ] **T-014: Implement simulated manager handoff** — interface and success/busy/failure outcomes.
   - Acceptance: tests pass and all local simulation is clearly labelled.
 
