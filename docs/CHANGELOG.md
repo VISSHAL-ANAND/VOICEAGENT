@@ -60,4 +60,4 @@ Changes are recorded after they are actually made and verified.
 
 ## 2026-10-28 — Provider research and booking regression coverage
 - Added `docs/VOICE_PROVIDER_RESEARCH.md` with a preliminary comparison based on official public information for Exotel AgentStream, Nia Voice, Vakyam AI, and Twilio. No vendor selected or service activated.
-- Added two booking simulation tests for invalid-request retry and preservation of the original result after a conflicting idempotency-key reuse. CI is pending for these tests.
+- Added two booking simulation tests for invalid guest-count retry and preservation of the original result after conflicting idempotency-key reuse. GitHub Actions run #118 on commit `dbed4d974af3700541de4755b58826fb31e19621` passed all 38 tests.
