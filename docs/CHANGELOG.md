@@ -50,3 +50,9 @@ Changes are recorded after they are actually made and verified.
 
 
 - Added tests that unknown-property booking requests return 404 and short idempotency keys return 422. GitHub Actions run #95 passed all 34 tests.
+
+
+## 2026-10-28 — Booking failure/retry edge cases
+- Added a regression test that an unknown-property request returns 404 without poisoning a later valid request using the same idempotency key.
+- Added a contract regression test that `status="confirmed"` is rejected when the booking reference is missing, even if `authoritative=True`.
+- CI verification for these newest tests is pending; do not treat them as passing until the workflow completes.
