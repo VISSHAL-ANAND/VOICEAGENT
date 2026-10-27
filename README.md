@@ -1,8 +1,8 @@
 # VoiceAgent — Multilingual Homestay AI Receptionist
 
-A planned phone-based AI receptionist for a company managing multiple homestays/hotels. The agent is intended to answer guest calls, retrieve verified property information, check availability and prices, create reservations through the existing management application, and transfer callers to a manager when requested.
+VoiceAgent is being built as a phone-based AI receptionist for a company managing multiple homestays/hotels. The target product will answer guest calls, use verified property information, check availability and prices, create reservations through the existing management application, and transfer callers to a manager when requested.
 
-**Status:** Initial repository setup. No application implementation or integration has been verified yet.
+**Current status:** Early scaffold only. A minimal FastAPI app and `/healthz` endpoint have been committed. Property API, booking workflow, automated application tests, voice, telephony, live manager transfer, and deployment are not yet verified. Do not use this prototype for real guest calls.
 
 ## Product goals
 - Voice conversations in Tamil, Hindi, English, Kannada, and Telugu.
@@ -12,14 +12,25 @@ A planned phone-based AI receptionist for a company managing multiple homestays/
 - Auditable outcomes, secure handling of guest data, and honest failure behavior.
 - ₹0 initial development using local execution and mocked/synthetic services.
 
-## Planned technology
+## Technology and cost
 - Python + FastAPI backend.
-- Provider-neutral interfaces for realtime voice AI and telephony.
-- Adapter for the property-management API.
-- PostgreSQL/Supabase or another justified persistence choice after requirements are reviewed.
-- Local mocks and synthetic fixtures before real credentials/services are available.
+- Provider-neutral interfaces for voice, telephony, and the property-management API.
+- Synthetic fixtures and mocked external services before real credentials are available.
+- GitHub Actions workflow is configured to run pytest; a successful run has not yet been observed.
 
-These are project intentions, not claims that integrations are implemented or free. Real voice-model usage, phone numbers, calling, hosting, and database plans may incur costs. No paid service should be activated without explicit approval.
+No paid service should be activated without explicit approval. Voice-model usage, phone numbers, calling, hosting, and database plans may incur costs.
+
+## Local development
+Requires Python 3.11 or newer.
+
+```bash
+python -m venv .venv
+source .venv/bin/activate
+python -m pip install -r requirements.txt
+uvicorn app.main:app --reload
+```
+
+Open `http://127.0.0.1:8000/healthz` for the health response and `http://127.0.0.1:8000/docs` for the FastAPI API explorer. These commands are documented but have not been executed by the assistant in a runtime environment.
 
 ## Requirements before real integration
 Obtain from the other developer:
@@ -29,15 +40,11 @@ Obtain from the other developer:
 4. Create/confirm/cancel booking endpoints, idempotency behavior, and error model.
 5. Tenant/property scoping and rate limits.
 
-Do not use a static JSON export as the production source of truth for availability.
+Do not use a static JSON export as the production source of truth for availability. Never claim a booking is confirmed unless the authoritative API verifies it.
 
-## Development
-The repository is currently an initial documentation baseline. Setup and test commands will be added after the application scaffold and dependencies are established. Do not infer that the application runs until a runnable implementation and executed test results are recorded.
+## Project rules and documentation
+Read [AGENTS.md](AGENTS.md) for engineering rules and [SOUL.md](SOUL.md) for the receptionist's identity and behavior. Current state and next tasks are in [docs/STATE.md](docs/STATE.md) and [docs/TASKS.md](docs/TASKS.md).
 
-## Project rules and agent identity
-Read [AGENTS.md](AGENTS.md) for engineering rules and [SOUL.md](SOUL.md) for the receptionist's identity, conversational behavior, truthfulness, and escalation boundaries. Current project state and next tasks are in [docs/STATE.md](docs/STATE.md) and [docs/TASKS.md](docs/TASKS.md).
-
-## Documentation
 - [Project requirements](docs/PROJECT.md)
 - [Architecture](docs/ARCHITECTURE.md)
 - [Decisions](docs/DECISIONS.md)
