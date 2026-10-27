@@ -39,3 +39,8 @@ Document a way to rotate exposed credentials, disable compromised integrations, 
 - Dependency and configuration review.
 
 No security control should be marked complete until implementation and verification evidence exist.
+
+## Current prototype guardrails
+- `app/config.py` accepts only `VOICEAGENT_MODE=local-mock`; it rejects production/live modes because no authoritative API or telephony integration is configured.
+- `LOG_LEVEL` is validated against standard Python levels. The current app configures standard logging but does not log guest content, phone numbers, credentials, or booking payloads.
+- These checks are development guardrails, not a substitute for deployment secrets management, authentication, authorization, tenant isolation, rate limiting, or production review.
