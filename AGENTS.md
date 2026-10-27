@@ -127,7 +127,11 @@ The target product is a phone-based AI receptionist for a company operating mult
 
 ## 14. Progress tracking and checkpoints
 - Keep `docs/STATE.md` and `docs/TASKS.md` current during substantial work.
-- Every five user prompts during substantial project work, reconcile documentation against repository evidence and persist a checkpoint, current state, interaction log, prompt counter, and handoff when write access permits.
+- Prompt cadence rule: after three user prompts, when the fourth arrives, perform a full GitHub Markdown audit: fetch the recursive tree, read every `.md` file, compare docs against repository/code/test evidence, correct all discrepancies, and verify the resulting tree. Reset the counter after that audit and record the audit/counter in `docs/STATE.md` and `docs/INTERACTION_LOG.md`.
+- After every project conversation/work unit, update each Markdown file whose facts, decisions, status, risks, tests, or next steps changed. Do not make meaningless edits to files that remain accurate.
+- At the start of each project conversation, read `AGENTS.md`, `SOUL.md`, `README.md`, `docs/STATE.md`, and `docs/TASKS.md`; inspect all other Markdown files during the fourth-prompt audit and read relevant ones for each task.
+- Do not wait for the fourth prompt to fix urgent security, correctness, or booking-integrity issues.
+- If the prompt counter cannot be reliably persisted across sessions, state that limitation and resume from the last documented checkpoint; never invent a count.
 - If persistence or repository access is unavailable, state that limitation; never pretend a checkpoint was saved.
 - End work sessions with completed items, evidence, outstanding issues, and exact next steps.
 - A prompt count is a workflow aid, not a reason to skip urgent security or correctness documentation.
