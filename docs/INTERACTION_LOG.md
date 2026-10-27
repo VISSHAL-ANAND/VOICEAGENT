@@ -129,3 +129,5 @@ Keep this log concise. Record decisions that affect project direction, verified 
 - Added two fictional room options per demo property with maximum guest count, amenities, sample nightly INR price, and explicit `demo_only=True` labeling.
 - Exposed room options through property list/detail APIs using a validated Pydantic schema. Added API tests for fixture fields, demo-only status, and detail lookup.
 - CI verification is pending. Prices are illustrations, not real quotes; availability remains simulated and not room-specific. No provider, account, paid service, or real property data was used.
+
+- Verification update: GitHub Actions run #156 passed all 49 tests, including the new room-type fixture API tests. Sample prices remain fictional and room-specific live availability is not implemented.
