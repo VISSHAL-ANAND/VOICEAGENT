@@ -31,14 +31,17 @@ app = FastAPI(
     description="Local prototype. Property data and booking flows are simulations only.",
 )
 
+
 @app.get("/healthz", response_model=HealthResponse, tags=["operations"])
 def health_check() -> HealthResponse:
     return HealthResponse(mode=settings.mode)
+
 
 @app.get("/api/v1/properties", response_model=PropertyListResponse, tags=["properties"])
 def properties(city: str | None = Query(default=None, min_length=1, max_length=100)) -> PropertyListResponse:
     items = [PropertySummary(**item) for item in list_properties(city)]
     return PropertyListResponse(items=items, total=len(items))
+
 
 @app.get("/api/v1/properties/{property_id}", response_model=PropertySummary, tags=["properties"])
 def property_detail(property_id: str) -> PropertySummary:
@@ -47,15 +50,22 @@ def property_detail(property_id: str) -> PropertySummary:
         raise HTTPException(status_code=404, detail="Property not found")
     return PropertySummary(**item)
 
+
 @app.get("/api/v1/demo/availability", response_model=AvailabilityResponse, tags=["demo booking"])
 def demo_availability(
     property_id: str,
     check_in: date,
     check_out: date,
     guests: int = Query(ge=1, le=12),
+    room_type_id: str | None = Query(default=None, min_length=1, max_length=100),
 ) -> AvailabilityResponse:
-    """Return deterministic demo capacity, never live room availability."""
-    return AvailabilityResponse(**check_demo_availability(property_id, check_in, check_out, guests))
+    """Return demo capacity only; room-specific checks never claim inventory availability."""
+    return AvailabilityResponse(
+        **check_demo_availability(
+            property_id, check_in, check_out, guests, room_type_id=room_type_id
+        )
+    )
+
 
 @app.post("/api/v1/demo/booking-requests", response_model=BookingSimulationResponse, tags=["demo booking"])
 def demo_booking_request(payload: BookingSimulationRequest) -> BookingSimulationResponse:
