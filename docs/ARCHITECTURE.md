@@ -1,7 +1,7 @@
 # Architecture — Initial Design
 
 ## Status
-Proposed architecture only. The repository currently has no verified application implementation. Revise this document after the property API contract and provider research are available.
+The repository contains a CI-tested local FastAPI prototype. Synthetic property data, demo availability/booking requests, and manager handoff are implemented; they are explicitly simulations. The authoritative property API, voice model, telephony, persistence, and deployment remain unimplemented. Revise the production design only when verified API/provider evidence and user-approved decisions are available.
 
 ## Components
 1. **Telephony adapter** — receives inbound call events, streams audio if supported, and performs live transfers.
