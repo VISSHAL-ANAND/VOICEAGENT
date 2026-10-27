@@ -99,3 +99,10 @@ For each meaningful change, record the exact commands executed, pass/fail outcom
 - Guests at/below the selected room's maximum capacity return `simulated_room_capacity_suitable`; larger groups return `simulated_room_capacity_exceeded`.
 - Blank `room_type_id` is rejected; omitting it preserves the existing property-level response shape and status behavior.
 - Every selected-room response carries the room identity/capacity and a warning that this is only a synthetic capacity check—not date-based inventory, price, or availability. These regressions passed in run #179 on commit `d83d9fee53e378112c2c3eb3bc84107dfac8c041`.
+
+## Selected-room booking-request guardrails — CI verification pending
+- Valid room selections are echoed by ID/name while status remains `simulated_not_reserved`.
+- Guest counts above the selected room's capacity must not produce a reservation; the response must explicitly state that no room was reserved.
+- Unknown or cross-property room selections must fail without storing the idempotency key; a corrected request may then use that key.
+- Reusing an idempotency key with a different room must return 409, while replaying the original room selection returns the original request ID.
+- Strict response-schema tests reject partial room metadata and room-capacity statuses without room metadata.
