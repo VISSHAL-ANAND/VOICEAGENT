@@ -35,7 +35,7 @@ Update affected Markdown after each project work unit. On the fourth user prompt
 ## Booking simulation limits
 - The process-local lock and regression tests protect only the in-memory demo simulator. Run #118 passed the 38-test suite at that checkpoint; later run #135 passed 47 tests after voice-contract coverage was added.
 - This does not solve durability or multi-process idempotency; production correctness requires support from the authoritative booking API/database.
-- Room-type fixtures are now implemented: each of the three synthetic properties exposes two typed demo room options with capacity, amenities, and illustrative INR nightly prices. New API tests are committed; CI verification is pending. These records are not real inventory, availability, or authoritative quotes.
+- Room-type fixtures are now implemented: each of the three synthetic properties exposes two typed demo room options with capacity, amenities, and illustrative INR nightly prices. New API tests are committed; GitHub Actions run #156 on commit `7763dc4fe5ff3b4002f886d312e38adbd33c1521` passed all 49 tests. These records are not real inventory, availability, or authoritative quotes.
 
 ## Full Markdown audit — 2026-10-28
 - Read all 13 Markdown files currently present on `main`: `AGENTS.md`, `README.md`, `SOUL.md`, and the ten files under `docs/` including `VOICE_PROVIDER_RESEARCH.md`.
@@ -43,5 +43,11 @@ Update affected Markdown after each project work unit. On the fourth user prompt
 - Reconciled README, state, tasks, architecture, testing, changelog, and interaction notes against code and GitHub Actions run #135 (47 tests passed). Flagged room-type modeling as an unmet first-prototype acceptance criterion. No provider, paid service, external API schema, or privacy policy was selected.
 - Prompt cadence reset to 0/4.
 
+## Room-type fixture implementation — 2026-10-28
+- Added two fictional room options to each of the three demo properties, with ID, name, maximum guest count, amenities, illustrative nightly INR price, and strict `demo_only=True` marking.
+- Added a validated `RoomTypeSummary` schema and exposed room options through property list/detail responses.
+- GitHub Actions run #156 on commit `7763dc4fe5ff3b4002f886d312e38adbd33c1521` passed all 49 tests. One upstream Starlette/httpx TestClient deprecation warning remains.
+- This is fixture data only; no live availability, real quote, or booking capability was added.
+
 ## Next action
-Verify the room-type model and API tests in GitHub Actions, then continue safe booking failure/retry coverage. Room types are not yet linked to the simulated availability endpoint. The voice/session contract exists but is not wired to a real adapter. Preliminary provider research is documented; obtain concrete answers about sandbox access, Indian inbound-number eligibility, transfer support, and cost before any signup. Price-change behavior and true uncertain-outcome recovery remain blocked on the authoritative quote/booking API contract. Ask the user before any consequential provider, privacy, budget, or architecture choice.
+Continue safe booking failure/retry coverage and consider whether mock availability should accept a room type (without implying live inventory). Room types are not yet linked to the simulated availability endpoint. The voice/session contract exists but is not wired to a real adapter. Preliminary provider research is documented; obtain concrete answers about sandbox access, Indian inbound-number eligibility, transfer support, and cost before any signup. Price-change behavior and true uncertain-outcome recovery remain blocked on the authoritative quote/booking API contract. Ask the user before any consequential provider, privacy, budget, or architecture choice.
