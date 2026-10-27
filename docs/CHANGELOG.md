@@ -82,4 +82,4 @@ Changes are recorded after they are actually made and verified.
 ## 2026-10-28 — Room-specific demo capacity guardrails
 - Added optional `room_type_id` to the demo availability endpoint. Selected room IDs are checked against the requested property's own fixture; unknown or cross-property room IDs return 404.
 - Added a room-capacity-only result distinct from property-level simulated capacity. The response names the room and maximum guest count, and explicitly says that dates, inventory, prices, and real availability are not checked.
-- Added regression tests for suitable/over-capacity groups, unknown and cross-property room IDs, blank IDs, and backward compatibility. CI verification is pending; no live inventory or booking behavior was introduced.
+- Added regression tests for suitable/over-capacity groups, unknown and cross-property room IDs, blank IDs, and backward compatibility. GitHub Actions run #179 on commit `d83d9fee53e378112c2c3eb3bc84107dfac8c041` passed all 55 tests (one upstream deprecation warning); no live inventory or booking behavior was introduced.
