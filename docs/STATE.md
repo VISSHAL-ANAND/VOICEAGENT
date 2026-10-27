@@ -32,4 +32,4 @@ Python + FastAPI; Tamil, Hindi, English, Kannada, Telugu; inbound virtual number
 Update affected Markdown after each project work unit. On the fourth user prompt in a cycle, audit every Markdown file against repository evidence, correct discrepancies, and verify the final tree. Cadence checkpoint: 3/4 prompts counted in the current cycle; the next user prompt should trigger the full Markdown audit. Cross-session continuity may be imperfect.
 
 ## Next action
-Verify the new contract tests in CI. Then finish booking edge-case tests for price changes, concurrency, and uncertain outcomes; research voice and telephony options without activating paid services. Obtain the other developer's API contract before implementing real reservations.
+Finish booking edge-case tests for price changes, concurrency, and uncertain outcomes; research voice and telephony options without activating paid services. The internal contract tests are verified by CI run #59. Obtain the other developer's API contract before implementing real reservations.
