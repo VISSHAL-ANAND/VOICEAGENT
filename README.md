@@ -16,7 +16,7 @@ VoiceAgent is being built as a phone-based AI receptionist for a company managin
 - Python + FastAPI backend with validated local-only configuration.
 - Provider-neutral interfaces for voice sessions and the property-management API; the actual voice-provider, audio transport, and telephony adapters are not implemented.
 - Synthetic property and room-type fixtures with sample INR nightly prices, plus mocked external services before real credentials are available. Room prices and room labels are illustrative only—not quotes, inventory, or availability.
-- GitHub Actions run #179 on commit `d83d9fee53e378112c2c3eb3bc84107dfac8c041` passed all 55 pytest tests for room-specific capacity checks. Additional selected-room booking-request and strict response-schema tests are committed; their CI result is pending. One upstream Starlette/httpx TestClient deprecation warning remains.
+- GitHub Actions run #198 on commit `40daa12ba8975b8c575441b3d2775166a8187042` passed all 62 pytest tests, including selected-room booking-request and strict response-schema guardrails. One upstream Starlette/httpx TestClient deprecation warning remains.
 
 No paid service should be activated without explicit approval. Voice-model usage, phone numbers, calling, hosting, and database plans may incur costs.
 
