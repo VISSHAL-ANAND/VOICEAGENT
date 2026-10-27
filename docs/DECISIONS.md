@@ -34,3 +34,9 @@
 - Exact property API contract, idempotency, and concurrency semantics.
 - Call recording/transcription policy and retention.
 - Hosting choice, availability target, latency target, and approved production budget.
+
+## D-006 — Explicit local-only runtime mode until real adapters exist
+- **Status:** Accepted for the prototype
+- **Context:** The backend currently uses synthetic property records, simulated capacity, and simulated handoff outcomes.
+- **Decision:** Validate configuration at startup and reject any `VOICEAGENT_MODE` other than `local-mock` until the authoritative property API and telephony integrations are implemented and verified. Support a local `.env` file for developer configuration without committing secrets.
+- **Consequences:** The prototype cannot accidentally be configured as production by changing one environment variable. Real mode requires a deliberate implementation and readiness review.
