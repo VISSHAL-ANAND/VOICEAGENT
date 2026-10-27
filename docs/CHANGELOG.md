@@ -35,3 +35,9 @@ Changes are recorded after they are actually made and verified.
 - Added tests for date validation, explicit guest confirmation, and authoritative booking-confirmation invariants. CI verification is pending.
 
 - Provider-neutral contract tests passed in GitHub Actions run #59: 31 tests passed across the current repository test suite.
+
+
+## 2026-10-27 — Fourth-prompt documentation audit
+- Read all 12 Markdown files from `main` and checked them against the repository tree, application modules, tests, and GitHub Actions evidence.
+- Corrected stale architecture/testing status and updated the README, state, and task evidence to latest observed successful CI run #73 (`40749a317b993f6f7ad0dffac563439aacc9b352`): 31 tests passed, one Starlette/httpx deprecation warning.
+- Marked documentation inventory and completeness review tasks complete. No provider, schema, hosting, privacy, or paid-service decision was invented.
