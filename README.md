@@ -16,7 +16,7 @@ VoiceAgent is being built as a phone-based AI receptionist for a company managin
 - Python + FastAPI backend with validated local-only configuration.
 - Provider-neutral interfaces for voice sessions and the property-management API; the actual voice-provider, audio transport, and telephony adapters are not implemented.
 - Synthetic property and room-type fixtures with sample INR nightly prices, plus mocked external services before real credentials are available. Room prices and room labels are illustrative only—not quotes, inventory, or availability.
-- GitHub Actions run #198 on commit `40daa12ba8975b8c575441b3d2775166a8187042` passed all 62 pytest tests, including selected-room booking-request and strict response-schema guardrails. One upstream Starlette/httpx TestClient deprecation warning remains.
+- GitHub Actions run #216 on commit `3042e590ed8c63a7b503be872a90022d4ded341c` passed all 66 pytest tests, including stay-detail consistency and strict booking-input guardrails. One upstream Starlette/httpx TestClient deprecation warning remains.
 
 No paid service should be activated without explicit approval. Voice-model usage, phone numbers, calling, hosting, and database plans may incur costs.
 
@@ -40,7 +40,8 @@ Open `http://127.0.0.1:8000/healthz` for the health response and `http://127.0.0
 - `GET /api/v1/demo/availability?property_id=demo-coimbatore-001&check_in=2026-11-10&check_out=2026-11-12&guests=2` returns fictional property-level capacity data. Add `room_type_id=demo-coimbatore-standard` to check the selected room type's guest-capacity limit only; it does not check dates against inventory.
 - With `room_type_id`, the endpoint returns `simulated_room_capacity_suitable` or `simulated_room_capacity_exceeded`, validates that the room belongs to the requested property, and includes the selected room's demo capacity. Without it, the legacy property-level status remains unchanged.
 - All availability responses remain `demo_only: true`; no response establishes actual availability, current price, or a reservation.
-- `POST /api/v1/demo/booking-requests` accepts property/date/guest details and an idempotency key, plus an optional `room_type_id`. When a room is selected, it validates property ownership and room guest capacity, but still returns `simulated_not_reserved` and never reserves anything.
+- `POST /api/v1/demo/booking-requests` accepts property/date/guest details and an idempotency key, plus an optional `room_type_id`. When a room is selected, it validates property ownership and room guest capacity, but still returns `simulated_not_reserved` and never reserves anything. The response includes a separate `capacity_status` and echoes the selected property, dates, guest count, and room details so the simulation outcome cannot be mistaken for a confirmed reservation.
+- Booking request schemas reject unknown JSON fields and trim/reject whitespace-only required strings. These are input-validation guardrails, not authentication or production access controls.
 - `POST /api/v1/demo/manager-handoff` simulates answered, busy, no-answer, and failed handoff outcomes. It always sets `real_transfer: false`.
 - All demo availability and booking responses are explicitly marked as simulation-only. The room-specific branch checks capacity only, not inventory or date availability. These endpoints must never be presented to guests as real availability or a confirmed reservation.
 
