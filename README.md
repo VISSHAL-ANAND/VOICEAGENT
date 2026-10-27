@@ -2,7 +2,7 @@
 
 VoiceAgent is being built as a phone-based AI receptionist for a company managing multiple homestays/hotels. The target product will answer guest calls, use verified property information, check availability and prices, create reservations through the existing management application, and transfer callers to a manager when requested.
 
-**Current status:** Local prototype with passing GitHub Actions tests. FastAPI health/property endpoints and simulation-only availability/booking-request endpoints are committed. The demo booking flow never reserves or confirms a real room. Real property API, live availability/booking, voice, telephony, live manager transfer, and deployment are not implemented. Do not use this prototype for real guest calls.
+**Current status:** Local prototype with passing GitHub Actions tests. FastAPI health/property endpoints now include fictional room-type options and sample nightly prices; availability/booking-request endpoints remain simulation-only. The demo booking flow never reserves or confirms a real room. All room options and nightly prices shown by the property endpoints are fictional fixtures. Real property API, live availability/booking, voice, telephony, live manager transfer, and deployment are not implemented. Do not use this prototype for real guest calls.
 
 ## Product goals
 - Voice conversations in Tamil, Hindi, English, Kannada, and Telugu.
@@ -15,8 +15,8 @@ VoiceAgent is being built as a phone-based AI receptionist for a company managin
 ## Technology and cost
 - Python + FastAPI backend with validated local-only configuration.
 - Provider-neutral interfaces for voice sessions and the property-management API; the actual voice-provider, audio transport, and telephony adapters are not implemented.
-- Synthetic fixtures and mocked external services before real credentials are available.
-- Latest verified application-test run #135 passed all 47 pytest tests on commit `36127058bf34388829e3e46b8ba5c8a35cfe4870`, including the new provider-neutral voice session contract tests. One upstream Starlette/httpx TestClient deprecation warning remains.
+- Synthetic property and room-type fixtures with sample INR nightly prices, plus mocked external services before real credentials are available. Room prices and room labels are illustrative only—not quotes, inventory, or availability.
+- Latest verified application-test run #135 passed all 47 pytest tests on commit `36127058bf34388829e3e46b8ba5c8a35cfe4870`. Synthetic room-type support and its regression tests were subsequently committed; the CI result for those changes is pending. One upstream Starlette/httpx TestClient deprecation warning remains.
 
 No paid service should be activated without explicit approval. Voice-model usage, phone numbers, calling, hosting, and database plans may incur costs.
 
