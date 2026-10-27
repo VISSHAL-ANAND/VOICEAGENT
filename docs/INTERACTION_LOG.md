@@ -141,4 +141,4 @@ Keep this log concise. Record decisions that affect project direction, verified 
 ## Selected-room booking-request guardrails — 2026-10-28
 - Added optional room selection to the simulated booking-request flow, including property-scoped validation and maximum guest-count checks. The outcome always remains `simulated_not_reserved`.
 - Room selection is part of the idempotency payload; invalid room selections do not reserve the key, and changing the room while reusing a key returns 409.
-- Tightened availability response schema consistency and added seven more regression tests. GitHub Actions verification is pending; update after inspecting the run.
+- Tightened availability response schema consistency and added seven more regression tests. GitHub Actions run #198 on commit `40daa12ba8975b8c575441b3d2775166a8187042` passed all 62 tests; one upstream Starlette/httpx TestClient deprecation warning remains.
