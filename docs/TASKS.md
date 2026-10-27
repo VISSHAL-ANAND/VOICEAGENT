@@ -3,8 +3,8 @@
 Statuses: **TODO**, **BLOCKED**, **IN PROGRESS**, **DONE**. Mark a task DONE only when its acceptance criteria are verified.
 
 ## P0 — Baseline
-- [ ] **T-001: Establish documentation baseline** — repository contains governing rules, project scope, architecture, state, tasks, decisions, security, testing, changelog, and interaction log.
-  - Acceptance: each document exists, is non-duplicative, and describes verified facts versus proposals accurately.
+- [x] **T-001: Establish documentation baseline** — repository contains governing rules, project scope, architecture, state, tasks, decisions, security, testing, changelog, and interaction log.
+  - Evidence: GitHub recursive tree was fetched after writes; all eleven expected files were present and response reported `truncated=false`.
 - [ ] **T-002: Inspect repository/Git state** — verify default branch, tree, history, and clean/working state after baseline creation.
   - Acceptance: record actual outputs; do not infer local working-tree status from GitHub alone.
 
