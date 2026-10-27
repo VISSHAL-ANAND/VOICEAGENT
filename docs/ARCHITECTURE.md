@@ -74,3 +74,7 @@ Local development and mocked dependencies first. Production deployment, persiste
 - `app/voice_contracts.py` defines normalized typed events for session start, user transcript, assistant transcript, session end, and safe session errors, plus a `VoiceSessionPort` protocol.
 - The contract supports language tags for Tamil (`ta`), Hindi (`hi`), English (`en`), Kannada (`kn`), and Telugu (`te`). Transcript text is required and blank-only transcripts are rejected. Unexpected fields are forbidden; error codes are normalized rather than carrying raw provider error text across the boundary.
 - This is a domain-level session boundary, not an audio wire protocol. It intentionally specifies no codec, sample rate, WebSocket framing, vendor SDK, or telephony event shape. Concrete adapters and orchestrator integration remain unimplemented until provider choices are approved and verified.
+
+
+## Room-specific demo capacity boundary — 2026-10-28
+The optional `room_type_id` on `GET /api/v1/demo/availability` resolves only within the requested property's synthetic room list. Unknown and cross-property room IDs fail closed with 404; blank IDs are rejected by request validation. A selected-room response reports whether the guest count fits the fixture's `max_guests`, with `demo_only: true` and an explicit notice that dates, inventory, price, and actual availability are not checked. The old property-level simulated response remains available when `room_type_id` is omitted. This is not a reservation or a production inventory API.
