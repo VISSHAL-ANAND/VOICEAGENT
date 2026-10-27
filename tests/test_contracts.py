@@ -31,6 +31,11 @@ def test_confirmed_booking_requires_authoritative_reference() -> None:
         BookingResult(status="confirmed", booking_reference="fake-demo-reference")
 
 
+def test_confirmed_booking_rejects_missing_reference_even_if_authoritative() -> None:
+    with pytest.raises(ValidationError, match="authoritative result and booking reference"):
+        BookingResult(status="confirmed", authoritative=True)
+
+
 def test_pending_booking_result_does_not_claim_confirmation() -> None:
     result = BookingResult(status="pending")
 
