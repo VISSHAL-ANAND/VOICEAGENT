@@ -100,3 +100,40 @@ def test_invalid_date_order_is_rejected() -> None:
     )
 
     assert response.status_code == 422
+
+
+def test_unknown_property_availability_returns_404() -> None:
+    response = client.get(
+        "/api/v1/demo/availability",
+        params={
+            "property_id": "unknown-demo-id",
+            "check_in": "2026-11-10",
+            "check_out": "2026-11-12",
+            "guests": 2,
+        },
+    )
+
+    assert response.status_code == 404
+
+
+def test_demo_availability_rejects_checkout_before_checkin() -> None:
+    response = client.get(
+        "/api/v1/demo/availability",
+        params={
+            "property_id": "demo-coimbatore-001",
+            "check_in": "2026-11-12",
+            "check_out": "2026-11-10",
+            "guests": 2,
+        },
+    )
+
+    assert response.status_code == 422
+
+
+def test_demo_booking_rejects_guest_count_outside_range() -> None:
+    response = client.post(
+        "/api/v1/demo/booking-requests",
+        json=booking_payload(guests=0, idempotency_key="test-key-bad-guests"),
+    )
+
+    assert response.status_code == 422
