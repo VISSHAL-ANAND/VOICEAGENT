@@ -1,18 +1,18 @@
 # Current State
 
-## Verified checkpoint — 2026-10-27
+## Verified checkpoint — 2026-10-28
 - Repository: `VISSHAL-ANAND/VOICEAGENT`; branch: `main`.
 - FastAPI app: `app/main.py`; typed schemas: `app/schemas.py`; synthetic property catalog: `app/catalog.py`.
 - Endpoints implemented:
   - `GET /healthz`
-  - `GET /api/v1/properties` with optional city filter
-  - `GET /api/v1/properties/{property_id}`
+  - `GET /api/v1/properties` with optional city filter; responses include fictional room types and demo prices
+  - `GET /api/v1/properties/{property_id}` with fictional room type details
   - `GET /api/v1/demo/availability` — deterministic synthetic capacity only
   - `POST /api/v1/demo/booking-requests` — idempotent in-memory simulation only
   - `POST /api/v1/demo/manager-handoff` — simulated answered/busy/no-answer/failure outcomes only
 - Demo booking requests always return `simulated_not_reserved`; no real room is held, booked, or confirmed.
 - Automated tests cover health, property listing/filtering/detail/404, demo availability, explicit non-reservation, idempotency, conflicting idempotency-key reuse, capacity failure, invalid date order, unknown-property availability, guest/date validation, retry after a rejected unknown-property request, booking-result invariants, and manager handoff outcomes.
-- GitHub Actions workflow `.github/workflows/tests.yml` is active. Run #118 on commit `dbed4d974af3700541de4755b58826fb31e19621` passed all 38 application tests. After adding voice-session contracts, run #135 on commit `36127058bf34388829e3e46b8ba5c8a35cfe4870` passed all 47 tests. Documentation-only run #132 on commit `1d7e7ca1f4a125b13117b4b8161fb137956e90e4` also completed successfully. One upstream Starlette/httpx TestClient deprecation warning remains.
+- GitHub Actions workflow `.github/workflows/tests.yml` is active. Run #156 on commit `7763dc4fe5ff3b4002f886d312e38adbd33c1521` passed all 49 application tests, including voice-session contract and synthetic room-type coverage. One upstream Starlette/httpx TestClient deprecation warning remains.
 - This is still a local prototype. No real property API, live availability, actual booking, voice-provider adapter/audio transport, phone number, manager transfer, or deployment is implemented or verified.
 
 ## Confirmed requirements
