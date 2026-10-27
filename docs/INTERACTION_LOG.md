@@ -50,3 +50,9 @@ Keep this log concise. Record decisions that affect project direction, verified 
 - Added property-detail success/404 tests and availability validation tests for unknown properties, reversed dates, and invalid guest counts.
 - GitHub Actions run #19 passed all 16 pytest tests on commit `c973ad74d73c90c15fc301f6949c9ccfcfc048d3`.
 - Documentation was reconciled to distinguish the successful CI-tested simulation from a real booking system. Real reservation, voice, and telephony integrations remain unimplemented.
+
+## Manager handoff simulation checkpoint — 2026-10-27
+- Added `app/handoff_simulator.py` and a typed demo endpoint for answered, busy, no-answer, and failed outcomes.
+- Responses always carry `demo_only: true` and `real_transfer: false`; no telephony operation is performed.
+- Added handoff tests. GitHub Actions run #29 on commit `d4789b132f59d4f7e01bcdca03999c5e5fc68fa5` passed 22 tests.
+- One upstream Starlette/httpx TestClient deprecation warning remains. Production live transfer still requires a selected and verified telephony provider.
