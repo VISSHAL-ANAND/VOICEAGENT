@@ -184,3 +184,22 @@ def test_booking_request_rejects_short_idempotency_key() -> None:
     )
 
     assert response.status_code == 422
+
+
+def test_rejected_unknown_property_does_not_poison_idempotency_key() -> None:
+    key = "retry-after-404-0001"
+    rejected = client.post(
+        "/api/v1/demo/booking-requests",
+        json=booking_payload(
+            property_id="not-a-demo-property",
+            idempotency_key=key,
+        ),
+    )
+    retried = client.post(
+        "/api/v1/demo/booking-requests",
+        json=booking_payload(idempotency_key=key),
+    )
+
+    assert rejected.status_code == 404
+    assert retried.status_code == 200
+    assert retried.json()["status"] == "simulated_not_reserved"
