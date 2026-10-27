@@ -12,7 +12,7 @@
   - `POST /api/v1/demo/manager-handoff` — simulated answered/busy/no-answer/failure outcomes only
 - Demo booking requests always return `simulated_not_reserved`; no real room is held, booked, or confirmed.
 - Automated tests cover health, property listing/filtering/detail/404, demo availability, explicit non-reservation, idempotency, conflicting idempotency-key reuse, capacity failure, invalid date order, unknown-property availability, guest/date validation, retry after a rejected unknown-property request, booking-result invariants, and manager handoff outcomes.
-- GitHub Actions workflow `.github/workflows/tests.yml` is active. GitHub Actions run #107 for commit `7f29bfd41c61cf793f625794a4c6932ac24e30e0` completed successfully: 36 tests passed, including the new booking edge-case tests, with one Starlette/httpx deprecation warning. One upstream deprecation warning remains in Starlette's TestClient integration with httpx.
+- GitHub Actions workflow `.github/workflows/tests.yml` is active. GitHub Actions run #107 for commit `7f29bfd41c61cf793f625794a4c6932ac24e30e0` completed successfully: 36 tests passed, with one Starlette/httpx deprecation warning. Two additional idempotency regression tests are committed and CI is pending. One upstream deprecation warning remains in Starlette's TestClient integration with httpx.
 - This is still a local prototype. No real property API, live availability, actual booking, voice integration, phone number, manager transfer, or deployment is implemented or verified.
 
 ## Confirmed requirements
@@ -20,7 +20,7 @@ Python + FastAPI; Tamil, Hindi, English, Kannada, Telugu; inbound virtual number
 
 ## Blockers
 - External API schema, authentication, availability semantics, and booking/idempotency behavior are unknown.
-- Voice/telephony provider capabilities and India pricing are unverified.
+- Preliminary official-source research is recorded in `docs/VOICE_PROVIDER_RESEARCH.md`: Exotel AgentStream (India telephony/media transport), Nia Voice (realtime multilingual speech), Vakyam (TTS-only), and Twilio (pricing comparison). Exact eligibility, current costs, live transfer, quality, and production integration remain unverified; no provider selected.
 - Recording, transcription, retention, and production compliance decisions remain open.
 - The demo request store is in memory and resets on process restart; it is not production persistence.
 - `app/config.py` validates environment configuration, loads `.env` when present, and refuses non-local modes until live integrations exist.
@@ -36,4 +36,4 @@ Update affected Markdown after each project work unit. On the fourth user prompt
 - This does not solve durability or multi-process idempotency; production correctness requires support from the authoritative booking API/database.
 
 ## Next action
-Verify CI for the new booking edge-case tests, then continue with safe failure/retry tests. Price-change behavior and true uncertain-outcome recovery cannot be implemented faithfully until the authoritative quote/booking API contract is available. Research voice/telephony options without activating paid services; ask the user before any consequential provider, privacy, budget, or architecture choice.
+Verify CI for the two newest idempotency regression tests, then continue with safe failure/retry tests. Preliminary provider research is documented; next research step is to obtain concrete answers from Exotel about sandbox access, inbound-number eligibility, transfer support, and cost before any signup. Price-change behavior and true uncertain-outcome recovery remain blocked on the authoritative quote/booking API contract. Ask the user before any consequential provider, privacy, budget, or architecture choice.
