@@ -69,3 +69,9 @@ Changes are recorded after they are actually made and verified.
 - The boundary deliberately does not define audio codecs, transport framing, vendor behavior, or telephony integration. GitHub Actions verification is pending; no real voice provider or paid service was activated.
 
 - Follow-up verification: GitHub Actions run #135 on commit `36127058bf34388829e3e46b8ba5c8a35cfe4870` passed all 47 tests, including the new voice-session contract tests. One upstream Starlette/httpx deprecation warning remains.
+
+
+## 2026-10-28 — Synthetic room-type fixture model
+- Added two fictional room options for each demo property, with maximum guest capacity, amenities, and sample INR nightly prices.
+- Added `RoomTypeSummary` validation and exposed room types through property list/detail endpoints.
+- Added API tests for room fixture shape and demo-only labeling. CI verification is pending; no real inventory, quote, or availability behavior was introduced.
