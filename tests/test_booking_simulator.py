@@ -236,3 +236,112 @@ def test_conflicting_reuse_does_not_change_original_idempotency_result() -> None
     assert replay.status_code == 200
     assert replay.json()["request_id"] == first.json()["request_id"]
     assert replay.json()["guests"] == 2
+
+
+def test_room_specific_capacity_check_returns_selected_room_metadata() -> None:
+    response = client.get(
+        "/api/v1/demo/availability",
+        params={
+            "property_id": "demo-coimbatore-001",
+            "check_in": "2026-11-10",
+            "check_out": "2026-11-12",
+            "guests": 2,
+            "room_type_id": "demo-coimbatore-standard",
+        },
+    )
+
+    assert response.status_code == 200
+    payload = response.json()
+    assert payload["status"] == "simulated_room_capacity_suitable"
+    assert payload["room_type_id"] == "demo-coimbatore-standard"
+    assert payload["room_type_name"] == "Standard Room"
+    assert payload["room_max_guests"] == 2
+    assert payload["demo_only"] is True
+    assert "does not check dates, inventory, pricing, or real availability" in payload["notice"]
+
+
+def test_room_specific_capacity_check_flags_guest_count_over_room_limit() -> None:
+    response = client.get(
+        "/api/v1/demo/availability",
+        params={
+            "property_id": "demo-coimbatore-001",
+            "check_in": "2026-11-10",
+            "check_out": "2026-11-12",
+            "guests": 3,
+            "room_type_id": "demo-coimbatore-standard",
+        },
+    )
+
+    assert response.status_code == 200
+    payload = response.json()
+    assert payload["status"] == "simulated_room_capacity_exceeded"
+    assert payload["room_max_guests"] == 2
+    assert payload["demo_only"] is True
+    assert "not live inventory" not in payload["notice"].lower() or "simulation only" in payload["notice"].lower()
+
+
+def test_room_type_from_another_property_is_not_accepted() -> None:
+    response = client.get(
+        "/api/v1/demo/availability",
+        params={
+            "property_id": "demo-coimbatore-001",
+            "check_in": "2026-11-10",
+            "check_out": "2026-11-12",
+            "guests": 2,
+            "room_type_id": "demo-mysuru-garden",
+        },
+    )
+
+    assert response.status_code == 404
+    assert response.json() == {"detail": "Room type not found for this property"}
+
+
+def test_unknown_room_type_is_not_accepted() -> None:
+    response = client.get(
+        "/api/v1/demo/availability",
+        params={
+            "property_id": "demo-coimbatore-001",
+            "check_in": "2026-11-10",
+            "check_out": "2026-11-12",
+            "guests": 2,
+            "room_type_id": "made-up-room-type",
+        },
+    )
+
+    assert response.status_code == 404
+    assert response.json() == {"detail": "Room type not found for this property"}
+
+
+def test_room_specific_check_preserves_legacy_property_level_behavior() -> None:
+    response = client.get(
+        "/api/v1/demo/availability",
+        params={
+            "property_id": "demo-coimbatore-001",
+            "check_in": "2026-11-10",
+            "check_out": "2026-11-12",
+            "guests": 2,
+        },
+    )
+
+    assert response.status_code == 200
+    payload = response.json()
+    assert payload["status"] == "simulated_available"
+    assert payload["room_type_id"] is None
+    assert payload["room_type_name"] is None
+    assert payload["room_max_guests"] is None
+    assert payload["demo_only"] is True
+
+
+def test_blank_room_type_id_is_rejected() -> None:
+    response = client.get(
+        "/api/v1/demo/availability",
+        params={
+            "property_id": "demo-coimbatore-001",
+            "check_in": "2026-11-10",
+            "check_out": "2026-11-12",
+            "guests": 2,
+            "room_type_id": "",
+        },
+    )
+
+    assert response.status_code == 422
