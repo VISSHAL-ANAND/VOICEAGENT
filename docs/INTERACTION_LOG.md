@@ -136,4 +136,4 @@ Keep this log concise. Record decisions that affect project direction, verified 
 ## Room-specific demo capacity — 2026-10-28
 - Added optional `room_type_id` to the demo availability endpoint and a typed room-specific response shape. Unknown room IDs and room IDs belonging to another property return 404; blank IDs return 422.
 - Room-specific responses only evaluate guest count against the selected room's declared maximum. They do not check date inventory, prices, or live availability; legacy property-level checks remain supported.
-- Added six regression tests. GitHub Actions verification is pending at the time of this note; update this checkpoint only after observing CI.
+- Added six regression tests. GitHub Actions run #179 on commit `d83d9fee53e378112c2c3eb3bc84107dfac8c041` passed all 55 tests; one upstream Starlette/httpx TestClient deprecation warning remains.
