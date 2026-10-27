@@ -33,8 +33,9 @@ Statuses: **TODO**, **BLOCKED**, **IN PROGRESS**, **DONE**. Mark a task DONE onl
   - Acceptance: representative test set and scored results for recognition, pronunciation, language switching, numbers/dates, latency, and cost.
 - [ ] **T-031: Evaluate inbound virtual-number providers** — IN PROGRESS. Preliminary official-source research identifies Exotel AgentStream as a candidate for India inbound calls and realtime media streaming. Number eligibility, sandbox restrictions, manager transfer, and an actual cost quote remain unverified.
   - Acceptance: documented comparison based on current official provider information; no paid signup without approval. Preliminary report: `docs/VOICE_PROVIDER_RESEARCH.md`.
-- [ ] **T-032: Add voice adapter and browser/local prototype** — only after provider/API selection is justified.
-  - Acceptance: interruptions, clarification, and tool invocation tested; mock and real modes clearly separated.
+- [ ] **T-032: Add voice adapter and browser/local prototype** — IN PROGRESS for the provider-neutral contract foundation; concrete adapter and prototype remain blocked on approved provider/API choices.
+  - Progress: added `app/voice_contracts.py` with typed normalized session events and a `VoiceSessionPort` protocol; tests are added but CI verification is pending.
+  - Acceptance: selected adapter maps provider events without leaking raw payloads/errors; interruptions, clarification, language switching, and tool invocation are tested; mock and real modes remain clearly separated.
 
 ## P2 — Security and operations
 - [ ] **T-040: Define data handling policy** — call recording, transcripts, retention, access, deletion, and applicable compliance review.
