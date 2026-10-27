@@ -11,10 +11,10 @@ Statuses: **TODO**, **BLOCKED**, **IN PROGRESS**, **DONE**. Mark a task DONE onl
   - Acceptance: requirements, architecture, decisions, security, testing, state, tasks, changelog, handoff, and agent identity are consistent.
 
 ## P1 — Local backend
-- [ ] **T-010: Scaffold FastAPI application** — health endpoint, configuration, typed schemas, error handling, and documented local setup.
-  - Acceptance: app starts locally and health test passes.
-- [ ] **T-011: Add synthetic multi-property fixtures** — fictional properties/rooms with no real guest information.
-  - Acceptance: schema validation and multiple-property lookup tests pass.
+- [ ] **T-010: Scaffold FastAPI application** — IN PROGRESS. Minimal FastAPI health and typed response schemas are committed; configuration and runtime verification remain.
+  - Acceptance: app starts and health test passes in a verified CI run.
+- [ ] **T-011: Add synthetic multi-property fixtures** — IN PROGRESS. Three fictional properties and list/detail endpoints are committed; meaningful tests exist but have not run in CI.
+  - Acceptance: schema validation and property lookup tests pass in a verified CI run.
 - [ ] **T-012: Define internal property/booking contracts** — provider-neutral interfaces and explicit unknowns.
   - Acceptance: contract tests cover valid and invalid responses; no fabricated external schema.
 - [ ] **T-013: Implement booking workflow with mocks** — availability, pricing, confirmation, and explicit booking states.
@@ -47,4 +47,4 @@ Statuses: **TODO**, **BLOCKED**, **IN PROGRESS**, **DONE**. Mark a task DONE onl
 - [ ] **T-052: Production readiness review** — security, privacy, provider costs, language accuracy, booking integrity, monitoring, support owner, and client approval.
 
 ## Work discipline
-Before each task, inspect relevant code/docs and Git status. Read `AGENTS.md` and `SOUL.md` before agent-related work. Update this list and `docs/STATE.md` as work changes. Every five user prompts during substantial work, reconcile documentation against repository evidence and save a checkpoint when access permits.
+Before each task, inspect relevant code/docs and Git status. Read `AGENTS.md` and `SOUL.md` before agent-related work. Update this list and `docs/STATE.md` as work changes. Follow the fourth-prompt full Markdown audit rule in `AGENTS.md`. After each project work unit, update affected documents and record verified progress.
