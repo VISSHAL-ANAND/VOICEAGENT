@@ -1,7 +1,7 @@
 # Testing and Verification Strategy
 
 ## Current status
-No application code or tests have been verified at the initial documentation checkpoint. Commands will be added after the scaffold exists. Never report tests as passing unless executed.
+The local FastAPI prototype and its tests are verified by GitHub Actions. The latest observed run is #73 on commit `40749a317b993f6f7ad0dffac563439aacc9b352`: 31 tests passed with one Starlette/httpx deprecation warning. Real API, voice, telephony, persistence, concurrency, and production behavior remain unverified. Never report tests as passing unless executed.
 
 ## Test layers
 1. **Unit tests:** date/occupancy validation, pricing rules, booking state transitions, language/session state, redaction.
@@ -45,7 +45,7 @@ For each meaningful change, record the exact commands executed, pass/fail outcom
 - Synthetic property list, demo-only marker, case-insensitive city filter, unknown-property 404, and invalid blank city.
 - Demo availability explicitly labels itself as not live inventory.
 - Demo booking requests never claim reservation, repeat idempotency keys return the same simulation ID, conflicting payloads with the same key return 409, over-capacity requests remain unreserved, and invalid date order returns 422.
-- GitHub Actions run #59 passed dependency installation and all 31 pytest tests on commit `1d737cc29de03d1326e0218fbcf94ef1f9718cbe`.
+- GitHub Actions run #73 passed dependency installation and all 31 pytest tests on commit `40749a317b993f6f7ad0dffac563439aacc9b352`.
 - Handoff tests cover answered, busy, no-answer, failure, and invalid outcomes while asserting that no real transfer is claimed.
 - Configuration tests verify local-mock defaults, log-level normalization, and rejection of production mode or invalid log levels.
 - CI reports one upstream Starlette/httpx TestClient deprecation warning.
