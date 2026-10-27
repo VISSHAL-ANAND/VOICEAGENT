@@ -37,10 +37,12 @@ uvicorn app.main:app --reload
 Open `http://127.0.0.1:8000/healthz` for the health response and `http://127.0.0.1:8000/docs` for the FastAPI API explorer. The automated test workflow has passed in GitHub Actions; the assistant has not deployed this application to a public server.
 
 ## Local demo booking endpoints
-- `GET /api/v1/demo/availability?property_id=demo-coimbatore-001&check_in=2026-11-10&check_out=2026-11-12&guests=2` returns fictional capacity data.
+- `GET /api/v1/demo/availability?property_id=demo-coimbatore-001&check_in=2026-11-10&check_out=2026-11-12&guests=2` returns fictional property-level capacity data. Add `room_type_id=demo-coimbatore-standard` to check the selected room type's guest-capacity limit only; it does not check dates against inventory.
+- With `room_type_id`, the endpoint returns `simulated_room_capacity_suitable` or `simulated_room_capacity_exceeded`, validates that the room belongs to the requested property, and includes the selected room's demo capacity. Without it, the legacy property-level status remains unchanged.
+- All availability responses remain `demo_only: true`; no response establishes actual availability, current price, or a reservation.
 - `POST /api/v1/demo/booking-requests` accepts property/date/guest details and an idempotency key. It returns `simulated_not_reserved` even when the fictional capacity rule says available.
 - `POST /api/v1/demo/manager-handoff` simulates answered, busy, no-answer, and failed handoff outcomes. It always sets `real_transfer: false`.
-- All demo availability and booking responses are explicitly marked as simulation-only. These endpoints must never be presented to guests as real availability or a confirmed reservation.
+- All demo availability and booking responses are explicitly marked as simulation-only. The room-specific branch checks capacity only, not inventory or date availability. These endpoints must never be presented to guests as real availability or a confirmed reservation.
 
 ## Requirements before real integration
 Obtain from the other developer:
