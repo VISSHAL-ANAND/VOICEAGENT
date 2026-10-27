@@ -203,3 +203,36 @@ def test_rejected_unknown_property_does_not_poison_idempotency_key() -> None:
     assert rejected.status_code == 404
     assert retried.status_code == 200
     assert retried.json()["status"] == "simulated_not_reserved"
+
+
+def test_invalid_request_does_not_poison_idempotency_key() -> None:
+    key = "invalid-then-valid-0001"
+    rejected = client.post(
+        "/api/v1/demo/booking-requests",
+        json=booking_payload(guests=0, idempotency_key=key),
+    )
+    retried = client.post(
+        "/api/v1/demo/booking-requests",
+        json=booking_payload(idempotency_key=key),
+    )
+
+    assert rejected.status_code == 422
+    assert retried.status_code == 200
+    assert retried.json()["status"] == "simulated_not_reserved"
+
+
+def test_conflicting_reuse_does_not_change_original_idempotency_result() -> None:
+    key = "conflict-preserves-original-01"
+    original_payload = booking_payload(idempotency_key=key)
+    first = client.post("/api/v1/demo/booking-requests", json=original_payload)
+    conflict = client.post(
+        "/api/v1/demo/booking-requests",
+        json=booking_payload(idempotency_key=key, guests=3),
+    )
+    replay = client.post("/api/v1/demo/booking-requests", json=original_payload)
+
+    assert first.status_code == 200
+    assert conflict.status_code == 409
+    assert replay.status_code == 200
+    assert replay.json()["request_id"] == first.json()["request_id"]
+    assert replay.json()["guests"] == 2
