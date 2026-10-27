@@ -3,9 +3,12 @@
 ## Last verified checkpoint
 - Repository: `VISSHAL-ANAND/VOICEAGENT`
 - Default branch: `main`
-- Repository metadata reported size 0 and the GitHub contents API reported that the repository is empty before this documentation baseline.
-- The initial documentation baseline is being established through GitHub repository writes.
-- No application code, automated tests, real property API integration, voice integration, phone number, or deployment has been verified at this checkpoint.
+- Repository was empty before this setup.
+- Initial documentation baseline has now been written and verified in the GitHub tree.
+- Verified files: `AGENTS.md`, `README.md`, and nine documents under `docs/`: `ARCHITECTURE.md`, `CHANGELOG.md`, `DECISIONS.md`, `INTERACTION_LOG.md`, `PROJECT.md`, `SECURITY.md`, `STATE.md`, `TASKS.md`, and `TESTING.md`.
+- The GitHub recursive tree response reported `truncated=false` and contained all eleven files.
+- Latest verified tree commit before this checkpoint update: `7faa11526f2889332b3005f6691fb5b429ddca83`.
+- No application code, automated tests, real property API integration, voice integration, phone number, or deployment has been verified.
 
 ## Confirmed requirements
 - Python + FastAPI.
@@ -23,7 +26,7 @@
 4. Recording, transcript retention, and production compliance decisions remain open.
 
 ## Next action
-Create the minimal FastAPI project scaffold and tests only after confirming the initial repository documentation is present. Use synthetic fixtures and mock adapters; do not require external credentials.
+Create the minimal FastAPI project scaffold and tests using synthetic fixtures and mock adapters. Do not require external credentials or assume an external API schema.
 
 ## Evidence rule
 Update this file after verified changes. Distinguish planned work from completed work, and include executed checks and their actual results.
