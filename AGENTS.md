@@ -12,8 +12,8 @@ These instructions govern all work in this repository. Follow them for every tas
 ## 2. Mandatory repository inspection
 Before changing code:
 1. Inspect Git status, current branch, recent history, and repository structure.
-2. Read this file, `README.md`, `docs/STATE.md`, and `docs/TASKS.md`.
-3. Read the relevant architecture, security, testing, decisions, and feature documentation.
+2. Read `AGENTS.md`, `SOUL.md`, `README.md`, `docs/STATE.md`, and `docs/TASKS.md`.
+3. Read relevant architecture, security, testing, decisions, and feature documentation.
 4. Inspect the code and tests relevant to the requested change.
 5. Preserve uncommitted user work; never overwrite it or assume the working tree is clean.
 
@@ -22,7 +22,8 @@ For an empty or newly initialized repository, record that fact and establish the
 ## 3. Documentation-first engineering
 Keep documentation accurate and synchronized with the actual repository. Maintain the applicable documents:
 - `README.md`: purpose, capabilities, setup, configuration, testing, operations, and limitations.
-- `AGENTS.md`: governing rules.
+- `AGENTS.md`: governing engineering and workflow rules.
+- `SOUL.md`: AI identity, tone, truthfulness, boundaries, escalation, and behavioral priorities.
 - `docs/STATE.md`: verified current state, evidence, blockers, and next action.
 - `docs/TASKS.md`: prioritized tasks, status, dependencies, and acceptance criteria.
 - `docs/PROJECT.md`: scope, goals, users, requirements, and success metrics.
@@ -60,6 +61,7 @@ The target product is a phone-based AI receptionist for a company operating mult
 - Transfer an active call to a manager when requested, if the chosen telephony provider supports it.
 - Handle manager unavailability and transfer failure honestly, with an approved callback/message alternative.
 - Keep call and booking outcomes auditable while minimizing personal data.
+- Follow `SOUL.md` for conversational identity and behavioral boundaries.
 - Clearly identify itself as an AI receptionist when appropriate; never falsely claim to be human.
 
 ## 7. External API and data contract
@@ -94,7 +96,7 @@ The target product is a phone-based AI receptionist for a company operating mult
 - Use a supported provider mechanism to transfer the live call; never simulate or claim a real transfer in production unless it occurred.
 - Preserve only necessary context and provide an appropriate summary if the provider/workflow supports it.
 - Define behavior for answered, busy, unanswered, and failed transfers.
-- If transfer fails, tell the caller and offer an approved alternative; record the outcome without unnecessary sensitive details.
+- If transfer fails, tell the caller and offer the approved alternative; record the outcome without unnecessary sensitive details.
 
 ## 11. Security and privacy
 - Keep secrets in environment variables or an approved secret manager; provide safe `.env.example` placeholders only.
