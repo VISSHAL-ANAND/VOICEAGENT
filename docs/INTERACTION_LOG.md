@@ -65,3 +65,9 @@ Keep this log concise. Record decisions that affect project direction, verified 
 - Added `python-dotenv` loading and updated setup instructions to copy `.env.example` to `.env`; no secrets are stored in the example file.
 - GitHub Actions run #50 passed all 26 tests on commit `da2324100baec4271bb3e07777bf0e7f3181f1b9`.
 - Prompt cadence checkpoint updated to 3/4; the next user prompt should trigger the full Markdown audit required by `AGENTS.md`.
+
+## Provider-neutral contract checkpoint — 2026-10-27
+- Added `app/contracts.py` with internal stay, property, availability, booking command/result models, plus `PropertyManagementPort`.
+- The contract requires guest confirmation before a booking command and requires an authoritative result plus reference before a result can be labelled confirmed.
+- Added contract tests; CI run for commit `1d737cc29de03d1326e0218fbcf94ef1f9718cbe` was pending at checkpoint time.
+- The external property API schema is still unknown; the internal models are not claimed to match it.
