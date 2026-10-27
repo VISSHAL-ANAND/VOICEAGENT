@@ -2,11 +2,13 @@
 
 Statuses: **TODO**, **BLOCKED**, **IN PROGRESS**, **DONE**. Mark a task DONE only when its acceptance criteria are verified.
 
-## P0 — Baseline
-- [x] **T-001: Establish documentation baseline** — repository contains governing rules, project scope, architecture, state, tasks, decisions, security, testing, changelog, and interaction log.
-  - Evidence: GitHub recursive tree was fetched after writes; all eleven expected files were present and response reported `truncated=false`.
-- [ ] **T-002: Inspect repository/Git state** — verify default branch, tree, history, and clean/working state after baseline creation.
-  - Acceptance: record actual outputs; do not infer local working-tree status from GitHub alone.
+## P0 — Documentation baseline
+- [x] **T-001: Establish initial documentation baseline** — governing rules, identity charter, project scope, architecture, state, tasks, decisions, security, testing, changelog, and interaction log exist.
+  - Evidence: all eleven original files were verified in the GitHub tree; `SOUL.md` was subsequently created successfully.
+- [ ] **T-002: Verify complete documentation set** — read back the final tree and key Markdown files after the SOUL addition and cross-reference updates.
+  - Acceptance: all twelve expected Markdown files are present; links and file inventory agree; state/changelog/log reflect evidence.
+- [ ] **T-003: Review documentation completeness** — identify any project-specific gaps without adding speculative or empty documents.
+  - Acceptance: requirements, architecture, decisions, security, testing, state, tasks, changelog, handoff, and agent identity are consistent.
 
 ## P1 — Local backend
 - [ ] **T-010: Scaffold FastAPI application** — health endpoint, configuration, typed schemas, error handling, and documented local setup.
@@ -45,4 +47,4 @@ Statuses: **TODO**, **BLOCKED**, **IN PROGRESS**, **DONE**. Mark a task DONE onl
 - [ ] **T-052: Production readiness review** — security, privacy, provider costs, language accuracy, booking integrity, monitoring, support owner, and client approval.
 
 ## Work discipline
-Before each task, inspect relevant code/docs and Git status. Update this list and `docs/STATE.md` as work changes. Every five user prompts during substantial work, reconcile and save a checkpoint when access permits.
+Before each task, inspect relevant code/docs and Git status. Read `AGENTS.md` and `SOUL.md` before agent-related work. Update this list and `docs/STATE.md` as work changes. Every five user prompts during substantial work, reconcile documentation against repository evidence and save a checkpoint when access permits.
