@@ -83,7 +83,7 @@ For each meaningful change, record the exact commands executed, pass/fail outcom
 - These are local simulation tests only; passing them does not establish durable or cross-process idempotency.
 
 
-## Synthetic room-type fixture tests — CI pending
+## Synthetic room-type fixture tests — passed in CI run #156 (49 tests total)
 - Every property response should include room options with a non-empty ID/name, maximum guest count in the supported range, amenities, non-negative sample nightly price, and `demo_only=True`.
 - Property detail tests verify expected demo room options; unknown property lookup must still return 404.
 - These tests validate fixture shape only. They do not prove room-specific availability, current pricing, or booking behavior.
