@@ -61,3 +61,7 @@ Keep this log concise. Record decisions that affect project direction, verified 
 - Added `app/config.py` to validate local-mock-only mode and standard log levels, wired it into the FastAPI app, and added tests for safe defaults and invalid configuration.
 - GitHub Actions run #39 on commit `63dd66a21bf804340085f6119f256da838f62aa0` passed all 26 tests.
 - The test run reports one Starlette/httpx TestClient deprecation warning. No production mode is allowed until real adapters are implemented.
+
+- Added `python-dotenv` loading and updated setup instructions to copy `.env.example` to `.env`; no secrets are stored in the example file.
+- GitHub Actions run #50 passed all 26 tests on commit `da2324100baec4271bb3e07777bf0e7f3181f1b9`.
+- Prompt cadence checkpoint updated to 3/4; the next user prompt should trigger the full Markdown audit required by `AGENTS.md`.
