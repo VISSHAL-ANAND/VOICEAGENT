@@ -162,3 +162,25 @@ def test_concurrent_same_idempotency_key_creates_one_simulation_request() -> Non
     request_ids = {result["request_id"] for result in results}
     assert len(request_ids) == 1
     assert all(result["status"] == "simulated_not_reserved" for result in results)
+
+
+def test_booking_request_for_unknown_property_returns_404() -> None:
+    response = client.post(
+        "/api/v1/demo/booking-requests",
+        json=booking_payload(
+            property_id="not-a-demo-property",
+            idempotency_key="unknown-property-key-01",
+        ),
+    )
+
+    assert response.status_code == 404
+    assert response.json()["detail"] == "Property not found"
+
+
+def test_booking_request_rejects_short_idempotency_key() -> None:
+    response = client.post(
+        "/api/v1/demo/booking-requests",
+        json=booking_payload(idempotency_key="short"),
+    )
+
+    assert response.status_code == 422
