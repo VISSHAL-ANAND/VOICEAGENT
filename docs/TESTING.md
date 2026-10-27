@@ -1,7 +1,7 @@
 # Testing and Verification Strategy
 
 ## Current status
-The local FastAPI prototype and its tests are verified by GitHub Actions. The latest verified application-test run is #118 on commit `dbed4d974af3700541de4755b58826fb31e19621`: 38 tests passed with one Starlette/httpx deprecation warning. Provider-neutral voice session contracts and new tests were subsequently added; their CI result is pending. Real API, voice-provider adapter, telephony, persistence, production concurrency across workers, and production behavior remain unverified. Never report tests as passing unless executed.
+The local FastAPI prototype and its tests are verified by GitHub Actions. The latest verified application-test run is #135 on commit `36127058bf34388829e3e46b8ba5c8a35cfe4870`: 47 tests passed with one Starlette/httpx deprecation warning. Real API, voice-provider adapter, telephony, persistence, production concurrency across workers, and production behavior remain unverified. Never report tests as passing unless executed.
 
 ## Test layers
 1. **Unit tests:** date/occupancy validation, pricing rules, booking state transitions, language/session state, redaction.
@@ -52,7 +52,7 @@ For each meaningful change, record the exact commands executed, pass/fail outcom
 - CI reports one upstream Starlette/httpx TestClient deprecation warning.
 - The tests validate only the local simulation. They do not validate a real booking API, database durability, concurrency, voice quality, telephony, or production deployment.
 
-## Provider-neutral voice session contract tests — added, CI pending
+## Provider-neutral voice session contract tests — verified in run #135
 - Supported language tags are restricted to Tamil, Hindi, English, Kannada, and Telugu.
 - Session events are parsed by their normalized `kind`; unknown extra fields are rejected.
 - Blank-only transcripts and unrecognized/raw provider error strings are rejected at the boundary.
