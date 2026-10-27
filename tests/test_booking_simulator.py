@@ -345,3 +345,106 @@ def test_blank_room_type_id_is_rejected() -> None:
     )
 
     assert response.status_code == 422
+
+
+def test_demo_booking_request_validates_and_echoes_selected_room() -> None:
+    response = client.post(
+        "/api/v1/demo/booking-requests",
+        json=booking_payload(
+            room_type_id="demo-coimbatore-standard",
+            idempotency_key="room-booking-valid-01",
+        ),
+    )
+
+    assert response.status_code == 200
+    payload = response.json()
+    assert payload["status"] == "simulated_not_reserved"
+    assert payload["room_type_id"] == "demo-coimbatore-standard"
+    assert payload["room_type_name"] == "Standard Room"
+    assert payload["demo_only"] is True
+    assert "No room has been reserved" in payload["message"]
+
+
+def test_demo_booking_request_rejects_guest_count_over_selected_room_capacity() -> None:
+    response = client.post(
+        "/api/v1/demo/booking-requests",
+        json=booking_payload(
+            guests=3,
+            room_type_id="demo-coimbatore-standard",
+            idempotency_key="room-booking-over-capacity-01",
+        ),
+    )
+
+    assert response.status_code == 200
+    payload = response.json()
+    assert payload["status"] == "simulated_not_reserved"
+    assert payload["room_type_id"] == "demo-coimbatore-standard"
+    assert "selected room's capacity is insufficient" in payload["message"]
+    assert "No room has been reserved" in payload["message"]
+
+
+def test_invalid_selected_room_does_not_poison_booking_idempotency_key() -> None:
+    key = "room-booking-invalid-retry-01"
+    rejected = client.post(
+        "/api/v1/demo/booking-requests",
+        json=booking_payload(
+            room_type_id="demo-mysuru-garden",
+            idempotency_key=key,
+        ),
+    )
+    retried = client.post(
+        "/api/v1/demo/booking-requests",
+        json=booking_payload(
+            room_type_id="demo-coimbatore-standard",
+            idempotency_key=key,
+        ),
+    )
+
+    assert rejected.status_code == 404
+    assert retried.status_code == 200
+    assert retried.json()["room_type_id"] == "demo-coimbatore-standard"
+    assert retried.json()["status"] == "simulated_not_reserved"
+
+
+def test_reusing_booking_idempotency_key_with_different_room_is_rejected() -> None:
+    key = "room-booking-key-conflict-01"
+    first = client.post(
+        "/api/v1/demo/booking-requests",
+        json=booking_payload(
+            room_type_id="demo-coimbatore-standard",
+            idempotency_key=key,
+        ),
+    )
+    conflict = client.post(
+        "/api/v1/demo/booking-requests",
+        json=booking_payload(
+            room_type_id="demo-coimbatore-family",
+            idempotency_key=key,
+        ),
+    )
+    replay = client.post(
+        "/api/v1/demo/booking-requests",
+        json=booking_payload(
+            room_type_id="demo-coimbatore-standard",
+            idempotency_key=key,
+        ),
+    )
+
+    assert first.status_code == 200
+    assert conflict.status_code == 409
+    assert replay.status_code == 200
+    assert replay.json()["request_id"] == first.json()["request_id"]
+    assert replay.json()["room_type_id"] == "demo-coimbatore-standard"
+
+
+def test_booking_request_without_room_selection_remains_compatible() -> None:
+    response = client.post(
+        "/api/v1/demo/booking-requests",
+        json=booking_payload(idempotency_key="room-booking-legacy-01"),
+    )
+
+    assert response.status_code == 200
+    payload = response.json()
+    assert payload["status"] == "simulated_not_reserved"
+    assert payload["room_type_id"] is None
+    assert payload["room_type_name"] is None
