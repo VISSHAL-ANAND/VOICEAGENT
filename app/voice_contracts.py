@@ -9,7 +9,7 @@ from collections.abc import AsyncIterator
 from datetime import datetime
 from typing import Annotated, Literal, Protocol, TypeAlias
 
-from pydantic import BaseModel, ConfigDict, Field, TypeAdapter
+from pydantic import BaseModel, ConfigDict, Field, TypeAdapter, field_validator
 
 VoiceLanguage: TypeAlias = Literal["ta", "hi", "en", "kn", "te"]
 
@@ -31,11 +31,25 @@ class UserTranscriptEvent(VoiceEventBase):
     text: str = Field(min_length=1, max_length=8000)
     language: VoiceLanguage
 
+    @field_validator("text")
+    @classmethod
+    def reject_blank_transcript(cls, value: str) -> str:
+        if not value.strip():
+            raise ValueError("transcript text must not be blank")
+        return value
+
 
 class AssistantTranscriptEvent(VoiceEventBase):
     kind: Literal["assistant_transcript"]
     text: str = Field(min_length=1, max_length=8000)
     language: VoiceLanguage
+
+    @field_validator("text")
+    @classmethod
+    def reject_blank_transcript(cls, value: str) -> str:
+        if not value.strip():
+            raise ValueError("transcript text must not be blank")
+        return value
 
 
 class SessionEndedEvent(VoiceEventBase):
