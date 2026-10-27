@@ -12,13 +12,13 @@ Statuses: **TODO**, **BLOCKED**, **IN PROGRESS**, **DONE**. Mark a task DONE onl
 
 ## P1 — Local backend
 - [x] **T-010: Scaffold FastAPI application** — health endpoint, validated local-only configuration, typed schemas, safe 404 handling, and local setup instructions are committed.
-  - Evidence: GitHub Actions run #105 passed dependency installation and all 34 pytest tests before the newest edge-case tests. CI verification for the newest tests is pending. One upstream TestClient/httpx deprecation warning remains.
+  - Evidence: GitHub Actions run #107 on commit `7f29bfd41c61cf793f625794a4c6932ac24e30e0` passed all 36 pytest tests, including the latest edge-case tests. One upstream TestClient/httpx deprecation warning remains.
 - [x] **T-011: Add synthetic multi-property fixtures** — three fictional properties, typed schemas, and property list/detail endpoints are committed.
   - Evidence: GitHub Actions run #105 passed, including tests for demo-only records, city filtering, detail lookup, and unknown-property 404.
 - [x] **T-012: Define internal property/booking contracts** — provider-neutral models and `PropertyManagementPort` exist in `app/contracts.py`; they are internal shapes, not the external API schema.
-  - Evidence: GitHub Actions run #105 passed contract tests for date validation, guest confirmation, and authoritative booking-result invariants. A new test now covers an authoritative `confirmed` result missing its reference; CI verification is pending. External schema remains unknown until documentation is supplied.
+  - Evidence: GitHub Actions run #107 passed contract tests for date validation, guest confirmation, and authoritative booking-result invariants, including an authoritative `confirmed` result missing its reference. External schema remains unknown until documentation is supplied.
 - [ ] **T-013: Implement booking workflow with mocks** — IN PROGRESS. Added deterministic demo-capacity checks and an idempotent request simulation. It always returns `simulated_not_reserved` and never claims a real booking.
-  - Remaining acceptance: continue failure/retry coverage and keep this simulation separate from the eventual authoritative API adapter. Added a test that an invalid unknown-property request does not poison a later valid retry with the same idempotency key. CI for the latest tests is pending. True uncertain-outcome recovery and price-change behavior need the authoritative booking/quote contract.
+  - Remaining acceptance: continue failure/retry coverage and keep this simulation separate from the eventual authoritative API adapter. Added a test that an invalid unknown-property request does not poison a later valid retry with the same idempotency key. GitHub Actions run #107 passed all 36 tests. True uncertain-outcome recovery and price-change behavior need the authoritative booking/quote contract.
 - [x] **T-014: Implement simulated manager handoff** — simulation supports answered, busy, no-answer, and failure outcomes; responses explicitly say no real call was transferred.
   - Evidence: GitHub Actions run #105 passed all 34 tests, including handoff outcome and invalid-input coverage. Real telephony transfer remains a separate production task.
 
