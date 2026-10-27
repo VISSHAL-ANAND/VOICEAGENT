@@ -1,7 +1,7 @@
 # Testing and Verification Strategy
 
 ## Current status
-The local FastAPI prototype and its tests are verified by GitHub Actions. The latest verified application-test run is #156 on commit `7763dc4fe5ff3b4002f886d312e38adbd33c1521`: 49 tests passed with one Starlette/httpx deprecation warning. Real API, voice-provider adapter, telephony, persistence, production concurrency across workers, and production behavior remain unverified. Never report tests as passing unless executed.
+The local FastAPI prototype and its tests are verified by GitHub Actions. The latest verified application-test run is #216 on commit `3042e590ed8c63a7b503be872a90022d4ded341c`: 66 tests passed with one Starlette/httpx deprecation warning. Real API, voice-provider adapter, telephony, persistence, production concurrency across workers, and production behavior remain unverified. Never report tests as passing unless executed.
 
 ## Test layers
 1. **Unit tests:** date/occupancy validation, pricing rules, booking state transitions, language/session state, redaction.
@@ -45,6 +45,8 @@ For each meaningful change, record the exact commands executed, pass/fail outcom
 - Synthetic property list, demo-only marker, case-insensitive city filter, unknown-property 404, and invalid blank city.
 - Demo availability explicitly labels itself as not live inventory.
 - Demo booking requests never claim reservation, repeat idempotency keys return the same simulation ID, conflicting payloads with the same key return 409, over-capacity requests remain unreserved, and invalid date order returns 422.
+- Selected-room request results echo property, dates, guest count, room ID/name, and a separate constrained `capacity_status`; `status` remains `simulated_not_reserved`.
+- Booking requests reject unexpected JSON fields and whitespace-only idempotency keys. These tests do not prove access control, rate limiting, public-network safety, or production security.
 - Regression test: an unknown-property request returns 404 and does not poison a subsequent valid retry using the same idempotency key; passed in run #107.
 - GitHub Actions run #107 passed dependency installation and all 36 pytest tests on commit `7f29bfd41c61cf793f625794a4c6932ac24e30e0`. The new retry-after-rejection and confirmed-without-reference tests passed.
 - Handoff tests cover answered, busy, no-answer, failure, and invalid outcomes while asserting that no real transfer is claimed.
