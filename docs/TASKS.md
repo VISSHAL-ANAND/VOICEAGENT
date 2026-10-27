@@ -6,7 +6,7 @@ Statuses: **TODO**, **BLOCKED**, **IN PROGRESS**, **DONE**. Mark a task DONE onl
 - [x] **T-001: Establish initial documentation baseline** — governing rules, identity charter, project scope, architecture, state, tasks, decisions, security, testing, changelog, and interaction log exist.
   - Evidence: all eleven original files were verified in the GitHub tree; `SOUL.md` was subsequently created successfully.
 - [x] **T-002: Verify complete documentation set** — all twelve expected Markdown files were read during the fourth-prompt audit; recursive tree returned `truncated=false`.
-  - Evidence: all twelve paths were fetched from `main`; current tree inventory and documentation links were reviewed. Audit record is in `docs/STATE.md` and `docs/INTERACTION_LOG.md`.
+  - Evidence: the fourth-prompt audit on 2026-10-28 fetched all thirteen current Markdown paths from `main`; recursive tree returned `truncated=false` and documentation links were reviewed. Audit record is in `docs/STATE.md` and `docs/INTERACTION_LOG.md`.
 - [x] **T-003: Review documentation completeness** — reviewed all twelve Markdown files and reconciled stale architecture/testing/CI status.
   - Evidence: external property API contract, provider selection, privacy decisions, and production operations remain explicitly documented as blockers; no provider or paid service was selected without approval.
 
@@ -34,7 +34,7 @@ Statuses: **TODO**, **BLOCKED**, **IN PROGRESS**, **DONE**. Mark a task DONE onl
 - [ ] **T-031: Evaluate inbound virtual-number providers** — IN PROGRESS. Preliminary official-source research identifies Exotel AgentStream as a candidate for India inbound calls and realtime media streaming. Number eligibility, sandbox restrictions, manager transfer, and an actual cost quote remain unverified.
   - Acceptance: documented comparison based on current official provider information; no paid signup without approval. Preliminary report: `docs/VOICE_PROVIDER_RESEARCH.md`.
 - [ ] **T-032: Add voice adapter and browser/local prototype** — IN PROGRESS for the provider-neutral contract foundation; concrete adapter and prototype remain blocked on approved provider/API choices.
-  - Progress: added `app/voice_contracts.py` with typed normalized session events and a `VoiceSessionPort` protocol; tests are added but CI verification is pending.
+  - Progress: added `app/voice_contracts.py` with typed normalized session events and a `VoiceSessionPort` protocol; tests are added and GitHub Actions run #135 passed all 47 tests.
   - Acceptance: selected adapter maps provider events without leaking raw payloads/errors; interruptions, clarification, language switching, and tool invocation are tested; mock and real modes remain clearly separated.
 
 ## P2 — Security and operations
