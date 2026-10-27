@@ -83,3 +83,10 @@ Keep this log concise. Record decisions that affect project direction, verified 
 - Confirmed no real property API, voice provider, telephony number, live transfer, production persistence, or deployment is implemented. No vendor, paid service, external schema, or privacy policy was selected without user approval.
 - Cadence reset to 0/4 after this required audit.
 - Next safe implementation step: strengthen local booking simulation tests and concurrency handling. Do not invent price/quote semantics without authoritative property API data.
+
+
+## Booking simulation concurrency checkpoint — 2026-10-27
+- Added a process-local lock so the in-memory idempotency lookup, conflicting-payload check, and insertion happen as one critical section.
+- Added a test issuing 40 same-key requests across 12 threads and expecting one request ID. CI is pending; no success claim yet.
+- Limitations remain explicit: in-memory state resets on restart and is not coordinated across multiple processes. Real booking integrity depends on authoritative API/database idempotency and transaction behavior.
+- No price-change policy was invented because current mock data has no price/quote model and the external contract is unknown.
