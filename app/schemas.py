@@ -40,12 +40,39 @@ class AvailabilityResponse(BaseModel):
     check_in: date
     check_out: date
     guests: int
-    status: str
-    room_type_id: str | None = None
-    room_type_name: str | None = None
-    room_max_guests: int | None = None
+    status: Literal[
+        "simulated_available",
+        "simulated_unavailable",
+        "simulated_room_capacity_suitable",
+        "simulated_room_capacity_exceeded",
+    ]
+    room_type_id: str | None = Field(default=None, min_length=1, max_length=100)
+    room_type_name: str | None = Field(default=None, min_length=1, max_length=120)
+    room_max_guests: int | None = Field(default=None, ge=1, le=12)
     demo_only: Literal[True] = True
     notice: str
+
+    @model_validator(mode="after")
+    def validate_room_capacity_metadata(self):
+        room_fields = (
+            self.room_type_id,
+            self.room_type_name,
+            self.room_max_guests,
+        )
+        has_room_metadata = any(value is not None for value in room_fields)
+        has_all_room_metadata = all(value is not None for value in room_fields)
+        if has_room_metadata != has_all_room_metadata:
+            raise ValueError("room type ID, name, and capacity must be provided together")
+
+        room_statuses = {
+            "simulated_room_capacity_suitable",
+            "simulated_room_capacity_exceeded",
+        }
+        if has_all_room_metadata and self.status not in room_statuses:
+            raise ValueError("room metadata requires a room-capacity status")
+        if not has_room_metadata and self.status in room_statuses:
+            raise ValueError("room-capacity status requires room metadata")
+        return self
 
 
 class BookingSimulationRequest(BaseModel):
