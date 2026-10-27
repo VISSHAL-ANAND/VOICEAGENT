@@ -74,6 +74,6 @@ Changes are recorded after they are actually made and verified.
 ## 2026-10-28 — Synthetic room-type fixture model
 - Added two fictional room options for each demo property, with maximum guest capacity, amenities, and sample INR nightly prices.
 - Added `RoomTypeSummary` validation and exposed room types through property list/detail endpoints.
-- Added API tests for room fixture shape and demo-only labeling. CI verification is pending; no real inventory, quote, or availability behavior was introduced.
+- Added API tests for room fixture shape and demo-only labeling. No real inventory, quote, or availability behavior was introduced.
 
 - Verification: GitHub Actions run #156 on commit `7763dc4fe5ff3b4002f886d312e38adbd33c1521` passed all 49 tests. One upstream Starlette/httpx deprecation warning remains.
