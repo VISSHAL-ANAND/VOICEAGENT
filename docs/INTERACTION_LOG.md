@@ -99,6 +99,6 @@ Keep this log concise. Record decisions that affect project direction, verified 
 ## Booking failure/retry checkpoint — 2026-10-28
 - Added an API regression test for retrying a previously rejected unknown-property request with the same idempotency key; the valid retry should succeed as a simulation instead of being blocked by stale idempotency state.
 - Added a contract test ensuring an authoritative `confirmed` result without a booking reference is rejected.
-- Both tests are committed on `main`; CI verification is pending at this checkpoint.
+- Both tests are committed on `main`; GitHub Actions run #107 on commit `7f29bfd41c61cf793f625794a4c6932ac24e30e0` passed all 36 tests, including both regressions.
 - This remains mock-only. A timeout after an external reservation request cannot be safely resolved until the real API's lookup/idempotency behavior is documented.
 - Next: verify CI, then continue safe failure-path tests and investigate the upstream Starlette/httpx warning without changing dependencies blindly. Request sanitized property API materials before implementing the real adapter.
