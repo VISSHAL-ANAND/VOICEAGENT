@@ -131,3 +131,9 @@ Keep this log concise. Record decisions that affect project direction, verified 
 - CI verification is pending. Prices are illustrations, not real quotes; availability remains simulated and not room-specific. No provider, account, paid service, or real property data was used.
 
 - Verification update: GitHub Actions run #156 passed all 49 tests, including the new room-type fixture API tests. Sample prices remain fictional and room-specific live availability is not implemented.
+
+
+## Room-specific demo capacity — 2026-10-28
+- Added optional `room_type_id` to the demo availability endpoint and a typed room-specific response shape. Unknown room IDs and room IDs belonging to another property return 404; blank IDs return 422.
+- Room-specific responses only evaluate guest count against the selected room's declared maximum. They do not check date inventory, prices, or live availability; legacy property-level checks remain supported.
+- Added six regression tests. GitHub Actions verification is pending at the time of this note; update this checkpoint only after observing CI.
