@@ -115,3 +115,11 @@ Keep this log concise. Record decisions that affect project direction, verified 
 - Checked the latest GitHub Actions state: documentation run #132 completed successfully; the last verified application test run remains #118 (38 passed). New voice-contract tests are not yet verified by CI.
 - Added `app/voice_contracts.py` and `tests/test_voice_contracts.py` for a provider-neutral event boundary and `VoiceSessionPort` protocol. No audio transport or provider was assumed, and no paid account or number was activated.
 - Next: inspect the CI result for these changes, then continue safe tests. Real adapter work remains dependent on explicit provider choice and verified provider/API behavior.
+
+- Follow-up verification: GitHub Actions run #135 on commit `36127058bf34388829e3e46b8ba5c8a35cfe4870` passed all 47 tests. The first test commit exposed a blank-transcript validation gap; it was fixed by rejecting whitespace-only text, and the corrected suite passed.
+
+## Fourth-prompt Markdown audit — 2026-10-28
+- Read all 13 Markdown files on `main` and verified the recursive tree returned `truncated=false`.
+- Reconciled voice-contract status and test evidence to GitHub Actions run #135 (47 passed, one upstream deprecation warning); updated the task/state/testing/README checkpoints.
+- No provider, account, number, paid service, external API contract, or privacy/recording policy was selected.
+- Prompt cadence reset to 0/4.
