@@ -6,11 +6,14 @@ from fastapi import FastAPI, HTTPException, Query
 
 from app.booking_simulator import check_demo_availability, create_demo_booking_request
 from app.catalog import get_property, list_properties
+from app.handoff_simulator import simulate_manager_handoff
 from app.schemas import (
     AvailabilityResponse,
     BookingSimulationRequest,
     BookingSimulationResponse,
     HealthResponse,
+    ManagerHandoffSimulationRequest,
+    ManagerHandoffSimulationResponse,
     PropertyListResponse,
     PropertySummary,
 )
@@ -52,3 +55,11 @@ def demo_booking_request(payload: BookingSimulationRequest) -> BookingSimulation
     """Record a local simulation request; never reserve or confirm a real room."""
     result = create_demo_booking_request(payload.model_dump())
     return BookingSimulationResponse(**result)
+
+
+@app.post("/api/v1/demo/manager-handoff", response_model=ManagerHandoffSimulationResponse, tags=["demo handoff"])
+def demo_manager_handoff(payload: ManagerHandoffSimulationRequest) -> ManagerHandoffSimulationResponse:
+    """Simulate manager handoff outcomes; never transfers an actual call."""
+    return ManagerHandoffSimulationResponse(
+        **simulate_manager_handoff(payload.simulated_outcome)
+    )
