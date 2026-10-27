@@ -1,7 +1,7 @@
 # Testing and Verification Strategy
 
 ## Current status
-The local FastAPI prototype and its tests are verified by GitHub Actions. The latest code-test run is #107 on commit `7f29bfd41c61cf793f625794a4c6932ac24e30e0`: 36 tests passed with one Starlette/httpx deprecation warning. Real API, voice, telephony, persistence, production concurrency across workers, and production behavior remain unverified. Never report tests as passing unless executed.
+The local FastAPI prototype and its tests are verified by GitHub Actions. The latest verified code-test run is #107 on commit `7f29bfd41c61cf793f625794a4c6932ac24e30e0`: 36 tests passed with one Starlette/httpx deprecation warning. Two new idempotency regression tests are committed; CI is pending. Real API, voice, telephony, persistence, production concurrency across workers, and production behavior remain unverified. Never report tests as passing unless executed.
 
 ## Test layers
 1. **Unit tests:** date/occupancy validation, pricing rules, booking state transitions, language/session state, redaction.
@@ -69,3 +69,9 @@ For each meaningful change, record the exact commands executed, pass/fail outcom
 - Booking requests for unknown properties return 404 without recording a request.
 - Idempotency keys shorter than the schema's minimum length are rejected with 422.
 - Both cases passed in GitHub Actions run #95.
+
+
+## Latest idempotency regression tests — pending CI
+- Invalid guest-count request followed by a valid retry with the same idempotency key should succeed after the invalid request returns 422.
+- A conflicting reuse of an idempotency key should return 409 without changing the original result; replaying the original payload should return the original request ID and guest count.
+- These are local simulation tests only; verify GitHub Actions before marking them passing.
