@@ -1,6 +1,7 @@
 """In-memory booking simulation. This module never creates real reservations."""
 
 from datetime import date
+from threading import Lock
 from uuid import uuid4
 
 from fastapi import HTTPException
@@ -13,6 +14,7 @@ _CAPACITY = {
     "demo-madurai-001": 2,
 }
 _requests: dict[str, tuple[dict, dict]] = {}
+_requests_lock = Lock()
 
 
 def check_demo_availability(
@@ -40,42 +42,45 @@ def check_demo_availability(
 
 def create_demo_booking_request(payload: dict) -> dict:
     """Create an idempotent demo request, never a real or confirmed reservation."""
-    key = payload["idempotency_key"]
-    normalized = dict(payload)
-    normalized["check_in"] = payload["check_in"].isoformat()
-    normalized["check_out"] = payload["check_out"].isoformat()
+    # Protect lookup, validation, and insertion as one in-process operation.
+    # This is not durable or cross-process idempotency.
+    with _requests_lock:
+        key = payload["idempotency_key"]
+        normalized = dict(payload)
+        normalized["check_in"] = payload["check_in"].isoformat()
+        normalized["check_out"] = payload["check_out"].isoformat()
 
-    existing = _requests.get(key)
-    if existing:
-        previous_payload, previous_response = existing
-        if previous_payload != normalized:
-            raise HTTPException(
-                status_code=409,
-                detail="Idempotency key was already used with different booking details",
-            )
-        return dict(previous_response)
+        existing = _requests.get(key)
+        if existing:
+            previous_payload, previous_response = existing
+            if previous_payload != normalized:
+                raise HTTPException(
+                    status_code=409,
+                    detail="Idempotency key was already used with different booking details",
+                )
+            return dict(previous_response)
 
-    availability = check_demo_availability(
-        normalized["property_id"],
-        payload["check_in"],
-        payload["check_out"],
-        payload["guests"],
-    )
-    request_id = "demo-request-" + uuid4().hex[:12]
-    if availability["status"] == "simulated_available":
-        message = "Simulation recorded only. No room has been reserved."
-    else:
-        message = "Simulation indicates capacity is insufficient. No room has been reserved."
+        availability = check_demo_availability(
+            normalized["property_id"],
+            payload["check_in"],
+            payload["check_out"],
+            payload["guests"],
+        )
+        request_id = "demo-request-" + uuid4().hex[:12]
+        if availability["status"] == "simulated_available":
+            message = "Simulation recorded only. No room has been reserved."
+        else:
+            message = "Simulation indicates capacity is insufficient. No room has been reserved."
 
-    response = {
-        "request_id": request_id,
-        "status": "simulated_not_reserved",
-        "property_id": normalized["property_id"],
-        "check_in": normalized["check_in"],
-        "check_out": normalized["check_out"],
-        "guests": normalized["guests"],
-        "demo_only": True,
-        "message": message,
-    }
-    _requests[key] = (normalized, response)
-    return dict(response)
+        response = {
+            "request_id": request_id,
+            "status": "simulated_not_reserved",
+            "property_id": normalized["property_id"],
+            "check_in": normalized["check_in"],
+            "check_out": normalized["check_out"],
+            "guests": normalized["guests"],
+            "demo_only": True,
+            "message": message,
+        }
+        _requests[key] = (normalized, response)
+        return dict(response)
