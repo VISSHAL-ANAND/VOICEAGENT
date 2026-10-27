@@ -56,3 +56,8 @@ Keep this log concise. Record decisions that affect project direction, verified 
 - Responses always carry `demo_only: true` and `real_transfer: false`; no telephony operation is performed.
 - Added handoff tests. GitHub Actions run #29 on commit `d4789b132f59d4f7e01bcdca03999c5e5fc68fa5` passed 22 tests.
 - One upstream Starlette/httpx TestClient deprecation warning remains. Production live transfer still requires a selected and verified telephony provider.
+
+## Configuration checkpoint — 2026-10-27
+- Added `app/config.py` to validate local-mock-only mode and standard log levels, wired it into the FastAPI app, and added tests for safe defaults and invalid configuration.
+- GitHub Actions run #39 on commit `63dd66a21bf804340085f6119f256da838f62aa0` passed all 26 tests.
+- The test run reports one Starlette/httpx TestClient deprecation warning. No production mode is allowed until real adapters are implemented.
