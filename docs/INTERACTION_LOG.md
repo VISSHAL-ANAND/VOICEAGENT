@@ -94,3 +94,11 @@ Keep this log concise. Record decisions that affect project direction, verified 
 
 - Added API-level tests for unknown-property booking requests (404) and too-short idempotency keys (422). GitHub Actions run #95 on commit `dbb5b20f5d6c9dae79dfaf72ce78fe2a2cade84e` passed all 34 tests.
 - The process-local concurrency guard is tested but remains a prototype-only measure; no database durability or cross-worker guarantees are claimed.
+
+
+## Booking failure/retry checkpoint — 2026-10-28
+- Added an API regression test for retrying a previously rejected unknown-property request with the same idempotency key; the valid retry should succeed as a simulation instead of being blocked by stale idempotency state.
+- Added a contract test ensuring an authoritative `confirmed` result without a booking reference is rejected.
+- Both tests are committed on `main`; CI verification is pending at this checkpoint.
+- This remains mock-only. A timeout after an external reservation request cannot be safely resolved until the real API's lookup/idempotency behavior is documented.
+- Next: verify CI, then continue safe failure-path tests and investigate the upstream Starlette/httpx warning without changing dependencies blindly. Request sanitized property API materials before implementing the real adapter.
