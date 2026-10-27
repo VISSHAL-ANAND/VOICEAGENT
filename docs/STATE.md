@@ -10,8 +10,8 @@
   - `GET /api/v1/demo/availability` — deterministic synthetic capacity only
   - `POST /api/v1/demo/booking-requests` — idempotent in-memory simulation only
 - Demo booking requests always return `simulated_not_reserved`; no real room is held, booked, or confirmed.
-- Automated tests cover health, property listing/filtering/404, demo availability, explicit non-reservation, idempotency, conflicting idempotency-key reuse, capacity failure, and invalid date order.
-- GitHub Actions workflow `.github/workflows/tests.yml` is active. Run #10 for commit `a1d4ed91fda7f9554687b2fa6a151385e5d6cde2` completed successfully; dependency installation and pytest both succeeded. The same test suite was also reproduced in an isolated Python environment and passed 11 tests.
+- Automated tests cover health, property listing/filtering/detail/404, demo availability, explicit non-reservation, idempotency, conflicting idempotency-key reuse, capacity failure, invalid date order, unknown-property availability, and guest/date validation.
+- GitHub Actions workflow `.github/workflows/tests.yml` is active. Run #19 for commit `c973ad74d73c90c15fc301f6949c9ccfcfc048d3` completed successfully; dependency installation and pytest both succeeded. The repository currently contains 16 API tests.
 - This is still a local prototype. No real property API, live availability, actual booking, voice integration, phone number, manager transfer, or deployment is implemented or verified.
 
 ## Confirmed requirements
