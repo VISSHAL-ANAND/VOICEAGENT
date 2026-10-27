@@ -12,7 +12,7 @@ Statuses: **TODO**, **BLOCKED**, **IN PROGRESS**, **DONE**. Mark a task DONE onl
 
 ## P1 — Local backend
 - [x] **T-010: Scaffold FastAPI application** — health endpoint, validated local-only configuration, typed schemas, safe 404 handling, and local setup instructions are committed.
-  - Evidence: GitHub Actions run #107 on commit `7f29bfd41c61cf793f625794a4c6932ac24e30e0` passed all 36 pytest tests, including the latest edge-case tests. One upstream TestClient/httpx deprecation warning remains.
+  - Evidence: GitHub Actions run #107 on commit `7f29bfd41c61cf793f625794a4c6932ac24e30e0` passed all 36 pytest tests. Two additional idempotency regression tests are committed; CI is pending. One upstream TestClient/httpx deprecation warning remains.
 - [x] **T-011: Add synthetic multi-property fixtures** — three fictional properties, typed schemas, and property list/detail endpoints are committed.
   - Evidence: GitHub Actions run #105 passed, including tests for demo-only records, city filtering, detail lookup, and unknown-property 404.
 - [x] **T-012: Define internal property/booking contracts** — provider-neutral models and `PropertyManagementPort` exist in `app/contracts.py`; they are internal shapes, not the external API schema.
@@ -29,10 +29,10 @@ Statuses: **TODO**, **BLOCKED**, **IN PROGRESS**, **DONE**. Mark a task DONE onl
   - Acceptance: contract tests pass without exposing credentials or logging guest secrets.
 
 ## P2 — Voice and telephony research
-- [ ] **T-030: Evaluate five-language voice capability** — Tamil, Hindi, English, Kannada, Telugu.
+- [ ] **T-030: Evaluate five-language voice capability** — IN PROGRESS. Preliminary official-source research identifies Nia Voice for realtime voice and Vakyam for TTS, but measured language quality and full telephony integration remain unverified. Target: Tamil, Hindi, English, Kannada, Telugu.
   - Acceptance: representative test set and scored results for recognition, pronunciation, language switching, numbers/dates, latency, and cost.
-- [ ] **T-031: Evaluate inbound virtual-number providers** — verify India number eligibility, inbound calls, media streaming, transfer support, terms, and charges.
-  - Acceptance: documented comparison based on current official provider information; no paid signup without approval.
+- [ ] **T-031: Evaluate inbound virtual-number providers** — IN PROGRESS. Preliminary official-source research identifies Exotel AgentStream as a candidate for India inbound calls and realtime media streaming. Number eligibility, sandbox restrictions, manager transfer, and an actual cost quote remain unverified.
+  - Acceptance: documented comparison based on current official provider information; no paid signup without approval. Preliminary report: `docs/VOICE_PROVIDER_RESEARCH.md`.
 - [ ] **T-032: Add voice adapter and browser/local prototype** — only after provider/API selection is justified.
   - Acceptance: interruptions, clarification, and tool invocation tested; mock and real modes clearly separated.
 
