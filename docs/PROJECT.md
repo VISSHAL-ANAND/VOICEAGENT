@@ -50,7 +50,7 @@ A multi-property homestay/hotel company wants an AI receptionist to answer incom
 
 ## Acceptance criteria for the first local prototype
 - A repeatable local run path is documented.
-- Current synthetic fixtures support three properties, but do not model room types yet. The room-type portion of this acceptance criterion is not met; do not treat property-level amenities or family-room labels as actual room inventory.
+- Synthetic fixtures now support three fictional properties with two demo room types each. Room records include capacity, amenities, and illustrative nightly prices; they are demo data, not actual inventory, live quotes, or availability.
 - Booking input validation and pricing/availability logic are covered by tests.
 - Booking state clearly distinguishes pending, failed, and confirmed.
 - Duplicate and timeout scenarios have explicit handling/tests.
