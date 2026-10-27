@@ -55,4 +55,4 @@ Changes are recorded after they are actually made and verified.
 ## 2026-10-28 — Booking failure/retry edge cases
 - Added a regression test that an unknown-property request returns 404 without poisoning a later valid request using the same idempotency key.
 - Added a contract regression test that `status="confirmed"` is rejected when the booking reference is missing, even if `authoritative=True`.
-- CI verification for these newest tests is pending; do not treat them as passing until the workflow completes.
+- GitHub Actions run #107 on commit `7f29bfd41c61cf793f625794a4c6932ac24e30e0` passed all 36 tests, including both new edge-case regressions. One Starlette/httpx deprecation warning remains.
