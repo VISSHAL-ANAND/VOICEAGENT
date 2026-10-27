@@ -5,15 +5,15 @@ Statuses: **TODO**, **BLOCKED**, **IN PROGRESS**, **DONE**. Mark a task DONE onl
 ## P0 — Documentation baseline
 - [x] **T-001: Establish initial documentation baseline** — governing rules, identity charter, project scope, architecture, state, tasks, decisions, security, testing, changelog, and interaction log exist.
   - Evidence: all eleven original files were verified in the GitHub tree; `SOUL.md` was subsequently created successfully.
-- [x] **T-002: Verify complete documentation set** — all twelve expected Markdown files were read during the fourth-prompt audit; recursive tree returned `truncated=false`.
+- [x] **T-002: Verify complete documentation set** — all thirteen current Markdown files were read during the fourth-prompt audit; recursive tree returned `truncated=false`.
   - Evidence: the fourth-prompt audit on 2026-10-28 fetched all thirteen current Markdown paths from `main`; recursive tree returned `truncated=false` and documentation links were reviewed. Audit record is in `docs/STATE.md` and `docs/INTERACTION_LOG.md`.
-- [x] **T-003: Review documentation completeness** — reviewed all twelve Markdown files and reconciled stale architecture/testing/CI status.
+- [x] **T-003: Review documentation completeness** — reviewed all thirteen current Markdown files and reconciled stale architecture/testing/CI status.
   - Evidence: external property API contract, provider selection, privacy decisions, and production operations remain explicitly documented as blockers; no provider or paid service was selected without approval.
 
 ## P1 — Local backend
 - [x] **T-010: Scaffold FastAPI application** — health endpoint, validated local-only configuration, typed schemas, safe 404 handling, and local setup instructions are committed.
   - Evidence: GitHub Actions run #107 on commit `7f29bfd41c61cf793f625794a4c6932ac24e30e0` passed all 36 pytest tests. GitHub Actions run #118 on commit `dbed4d974af3700541de4755b58826fb31e19621` passed all 38 pytest tests, including two additional idempotency regressions. One upstream TestClient/httpx deprecation warning remains.
-- [x] **T-011: Add synthetic multi-property fixtures** — three fictional properties, typed schemas, and property list/detail endpoints are committed.
+- [x] **T-011: Add synthetic multi-property fixtures** — three fictional property records and property list/detail endpoints are committed. Note: this task covers property-level fixtures only; room-type modeling remains an unmet prototype acceptance criterion in `docs/PROJECT.md`.
   - Evidence: GitHub Actions run #105 passed, including tests for demo-only records, city filtering, detail lookup, and unknown-property 404.
 - [x] **T-012: Define internal property/booking contracts** — provider-neutral models and `PropertyManagementPort` exist in `app/contracts.py`; they are internal shapes, not the external API schema.
   - Evidence: GitHub Actions run #107 passed contract tests for date validation, guest confirmation, and authoritative booking-result invariants, including an authoritative `confirmed` result missing its reference. External schema remains unknown until documentation is supplied.
