@@ -96,6 +96,7 @@ def create_demo_booking_request(payload: dict) -> dict:
         normalized = dict(payload)
         normalized["check_in"] = payload["check_in"].isoformat()
         normalized["check_out"] = payload["check_out"].isoformat()
+        normalized.setdefault("room_type_id", None)
 
         existing = _requests.get(key)
         if existing:
@@ -112,12 +113,22 @@ def create_demo_booking_request(payload: dict) -> dict:
             payload["check_in"],
             payload["check_out"],
             payload["guests"],
+            room_type_id=normalized["room_type_id"],
         )
         request_id = "demo-request-" + uuid4().hex[:12]
-        if availability["status"] == "simulated_available":
+        capacity_suitable_statuses = {
+            "simulated_available",
+            "simulated_room_capacity_suitable",
+        }
+        if availability["status"] in capacity_suitable_statuses:
             message = "Simulation recorded only. No room has been reserved."
         else:
-            message = "Simulation indicates capacity is insufficient. No room has been reserved."
+            message = (
+                "Simulation indicates the selected room's capacity is insufficient. "
+                "No room has been reserved."
+                if normalized["room_type_id"] is not None
+                else "Simulation indicates capacity is insufficient. No room has been reserved."
+            )
 
         response = {
             "request_id": request_id,
@@ -126,6 +137,8 @@ def create_demo_booking_request(payload: dict) -> dict:
             "check_in": normalized["check_in"],
             "check_out": normalized["check_out"],
             "guests": normalized["guests"],
+            "room_type_id": availability["room_type_id"],
+            "room_type_name": availability["room_type_name"],
             "demo_only": True,
             "message": message,
         }
