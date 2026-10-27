@@ -31,6 +31,40 @@ def test_property_list_contains_only_demo_records() -> None:
     }
 
 
+def test_every_property_has_typed_demo_room_options() -> None:
+    response = client.get("/api/v1/properties")
+
+    assert response.status_code == 200
+    properties = response.json()["items"]
+    assert len(properties) == 3
+
+    for property_record in properties:
+        assert property_record["room_types"]
+        assert property_record["demo_only"] is True
+        for room in property_record["room_types"]:
+            assert room["room_type_id"]
+            assert room["name"]
+            assert 1 <= room["max_guests"] <= 12
+            assert isinstance(room["amenities"], list)
+            assert room["demo_price_per_night_inr"] >= 0
+            assert room["demo_only"] is True
+
+
+def test_room_type_prices_are_explicitly_demo_only() -> None:
+    response = client.get("/api/v1/properties/demo-coimbatore-001")
+
+    assert response.status_code == 200
+    payload = response.json()
+    assert payload["demo_only"] is True
+    assert all(room["demo_only"] is True for room in payload["room_types"])
+    assert {room["name"] for room in payload["room_types"]} == {
+        "Standard Room",
+        "Family Room",
+    }
+    # A demo price is sample data, not a quote or an availability guarantee.
+    assert all("demo_price_per_night_inr" in room for room in payload["room_types"])
+
+
 def test_property_list_filters_city_case_insensitively() -> None:
     response = client.get("/api/v1/properties", params={"city": "cOiMbAtOrE"})
 
@@ -60,6 +94,7 @@ def test_property_detail_returns_demo_record() -> None:
     payload = response.json()
     assert payload["property_id"] == "demo-coimbatore-001"
     assert payload["demo_only"] is True
+    assert len(payload["room_types"]) == 2
 
 
 def test_property_detail_unknown_id_returns_404() -> None:
