@@ -7,13 +7,14 @@
   - `GET /healthz`
   - `GET /api/v1/properties` with optional city filter; responses include fictional room types and demo prices
   - `GET /api/v1/properties/{property_id}` with fictional room type details
-  - `GET /api/v1/demo/availability` — deterministic synthetic capacity only
+  - `GET /api/v1/demo/availability` — deterministic synthetic property-level capacity; optional `room_type_id` checks the selected fictional room's maximum guest count only
   - `POST /api/v1/demo/booking-requests` — idempotent in-memory simulation only
   - `POST /api/v1/demo/manager-handoff` — simulated answered/busy/no-answer/failure outcomes only
 - Demo booking requests always return `simulated_not_reserved`; no real room is held, booked, or confirmed.
 - Automated tests cover health, property listing/filtering/detail/404, demo availability, explicit non-reservation, idempotency, conflicting idempotency-key reuse, capacity failure, invalid date order, unknown-property availability, guest/date validation, retry after a rejected unknown-property request, booking-result invariants, and manager handoff outcomes.
 - GitHub Actions workflow `.github/workflows/tests.yml` is active. Run #156 on commit `7763dc4fe5ff3b4002f886d312e38adbd33c1521` passed all 49 application tests, including voice-session contract and synthetic room-type coverage. One upstream Starlette/httpx TestClient deprecation warning remains.
 - This is still a local prototype. No real property API, live availability, actual booking, voice-provider adapter/audio transport, phone number, manager transfer, or deployment is implemented or verified.
+- Room-specific demo capacity support is committed on `main`: selected room IDs must belong to the property, group size is checked against the room's maximum guest count, and the response distinguishes capacity suitability from real availability. The added regression tests are awaiting GitHub Actions verification at this checkpoint.
 
 ## Confirmed requirements
 Python + FastAPI; Tamil, Hindi, English, Kannada, Telugu; inbound virtual number; authoritative property API for availability and confirmed bookings; manager transfer when supported; ₹0 local/mock development until explicit approval for paid services.
@@ -50,4 +51,4 @@ Update affected Markdown after each project work unit. On the fourth user prompt
 - This is fixture data only; no live availability, real quote, or booking capability was added.
 
 ## Next action
-Continue safe booking failure/retry coverage and consider whether mock availability should accept a room type (without implying live inventory). Room types are not yet linked to the simulated availability endpoint. The voice/session contract exists but is not wired to a real adapter. Preliminary provider research is documented; obtain concrete answers about sandbox access, Indian inbound-number eligibility, transfer support, and cost before any signup. Price-change behavior and true uncertain-outcome recovery remain blocked on the authoritative quote/booking API contract. Ask the user before any consequential provider, privacy, budget, or architecture choice.
+Verify the CI run for room-specific demo capacity checks. If it passes, reconcile all relevant docs with the exact run and test count. Next safe step is to make booking-request simulation optionally validate the selected room and its capacity, while preserving `simulated_not_reserved`; do not invent date inventory or price semantics. The voice/session contract exists but is not wired to a real adapter. Preliminary provider research is documented; obtain concrete answers about sandbox access, Indian inbound-number eligibility, transfer support, and cost before any signup. Price-change behavior and true uncertain-outcome recovery remain blocked on the authoritative quote/booking API contract. Ask the user before any consequential provider, privacy, budget, or architecture choice.
