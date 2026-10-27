@@ -71,3 +71,6 @@ Keep this log concise. Record decisions that affect project direction, verified 
 - The contract requires guest confirmation before a booking command and requires an authoritative result plus reference before a result can be labelled confirmed.
 - Added contract tests; CI run for commit `1d737cc29de03d1326e0218fbcf94ef1f9718cbe` was pending at checkpoint time.
 - The external property API schema is still unknown; the internal models are not claimed to match it.
+
+- CI run #59 completed successfully on commit `1d737cc29de03d1326e0218fbcf94ef1f9718cbe`; all 31 tests passed, including the new provider-neutral contract checks.
+- Internal contract task T-012 is now marked done. This does not unblock real API integration: the external schema and booking semantics remain unknown.
