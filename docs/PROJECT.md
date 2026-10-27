@@ -51,7 +51,7 @@ A multi-property homestay/hotel company wants an AI receptionist to answer incom
 ## Acceptance criteria for the first local prototype
 - A repeatable local run path is documented.
 - Synthetic fixtures now support three fictional properties with two demo room types each. Room records include capacity, amenities, and illustrative nightly prices; they are demo data, not actual inventory, live quotes, or availability.
-- Booking input validation and simulated capacity logic are covered by tests. Room-specific demo checks validate property/room association and maximum guest count; they do not establish live availability or authoritative pricing.
+- Booking input validation and simulated capacity logic are covered by tests. Room-specific demo checks validate property/room association and maximum guest count; selected-room booking requests repeat that validation and include the room in idempotency comparison. They do not establish live availability, authoritative pricing, or a real reservation.
 - Booking state clearly distinguishes pending, failed, and confirmed.
 - Duplicate and timeout scenarios have explicit handling/tests.
 - A simulated manager-handoff flow handles success and failure without claiming a real transfer.
