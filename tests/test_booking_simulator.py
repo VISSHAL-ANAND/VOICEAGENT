@@ -137,3 +137,28 @@ def test_demo_booking_rejects_guest_count_outside_range() -> None:
     )
 
     assert response.status_code == 422
+
+
+def test_concurrent_same_idempotency_key_creates_one_simulation_request() -> None:
+    from concurrent.futures import ThreadPoolExecutor
+    from datetime import date
+
+    from app.booking_simulator import create_demo_booking_request
+
+    payload = {
+        "property_id": "demo-coimbatore-001",
+        "check_in": date(2026, 11, 10),
+        "check_out": date(2026, 11, 12),
+        "guests": 2,
+        "idempotency_key": "concurrent-same-key-0001",
+    }
+
+    with ThreadPoolExecutor(max_workers=12) as pool:
+        results = list(pool.map(
+            lambda _: create_demo_booking_request(dict(payload)),
+            range(40),
+        ))
+
+    request_ids = {result["request_id"] for result in results}
+    assert len(request_ids) == 1
+    assert all(result["status"] == "simulated_not_reserved" for result in results)
