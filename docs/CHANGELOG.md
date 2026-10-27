@@ -24,3 +24,6 @@ Changes are recorded after they are actually made and verified.
 
 - Added a manager-handoff simulation for answered, busy, no-answer, and failure outcomes. Every response clearly states that no real call was transferred.
 - Added handoff tests and confirmed GitHub Actions run #29 passed all 22 tests. CI currently reports one upstream Starlette/httpx TestClient deprecation warning.
+
+- Added validated configuration that accepts only local-mock mode and checks log-level values; wired it into the app.
+- Added configuration tests. GitHub Actions run #39 passed all 26 tests. A Starlette/httpx TestClient deprecation warning remains.
