@@ -41,7 +41,10 @@ class AvailabilityResponse(BaseModel):
     check_out: date
     guests: int
     status: str
-    demo_only: bool = True
+    room_type_id: str | None = None
+    room_type_name: str | None = None
+    room_max_guests: int | None = None
+    demo_only: Literal[True] = True
     notice: str
 
 
