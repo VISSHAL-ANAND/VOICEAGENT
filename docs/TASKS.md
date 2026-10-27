@@ -5,14 +5,14 @@ Statuses: **TODO**, **BLOCKED**, **IN PROGRESS**, **DONE**. Mark a task DONE onl
 ## P0 — Documentation baseline
 - [x] **T-001: Establish initial documentation baseline** — governing rules, identity charter, project scope, architecture, state, tasks, decisions, security, testing, changelog, and interaction log exist.
   - Evidence: all eleven original files were verified in the GitHub tree; `SOUL.md` was subsequently created successfully.
-- [ ] **T-002: Verify complete documentation set** — read back the final tree and key Markdown files after the SOUL addition and cross-reference updates.
-  - Acceptance: all twelve expected Markdown files are present; links and file inventory agree; state/changelog/log reflect evidence.
-- [ ] **T-003: Review documentation completeness** — identify any project-specific gaps without adding speculative or empty documents.
-  - Acceptance: requirements, architecture, decisions, security, testing, state, tasks, changelog, handoff, and agent identity are consistent.
+- [x] **T-002: Verify complete documentation set** — all twelve expected Markdown files were read during the fourth-prompt audit; recursive tree returned `truncated=false`.
+  - Evidence: all twelve paths were fetched from `main`; current tree inventory and documentation links were reviewed. Audit record is in `docs/STATE.md` and `docs/INTERACTION_LOG.md`.
+- [x] **T-003: Review documentation completeness** — reviewed all twelve Markdown files and reconciled stale architecture/testing/CI status.
+  - Evidence: external property API contract, provider selection, privacy decisions, and production operations remain explicitly documented as blockers; no provider or paid service was selected without approval.
 
 ## P1 — Local backend
 - [x] **T-010: Scaffold FastAPI application** — health endpoint, validated local-only configuration, typed schemas, safe 404 handling, and local setup instructions are committed.
-  - Evidence: GitHub Actions run #59 passed dependency installation and all 31 pytest tests. One upstream TestClient/httpx deprecation warning remains.
+  - Evidence: GitHub Actions run #73 passed dependency installation and all 31 pytest tests. One upstream TestClient/httpx deprecation warning remains.
 - [x] **T-011: Add synthetic multi-property fixtures** — three fictional properties, typed schemas, and property list/detail endpoints are committed.
   - Evidence: GitHub Actions run #59 passed, including tests for demo-only records, city filtering, detail lookup, and unknown-property 404.
 - [x] **T-012: Define internal property/booking contracts** — provider-neutral models and `PropertyManagementPort` exist in `app/contracts.py`; they are internal shapes, not the external API schema.
