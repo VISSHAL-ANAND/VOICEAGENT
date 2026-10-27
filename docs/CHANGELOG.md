@@ -83,3 +83,8 @@ Changes are recorded after they are actually made and verified.
 - Added optional `room_type_id` to the demo availability endpoint. Selected room IDs are checked against the requested property's own fixture; unknown or cross-property room IDs return 404.
 - Added a room-capacity-only result distinct from property-level simulated capacity. The response names the room and maximum guest count, and explicitly says that dates, inventory, prices, and real availability are not checked.
 - Added regression tests for suitable/over-capacity groups, unknown and cross-property room IDs, blank IDs, and backward compatibility. GitHub Actions run #179 on commit `d83d9fee53e378112c2c3eb3bc84107dfac8c041` passed all 55 tests (one upstream deprecation warning); no live inventory or booking behavior was introduced.
+
+## 2026-10-28 — Selected-room booking-request guardrails
+- Added optional room selection to the demo booking-request schema and response. The simulator validates the selected room against the requested property and its declared capacity, but always returns `simulated_not_reserved`.
+- Included room selection in idempotency comparison; invalid room selections are not stored, and a different room under an existing key conflicts with 409.
+- Tightened availability response schema validation so room metadata must be complete and consistent with the status. Added booking-flow and schema regression tests; CI verification is pending.
