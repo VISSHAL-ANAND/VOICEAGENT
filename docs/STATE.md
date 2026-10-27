@@ -1,37 +1,27 @@
 # Current State
 
-## Last verified checkpoint
-- Repository: `VISSHAL-ANAND/VOICEAGENT`
-- Default branch: `main`
-- Repository was empty before this setup.
-- Initial documentation baseline has been created and read back from GitHub.
-- The current baseline includes `AGENTS.md`, `SOUL.md`, `README.md`, and nine `docs/*.md` files: `ARCHITECTURE.md`, `CHANGELOG.md`, `DECISIONS.md`, `INTERACTION_LOG.md`, `PROJECT.md`, `SECURITY.md`, `STATE.md`, `TASKS.md`, and `TESTING.md`.
-- Before adding `SOUL.md`, the recursive Git tree verified the original eleven files with `truncated=false`. The SOUL file was then created successfully; a final recursive-tree verification is still required to confirm the full twelve-file set.
-- No application code, automated tests, real property API integration, voice integration, phone number, or deployment has been verified.
+## Verified checkpoint — 2026-10-27
+- Repository: `VISSHAL-ANAND/VOICEAGENT`; branch: `main`.
+- The documentation baseline and receptionist behavior charter exist.
+- Implemented files: `app/main.py`, `app/schemas.py`, `app/catalog.py`, `app/__init__.py`, `tests/test_api.py`, and `requirements.txt`.
+- `GET /healthz` returns a local-mock health response.
+- `GET /api/v1/properties` lists three synthetic fictional property records; optional city filtering is supported.
+- `GET /api/v1/properties/{property_id}` returns a synthetic property or a 404.
+- Added `.github/workflows/tests.yml` to run pytest on pushes to main, pull requests, or manual dispatch.
+- The repository tree was read back after these commits. No GitHub Actions run is visible yet; tests have not been executed by the assistant. The app is not yet verified as running.
+- No live property API, booking workflow, voice integration, phone number, manager transfer, or deployment exists/has been verified.
 
 ## Confirmed requirements
-- Python + FastAPI.
-- Five languages: Tamil, Hindi, English, Kannada, Telugu.
-- A virtual phone number for inbound guest calls.
-- The existing management application will expose an API and JSON data; schema/contract still unknown.
-- The AI should create confirmed bookings through the authoritative application.
-- Guest requests for the manager should trigger active-call transfer where supported.
-- ₹0 initial development using local development and mocked services; no paid service without approval.
-- `SOUL.md` defines intended receptionist identity and conversational boundaries; backend code must enforce security and booking rules independently.
+Python + FastAPI; Tamil, Hindi, English, Kannada, Telugu; inbound virtual number; authoritative property API for availability and confirmed bookings; manager transfer when supported; ₹0 local/mock development until explicit approval for paid services.
 
 ## Blockers
-1. The other developer's API documentation and sanitized sample response are not yet available.
-2. Voice and telephony providers have not been selected or tested.
-3. No language-quality, latency, cost, or booking-reliability measurements exist.
-4. Recording, transcript retention, and production compliance decisions remain open.
+- External API schema, authentication, and booking semantics are unknown.
+- Voice/telephony provider capabilities and India pricing are unverified.
+- Recording, transcription, retention, and production compliance decisions remain open.
+- CI run has not yet been observed.
 
 ## Conversation audit cadence
-- User rule: after each project conversation/work unit, update Markdown files when their content is affected; do not edit unaffected files just to touch them.
-- On the fourth user prompt in each four-prompt cycle, audit every Markdown file in the GitHub repository, reconcile against repository evidence, update discrepancies, and verify the final tree. Do not defer urgent fixes until then.
-- Cadence checkpoint: 1/4 user prompts counted for the new cycle, starting with the prompt that established this rule. Counter continuity across separate sessions may be imperfect; resume from this documented checkpoint and disclose uncertainty rather than guessing.
+Update affected Markdown after each project work unit. On the fourth user prompt in a cycle, audit every Markdown file against repository evidence, correct discrepancies, and verify the final tree. Last documented counter was 1/4 before this work; continuity across sessions may be imperfect.
 
 ## Next action
-Finish verifying the Markdown baseline, then create the minimal FastAPI scaffold and tests using synthetic fixtures and mock adapters. Do not require external credentials or assume an external API schema.
-
-## Evidence rule
-Update this file after verified changes. Distinguish planned work from completed work, and include executed checks and their actual results.
+Verify CI is enabled and runs; then add tests for property detail and filtering, improve configuration/error handling, and begin mock availability/booking workflows. Do not claim the app is verified until a test run succeeds.
