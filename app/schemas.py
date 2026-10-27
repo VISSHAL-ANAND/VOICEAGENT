@@ -55,3 +55,16 @@ class BookingSimulationResponse(BaseModel):
     guests: int
     demo_only: bool = True
     message: str
+
+from typing import Literal
+
+
+class ManagerHandoffSimulationRequest(BaseModel):
+    simulated_outcome: Literal["answered", "busy", "no_answer", "failed"]
+
+
+class ManagerHandoffSimulationResponse(BaseModel):
+    status: str
+    demo_only: bool = True
+    real_transfer: bool = False
+    message: str
