@@ -39,3 +39,10 @@ Keep this log concise. Record decisions that affect project direction, verified 
 - Added `.github/workflows/tests.yml` for pytest on main pushes, pull requests, and manual runs.
 - Verified repository tree after commits. GitHub Actions API currently reports zero workflow runs; no test success is claimed.
 - Next: inspect Actions configuration/status, verify tests through CI if possible, then build mock booking flow without pretending to access live availability.
+
+## Mock booking workflow checkpoint — 2026-10-27
+- Added `app/booking_simulator.py`, validated request/response schemas, `GET /api/v1/demo/availability`, and `POST /api/v1/demo/booking-requests`.
+- The demo logic uses fictional capacity limits and an in-memory idempotency map. It explicitly does not reserve a room and always reports `simulated_not_reserved`.
+- Added tests for simulation labeling, capacity failure, invalid date order, duplicate idempotency keys, and conflicting reuse of a key.
+- GitHub Actions run #10 completed successfully on commit `a1d4ed91fda7f9554687b2fa6a151385e5d6cde2`; the workflow's dependency-install and pytest steps succeeded.
+- Next: improve booking simulation edge-case coverage and configuration, then research provider options and await the property app's verified API contract before real booking integration.
