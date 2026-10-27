@@ -45,7 +45,7 @@ For each meaningful change, record the exact commands executed, pass/fail outcom
 - Synthetic property list, demo-only marker, case-insensitive city filter, unknown-property 404, and invalid blank city.
 - Demo availability explicitly labels itself as not live inventory.
 - Demo booking requests never claim reservation, repeat idempotency keys return the same simulation ID, conflicting payloads with the same key return 409, over-capacity requests remain unreserved, and invalid date order returns 422.
-- GitHub Actions run #50 passed dependency installation and all 26 pytest tests on commit `da2324100baec4271bb3e07777bf0e7f3181f1b9`.
+- GitHub Actions run #59 passed dependency installation and all 31 pytest tests on commit `1d737cc29de03d1326e0218fbcf94ef1f9718cbe`.
 - Handoff tests cover answered, busy, no-answer, failure, and invalid outcomes while asserting that no real transfer is claimed.
 - Configuration tests verify local-mock defaults, log-level normalization, and rejection of production mode or invalid log levels.
 - CI reports one upstream Starlette/httpx TestClient deprecation warning.
@@ -56,4 +56,4 @@ For each meaningful change, record the exact commands executed, pass/fail outcom
 - Booking commands require explicit guest confirmation.
 - A booking result cannot claim `confirmed` without an authoritative flag and booking reference.
 - Pending outcomes remain distinct from confirmed outcomes.
-- CI for the newly added contract module is pending; do not count it as verified until the workflow finishes.
+- CI for the contract module passed in run #59.
