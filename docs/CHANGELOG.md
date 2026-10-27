@@ -33,3 +33,5 @@ Changes are recorded after they are actually made and verified.
 
 - Added provider-neutral internal property/availability/booking contracts and an adapter protocol; these do not assume the external management API schema.
 - Added tests for date validation, explicit guest confirmation, and authoritative booking-confirmation invariants. CI verification is pending.
+
+- Provider-neutral contract tests passed in GitHub Actions run #59: 31 tests passed across the current repository test suite.
