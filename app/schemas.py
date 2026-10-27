@@ -1,9 +1,23 @@
-from pydantic import BaseModel
+from datetime import date
+from typing import Literal
+
+from pydantic import BaseModel, Field, model_validator
+
 
 class HealthResponse(BaseModel):
-    status: str = 'ok'
-    service: str = 'voiceagent-api'
-    mode: str = 'local-mock'
+    status: str = "ok"
+    service: str = "voiceagent-api"
+    mode: str = "local-mock"
+
+
+class RoomTypeSummary(BaseModel):
+    room_type_id: str = Field(min_length=1, max_length=100)
+    name: str = Field(min_length=1, max_length=120)
+    max_guests: int = Field(ge=1, le=12)
+    amenities: list[str]
+    demo_price_per_night_inr: int = Field(ge=0)
+    demo_only: Literal[True] = True
+
 
 class PropertySummary(BaseModel):
     property_id: str
@@ -11,15 +25,14 @@ class PropertySummary(BaseModel):
     city: str
     supported_languages: list[str]
     amenities: list[str]
+    room_types: list[RoomTypeSummary]
     demo_only: bool = True
+
 
 class PropertyListResponse(BaseModel):
     items: list[PropertySummary]
     total: int
     demo_only: bool = True
-
-from datetime import date
-from pydantic import Field, model_validator
 
 
 class AvailabilityResponse(BaseModel):
@@ -55,8 +68,6 @@ class BookingSimulationResponse(BaseModel):
     guests: int
     demo_only: bool = True
     message: str
-
-from typing import Literal
 
 
 class ManagerHandoffSimulationRequest(BaseModel):
