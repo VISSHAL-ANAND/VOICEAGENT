@@ -77,3 +77,9 @@ Changes are recorded after they are actually made and verified.
 - Added API tests for room fixture shape and demo-only labeling. No real inventory, quote, or availability behavior was introduced.
 
 - Verification: GitHub Actions run #156 on commit `7763dc4fe5ff3b4002f886d312e38adbd33c1521` passed all 49 tests. One upstream Starlette/httpx deprecation warning remains.
+
+
+## 2026-10-28 — Room-specific demo capacity guardrails
+- Added optional `room_type_id` to the demo availability endpoint. Selected room IDs are checked against the requested property's own fixture; unknown or cross-property room IDs return 404.
+- Added a room-capacity-only result distinct from property-level simulated capacity. The response names the room and maximum guest count, and explicitly says that dates, inventory, prices, and real availability are not checked.
+- Added regression tests for suitable/over-capacity groups, unknown and cross-property room IDs, blank IDs, and backward compatibility. CI verification is pending; no live inventory or booking behavior was introduced.
