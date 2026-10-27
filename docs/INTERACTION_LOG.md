@@ -123,3 +123,9 @@ Keep this log concise. Record decisions that affect project direction, verified 
 - Reconciled voice-contract status and test evidence to GitHub Actions run #135 (47 passed, one upstream deprecation warning); updated the task/state/testing/README checkpoints.
 - No provider, account, number, paid service, external API contract, or privacy/recording policy was selected.
 - Prompt cadence reset to 0/4.
+
+
+## 2026-10-28 — Synthetic room-type fixtures
+- Added two fictional room options per demo property with maximum guest count, amenities, sample nightly INR price, and explicit `demo_only=True` labeling.
+- Exposed room options through property list/detail APIs using a validated Pydantic schema. Added API tests for fixture fields, demo-only status, and detail lookup.
+- CI verification is pending. Prices are illustrations, not real quotes; availability remains simulated and not room-specific. No provider, account, paid service, or real property data was used.
