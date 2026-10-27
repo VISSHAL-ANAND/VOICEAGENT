@@ -35,7 +35,7 @@ Update affected Markdown after each project work unit. On the fourth user prompt
 ## Booking simulation limits
 - The process-local lock and regression tests protect only the in-memory demo simulator. Run #118 passed the 38-test suite at that checkpoint; later run #135 passed 47 tests after voice-contract coverage was added.
 - This does not solve durability or multi-process idempotency; production correctness requires support from the authoritative booking API/database.
-- Audit finding: `docs/PROJECT.md` lists room-type support as a first-prototype acceptance criterion, but the current synthetic catalog contains property-level amenities only and does not model room types. This requirement is not yet met; do not infer room inventory from the current fixtures.
+- Room-type fixtures are now implemented: each of the three synthetic properties exposes two typed demo room options with capacity, amenities, and illustrative INR nightly prices. New API tests are committed; CI verification is pending. These records are not real inventory, availability, or authoritative quotes.
 
 ## Full Markdown audit — 2026-10-28
 - Read all 13 Markdown files currently present on `main`: `AGENTS.md`, `README.md`, `SOUL.md`, and the ten files under `docs/` including `VOICE_PROVIDER_RESEARCH.md`.
