@@ -133,6 +133,7 @@ def create_demo_booking_request(payload: dict) -> dict:
         response = {
             "request_id": request_id,
             "status": "simulated_not_reserved",
+            "capacity_status": availability["status"],
             "property_id": normalized["property_id"],
             "check_in": normalized["check_in"],
             "check_out": normalized["check_out"],
