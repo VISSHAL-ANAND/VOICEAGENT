@@ -57,3 +57,9 @@ For each meaningful change, record the exact commands executed, pass/fail outcom
 - A booking result cannot claim `confirmed` without an authoritative flag and booking reference.
 - Pending outcomes remain distinct from confirmed outcomes.
 - CI for the contract module passed in run #59.
+
+
+## Concurrency regression test in progress
+- Added a direct concurrent-call test: 40 same-idempotency-key requests across 12 threads must all receive the same simulated request ID.
+- The implementation uses a process-local lock only. This test does not prove multi-process safety, durable idempotency, database transaction correctness, or real booking behavior.
+- CI for this new test is pending at the time of this note.
