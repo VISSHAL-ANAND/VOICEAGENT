@@ -64,3 +64,9 @@ Local development and mocked dependencies first. Production deployment, persiste
 - These are VoiceAgent's internal contracts only. They do not claim to describe the other developer's external JSON/API schema.
 - The booking command requires explicit guest confirmation; a result cannot be marked `confirmed` unless it is authoritative and includes a booking reference.
 - The concrete external adapter remains blocked on verified API documentation and authentication/booking semantics.
+
+
+## Provider-neutral voice session boundary — 2026-10-28
+- `app/voice_contracts.py` defines normalized typed events for session start, user transcript, assistant transcript, session end, and safe session errors, plus a `VoiceSessionPort` protocol.
+- The contract supports language tags for Tamil (`ta`), Hindi (`hi`), English (`en`), Kannada (`kn`), and Telugu (`te`). Transcript text is required and blank-only transcripts are rejected. Unexpected fields are forbidden; error codes are normalized rather than carrying raw provider error text across the boundary.
+- This is a domain-level session boundary, not an audio wire protocol. It intentionally specifies no codec, sample rate, WebSocket framing, vendor SDK, or telephony event shape. Concrete adapters and orchestrator integration remain unimplemented until provider choices are approved and verified.
