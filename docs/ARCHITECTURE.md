@@ -48,3 +48,9 @@ Local development and mocked dependencies first. Production deployment, persiste
 - Indian virtual-number availability and manager-transfer support.
 - Need for PostgreSQL/Supabase versus simpler local persistence during prototype.
 - Recording/transcription policy and retention requirements.
+
+## Implemented local prototype checkpoint
+- `app/main.py` exposes health, synthetic property list/detail, demo availability, and demo booking-request endpoints.
+- `app/catalog.py` contains three fictional properties. The data is not connected to any property-management system.
+- `app/booking_simulator.py` applies fixed demo capacity limits and stores idempotency results in process memory. Every request returns `simulated_not_reserved`; it does not create a reservation.
+- These components are scaffolding only. The real property API adapter and booking transaction boundary remain blocked on the external API contract. The in-memory simulation is not concurrency-safe or durable and must not be used for production.
