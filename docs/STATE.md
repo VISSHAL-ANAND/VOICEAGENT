@@ -8,7 +8,7 @@
   - `GET /api/v1/properties` with optional city filter; responses include fictional room types and demo prices
   - `GET /api/v1/properties/{property_id}` with fictional room type details
   - `GET /api/v1/demo/availability` — deterministic synthetic property-level capacity; optional `room_type_id` checks the selected fictional room's maximum guest count only
-  - `POST /api/v1/demo/booking-requests` — idempotent in-memory simulation only
+  - `POST /api/v1/demo/booking-requests` — idempotent in-memory simulation only; optional room selection is validated against property and room capacity, but never reserves a room
   - `POST /api/v1/demo/manager-handoff` — simulated answered/busy/no-answer/failure outcomes only
 - Demo booking requests always return `simulated_not_reserved`; no real room is held, booked, or confirmed.
 - Automated tests cover health, property listing/filtering/detail/404, demo availability, explicit non-reservation, idempotency, conflicting idempotency-key reuse, capacity failure, invalid date order, unknown-property availability, guest/date validation, retry after a rejected unknown-property request, booking-result invariants, and manager handoff outcomes.
