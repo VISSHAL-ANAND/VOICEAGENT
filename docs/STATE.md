@@ -25,6 +25,11 @@
 3. No language-quality, latency, cost, or booking-reliability measurements exist.
 4. Recording, transcript retention, and production compliance decisions remain open.
 
+## Conversation audit cadence
+- User rule: after each project conversation/work unit, update Markdown files when their content is affected; do not edit unaffected files just to touch them.
+- On the fourth user prompt in each four-prompt cycle, audit every Markdown file in the GitHub repository, reconcile against repository evidence, update discrepancies, and verify the final tree. Do not defer urgent fixes until then.
+- Cadence checkpoint: 1/4 user prompts counted for the new cycle, starting with the prompt that established this rule. Counter continuity across separate sessions may be imperfect; resume from this documented checkpoint and disclose uncertainty rather than guessing.
+
 ## Next action
 Finish verifying the Markdown baseline, then create the minimal FastAPI scaffold and tests using synthetic fixtures and mock adapters. Do not require external credentials or assume an external API schema.
 
