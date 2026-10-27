@@ -13,11 +13,13 @@ Keep this log concise. Record decisions that affect project direction, verified 
 - Budget: ₹0 for initial local development/testing; client may pay after the prototype.
 - Integration: the other developer is expected to provide an API and JSON data; exact schema is unknown.
 
-## Verified documentation checkpoint — 2026-10-27
+## Documentation checkpoint — 2026-10-27
 - GitHub repository metadata identified `VISSHAL-ANAND/VOICEAGENT`, default branch `main`, with admin/push permissions.
 - Before baseline creation, repository metadata size was 0 and GitHub's contents endpoint reported the repository empty.
 - Created `AGENTS.md`, `README.md`, and nine `docs/*.md` files covering project, architecture, decisions, security, testing, state, tasks, changelog, and interaction log.
-- Fetched the recursive Git tree after writes. All eleven expected files were present; response reported `truncated=false`.
+- Fetched the recursive Git tree and verified the original eleven expected files; response reported `truncated=false`.
+- Created `SOUL.md` defining the agent's identity, communication, truthfulness, booking integrity, escalation, privacy, tool-use, and failure behavior.
+- Updated `AGENTS.md` and `README.md` to require and reference `SOUL.md`. State/tasks/changelog/log updates are being applied and the final tree verification remains pending.
 - No code, tests, API, voice provider, phone number, or deployment has been verified.
 
 ## Blockers
@@ -26,6 +28,6 @@ Keep this log concise. Record decisions that affect project direction, verified 
 - Need client decisions on recording/transcription, retention, and production budget.
 
 ## Next handoff
-1. Inspect repository/Git state and verify documentation after the final checkpoint updates.
+1. Verify the full Markdown tree and read back updated documentation.
 2. Begin the local FastAPI scaffold with tests and synthetic fixtures.
 3. Keep all external services mocked until contracts and approvals are available.
