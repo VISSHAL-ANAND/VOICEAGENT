@@ -87,6 +87,6 @@ Keep this log concise. Record decisions that affect project direction, verified 
 
 ## Booking simulation concurrency checkpoint — 2026-10-27
 - Added a process-local lock so the in-memory idempotency lookup, conflicting-payload check, and insertion happen as one critical section.
-- Added a test issuing 40 same-key requests across 12 threads and expecting one request ID. CI is pending; no success claim yet.
+- Added a test issuing 40 same-key requests across 12 threads and expecting one request ID. GitHub Actions run #82 passed all 32 tests, including this regression.
 - Limitations remain explicit: in-memory state resets on restart and is not coordinated across multiple processes. Real booking integrity depends on authoritative API/database idempotency and transaction behavior.
 - No price-change policy was invented because current mock data has no price/quote model and the external contract is unknown.
