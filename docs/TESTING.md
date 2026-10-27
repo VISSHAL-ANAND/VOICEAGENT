@@ -39,3 +39,11 @@ Use synthetic data only. Never use real guest data or production credentials in 
 
 ## Reporting
 For each meaningful change, record the exact commands executed, pass/fail outcomes, failures, and environment limitations. Keep performance and language claims tied to measurements.
+
+## Current automated coverage
+- Health response and local-mock mode.
+- Synthetic property list, demo-only marker, case-insensitive city filter, unknown-property 404, and invalid blank city.
+- Demo availability explicitly labels itself as not live inventory.
+- Demo booking requests never claim reservation, repeat idempotency keys return the same simulation ID, conflicting payloads with the same key return 409, over-capacity requests remain unreserved, and invalid date order returns 422.
+- GitHub Actions run #10 passed dependency installation and pytest on the current booking-simulation test commit.
+- The tests validate only the local simulation. They do not validate a real booking API, database durability, concurrency, voice quality, telephony, or production deployment.
