@@ -46,3 +46,7 @@ Keep this log concise. Record decisions that affect project direction, verified 
 - Added tests for simulation labeling, capacity failure, invalid date order, duplicate idempotency keys, and conflicting reuse of a key.
 - GitHub Actions run #10 completed successfully on commit `a1d4ed91fda7f9554687b2fa6a151385e5d6cde2`; the workflow's dependency-install and pytest steps succeeded.
 - Next: improve booking simulation edge-case coverage and configuration, then research provider options and await the property app's verified API contract before real booking integration.
+
+- Added property-detail success/404 tests and availability validation tests for unknown properties, reversed dates, and invalid guest counts.
+- GitHub Actions run #19 passed all 16 pytest tests on commit `c973ad74d73c90c15fc301f6949c9ccfcfc048d3`.
+- Documentation was reconciled to distinguish the successful CI-tested simulation from a real booking system. Real reservation, voice, and telephony integrations remain unimplemented.
