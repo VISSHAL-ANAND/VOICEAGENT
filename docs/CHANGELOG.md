@@ -27,3 +27,6 @@ Changes are recorded after they are actually made and verified.
 
 - Added validated configuration that accepts only local-mock mode and checks log-level values; wired it into the app.
 - Added configuration tests. GitHub Actions run #39 passed all 26 tests. A Starlette/httpx TestClient deprecation warning remains.
+
+- Added `python-dotenv` support so the app loads a local `.env` file, and documented copying `.env.example` during setup.
+- GitHub Actions run #50 passed all 26 tests after the configuration update.
