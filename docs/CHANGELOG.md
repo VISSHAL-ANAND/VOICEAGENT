@@ -14,3 +14,7 @@ Changes are recorded after they are actually made and verified.
 - Added FastAPI health, property-list, and property-detail endpoints.
 - Added meaningful API tests and a GitHub Actions pytest workflow. The workflow is committed, but no run has been observed yet.
 - No real booking or voice/telephony behavior is implemented.
+
+- Added deterministic demo-capacity checking and an idempotent in-memory booking-request simulation. Responses are always `simulated_not_reserved`; no real booking is made.
+- Added tests for simulation-only availability, non-reservation, idempotency, conflicting key reuse, capacity failure, and invalid date order.
+- GitHub Actions run #10 completed successfully on the booking-simulation test commit; pytest passed.
