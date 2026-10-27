@@ -16,7 +16,7 @@ VoiceAgent is being built as a phone-based AI receptionist for a company managin
 - Python + FastAPI backend.
 - Provider-neutral interfaces for voice, telephony, and the property-management API.
 - Synthetic fixtures and mocked external services before real credentials are available.
-- GitHub Actions run #19 passed dependency installation and the full pytest suite.
+- GitHub Actions run #29 passed all 22 pytest tests. One upstream Starlette/httpx TestClient deprecation warning remains.
 
 No paid service should be activated without explicit approval. Voice-model usage, phone numbers, calling, hosting, and database plans may incur costs.
 
@@ -35,6 +35,7 @@ Open `http://127.0.0.1:8000/healthz` for the health response and `http://127.0.0
 ## Local demo booking endpoints
 - `GET /api/v1/demo/availability?property_id=demo-coimbatore-001&check_in=2026-11-10&check_out=2026-11-12&guests=2` returns fictional capacity data.
 - `POST /api/v1/demo/booking-requests` accepts property/date/guest details and an idempotency key. It returns `simulated_not_reserved` even when the fictional capacity rule says available.
+- `POST /api/v1/demo/manager-handoff` simulates answered, busy, no-answer, and failed handoff outcomes. It always sets `real_transfer: false`.
 - All demo availability and booking responses are explicitly marked as simulation-only. These endpoints must never be presented to guests as real availability or a confirmed reservation.
 
 ## Requirements before real integration
