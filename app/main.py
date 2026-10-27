@@ -1,14 +1,24 @@
 """Local-first FastAPI scaffold for VoiceAgent."""
 
+from datetime import date
+
 from fastapi import FastAPI, HTTPException, Query
 
+from app.booking_simulator import check_demo_availability, create_demo_booking_request
 from app.catalog import get_property, list_properties
-from app.schemas import HealthResponse, PropertyListResponse, PropertySummary
+from app.schemas import (
+    AvailabilityResponse,
+    BookingSimulationRequest,
+    BookingSimulationResponse,
+    HealthResponse,
+    PropertyListResponse,
+    PropertySummary,
+)
 
 app = FastAPI(
     title="VoiceAgent API",
-    version="0.1.0",
-    description="Local prototype. Property records are synthetic; bookings are not enabled.",
+    version="0.2.0",
+    description="Local prototype. Property data and booking flows are simulations only.",
 )
 
 @app.get("/healthz", response_model=HealthResponse, tags=["operations"])
@@ -26,3 +36,19 @@ def property_detail(property_id: str) -> PropertySummary:
     if item is None:
         raise HTTPException(status_code=404, detail="Property not found")
     return PropertySummary(**item)
+
+@app.get("/api/v1/demo/availability", response_model=AvailabilityResponse, tags=["demo booking"])
+def demo_availability(
+    property_id: str,
+    check_in: date,
+    check_out: date,
+    guests: int = Query(ge=1, le=12),
+) -> AvailabilityResponse:
+    """Return deterministic demo capacity, never live room availability."""
+    return AvailabilityResponse(**check_demo_availability(property_id, check_in, check_out, guests))
+
+@app.post("/api/v1/demo/booking-requests", response_model=BookingSimulationResponse, tags=["demo booking"])
+def demo_booking_request(payload: BookingSimulationRequest) -> BookingSimulationResponse:
+    """Record a local simulation request; never reserve or confirm a real room."""
+    result = create_demo_booking_request(payload.model_dump())
+    return BookingSimulationResponse(**result)
