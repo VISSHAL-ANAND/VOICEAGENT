@@ -51,13 +51,17 @@ Local development and mocked dependencies first. Production deployment, persiste
 
 ## Implemented local prototype checkpoint
 - `app/main.py` exposes health, synthetic property list/detail, demo availability, and demo booking-request endpoints.
-- `app/catalog.py` contains three fictional properties. The data is not connected to any property-management system.
+- `app/catalog.py` contains three fictional properties, each with two synthetic room types, maximum guest capacity, amenities, and sample INR nightly prices. These prices and room labels are demo fixtures only, not a quote, inventory count, or availability signal. The data is not connected to any property-management system.
 - `app/booking_simulator.py` applies fixed demo capacity limits and stores idempotency results in process memory, protected by a process-local lock so concurrent duplicate requests in this one process reuse the same result. Every request returns `simulated_not_reserved`; it does not create a reservation. It is still neither durable nor safe across multiple worker processes.
 - These components are scaffolding only. The real property API adapter and booking transaction boundary remain blocked on the external API contract. The in-memory simulation has only a process-local lock; it is not durable, does not coordinate across worker processes, and must not be used for production.
 
 - `app/handoff_simulator.py` models answered, busy, no-answer, and failed manager handoff outcomes. The endpoint always marks itself as demo-only and `real_transfer: false`. A real telephony adapter and active-call transfer are not implemented.
 
 - `app/config.py` validates `VOICEAGENT_MODE` and `LOG_LEVEL`, currently allowing only local-mock mode. Live mode is deliberately rejected until authoritative property API and telephony adapters exist.
+
+## Synthetic room-type fixture model
+- `app/schemas.py` defines `RoomTypeSummary` with a demo room type ID, display name, maximum guest count, amenities, sample nightly INR price, and a strict `demo_only=True` marker.
+- Property list/detail responses include the room type records. These fixtures enable deterministic prototype work but must never be used as live inventory, a binding quote, or a promise of availability. Availability remains a separate mock endpoint and is not room-type-specific yet.
 
 ## Provider-neutral contract layer
 - `app/contracts.py` defines internal stay-query, property-record, availability-result, booking-command, booking-result, and adapter protocol shapes.
