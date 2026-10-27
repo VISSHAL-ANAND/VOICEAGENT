@@ -142,3 +142,9 @@ Keep this log concise. Record decisions that affect project direction, verified 
 - Added optional room selection to the simulated booking-request flow, including property-scoped validation and maximum guest-count checks. The outcome always remains `simulated_not_reserved`.
 - Room selection is part of the idempotency payload; invalid room selections do not reserve the key, and changing the room while reusing a key returns 409.
 - Tightened availability response schema consistency and added seven more regression tests. GitHub Actions run #198 on commit `40daa12ba8975b8c575441b3d2775166a8187042` passed all 62 tests; one upstream Starlette/httpx TestClient deprecation warning remains.
+
+## Stay-detail consistency and strict input validation — 2026-10-28
+- Added a separate constrained `capacity_status` and tests ensuring the simulated response preserves property, dates, guest count, and room selection without implying reservation.
+- Booking and handoff request schemas reject unknown JSON fields; whitespace-only idempotency keys are rejected after whitespace normalization.
+- GitHub Actions run #216 on commit `3042e590ed8c63a7b503be872a90022d4ded341c` passed all 66 tests. One upstream Starlette/httpx TestClient deprecation warning remains.
+- An intermediate CI run failed because the response field was committed before the simulator populated it; the simulator was corrected and the subsequent run passed.
