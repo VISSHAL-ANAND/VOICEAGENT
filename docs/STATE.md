@@ -31,5 +31,9 @@ Python + FastAPI; Tamil, Hindi, English, Kannada, Telugu; inbound virtual number
 ## Conversation audit cadence
 Update affected Markdown after each project work unit. On the fourth user prompt in a cycle, audit every Markdown file against repository evidence, correct discrepancies, and verify the final tree. Full audit completed on 2026-10-27 for all 12 Markdown files: `AGENTS.md`, `README.md`, `SOUL.md`, `docs/PROJECT.md`, `docs/ARCHITECTURE.md`, `docs/STATE.md`, `docs/TASKS.md`, `docs/DECISIONS.md`, `docs/SECURITY.md`, `docs/TESTING.md`, `docs/CHANGELOG.md`, and `docs/INTERACTION_LOG.md`. Corrected stale architecture/testing/CI status. Cadence reset to 0/4 after this audit; cross-session counting may be imperfect.
 
+## Latest work in progress
+- Added a process-local lock around the demo idempotency check/insert and a concurrency test issuing 40 same-key requests across 12 threads. GitHub Actions verification for these changes is pending; do not count the new test as passing until CI finishes.
+- This does not solve durability or multi-process idempotency; production correctness requires support from the authoritative booking API/database.
+
 ## Next action
-Finish booking edge-case tests for price changes, concurrency, and uncertain outcomes; research voice and telephony options without activating paid services. The internal contract tests are verified by CI run #59. Obtain the other developer's API contract before implementing real reservations.
+Verify the concurrency test in CI. Then continue tests for uncertain outcomes and clearly document that price-change behavior cannot be implemented faithfully until the authoritative quote/price contract is available. Research voice/telephony options without activating paid services; ask the user before any consequential provider, privacy, budget, or architecture choice.
