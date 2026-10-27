@@ -27,6 +27,7 @@ Requires Python 3.11 or newer.
 python -m venv .venv
 source .venv/bin/activate
 python -m pip install -r requirements.txt
+cp .env.example .env
 uvicorn app.main:app --reload
 ```
 
