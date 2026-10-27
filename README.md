@@ -2,7 +2,7 @@
 
 VoiceAgent is being built as a phone-based AI receptionist for a company managing multiple homestays/hotels. The target product will answer guest calls, use verified property information, check availability and prices, create reservations through the existing management application, and transfer callers to a manager when requested.
 
-**Current status:** Early scaffold only. A minimal FastAPI app and `/healthz` endpoint have been committed. Property API, booking workflow, automated application tests, voice, telephony, live manager transfer, and deployment are not yet verified. Do not use this prototype for real guest calls.
+**Current status:** Early scaffold. FastAPI health and synthetic property list/detail endpoints, typed response models, five-language demo metadata, and pytest tests are committed. The tests have not yet been observed passing in CI. Real property API, availability/booking workflow, voice, telephony, live manager transfer, and deployment are not implemented. Do not use this prototype for real guest calls.
 
 ## Product goals
 - Voice conversations in Tamil, Hindi, English, Kannada, and Telugu.
