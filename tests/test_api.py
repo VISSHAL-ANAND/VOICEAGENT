@@ -102,3 +102,40 @@ def test_property_detail_unknown_id_returns_404() -> None:
 
     assert response.status_code == 404
     assert response.json() == {"detail": "Property not found"}
+
+
+def test_availability_response_rejects_partial_room_metadata() -> None:
+    import pytest
+    from pydantic import ValidationError
+
+    from app.schemas import AvailabilityResponse
+
+    with pytest.raises(ValidationError, match="must be provided together"):
+        AvailabilityResponse(
+            property_id="demo-coimbatore-001",
+            check_in="2026-11-10",
+            check_out="2026-11-12",
+            guests=2,
+            status="simulated_room_capacity_suitable",
+            room_type_id="demo-coimbatore-standard",
+            demo_only=True,
+            notice="SIMULATION ONLY",
+        )
+
+
+def test_availability_response_rejects_room_status_without_room_metadata() -> None:
+    import pytest
+    from pydantic import ValidationError
+
+    from app.schemas import AvailabilityResponse
+
+    with pytest.raises(ValidationError, match="requires room metadata"):
+        AvailabilityResponse(
+            property_id="demo-coimbatore-001",
+            check_in="2026-11-10",
+            check_out="2026-11-12",
+            guests=2,
+            status="simulated_room_capacity_suitable",
+            demo_only=True,
+            notice="SIMULATION ONLY",
+        )
