@@ -2,7 +2,7 @@
 
 VoiceAgent is being built as a phone-based AI receptionist for a company managing multiple homestays/hotels. The target product will answer guest calls, use verified property information, check availability and prices, create reservations through the existing management application, and transfer callers to a manager when requested.
 
-**Current status:** Early scaffold. FastAPI health and synthetic property list/detail endpoints, typed response models, five-language demo metadata, and pytest tests are committed. The tests have not yet been observed passing in CI. Real property API, availability/booking workflow, voice, telephony, live manager transfer, and deployment are not implemented. Do not use this prototype for real guest calls.
+**Current status:** Local prototype with passing GitHub Actions tests. FastAPI health/property endpoints and simulation-only availability/booking-request endpoints are committed. The demo booking flow never reserves or confirms a real room. Real property API, live availability/booking, voice, telephony, live manager transfer, and deployment are not implemented. Do not use this prototype for real guest calls.
 
 ## Product goals
 - Voice conversations in Tamil, Hindi, English, Kannada, and Telugu.
@@ -30,7 +30,12 @@ python -m pip install -r requirements.txt
 uvicorn app.main:app --reload
 ```
 
-Open `http://127.0.0.1:8000/healthz` for the health response and `http://127.0.0.1:8000/docs` for the FastAPI API explorer. These commands are documented but have not been executed by the assistant in a runtime environment.
+Open `http://127.0.0.1:8000/healthz` for the health response and `http://127.0.0.1:8000/docs` for the FastAPI API explorer. The automated test workflow has passed in GitHub Actions; the assistant has not deployed this application to a public server.
+
+## Local demo booking endpoints
+- `GET /api/v1/demo/availability?property_id=demo-coimbatore-001&check_in=2026-11-10&check_out=2026-11-12&guests=2` returns fictional capacity data.
+- `POST /api/v1/demo/booking-requests` accepts property/date/guest details and an idempotency key. It returns `simulated_not_reserved` even when the fictional capacity rule says available.
+- All demo availability and booking responses are explicitly marked as simulation-only. These endpoints must never be presented to guests as real availability or a confirmed reservation.
 
 ## Requirements before real integration
 Obtain from the other developer:
