@@ -4,10 +4,9 @@
 - Repository: `VISSHAL-ANAND/VOICEAGENT`
 - Default branch: `main`
 - Repository was empty before this setup.
-- Initial documentation baseline has now been written and verified in the GitHub tree.
-- Verified files: `AGENTS.md`, `README.md`, and nine documents under `docs/`: `ARCHITECTURE.md`, `CHANGELOG.md`, `DECISIONS.md`, `INTERACTION_LOG.md`, `PROJECT.md`, `SECURITY.md`, `STATE.md`, `TASKS.md`, and `TESTING.md`.
-- The GitHub recursive tree response reported `truncated=false` and contained all eleven files.
-- Latest verified tree commit before this checkpoint update: `7faa11526f2889332b3005f6691fb5b429ddca83`.
+- Initial documentation baseline has been created and read back from GitHub.
+- The current baseline includes `AGENTS.md`, `SOUL.md`, `README.md`, and nine `docs/*.md` files: `ARCHITECTURE.md`, `CHANGELOG.md`, `DECISIONS.md`, `INTERACTION_LOG.md`, `PROJECT.md`, `SECURITY.md`, `STATE.md`, `TASKS.md`, and `TESTING.md`.
+- Before adding `SOUL.md`, the recursive Git tree verified the original eleven files with `truncated=false`. The SOUL file was then created successfully; a final recursive-tree verification is still required to confirm the full twelve-file set.
 - No application code, automated tests, real property API integration, voice integration, phone number, or deployment has been verified.
 
 ## Confirmed requirements
@@ -18,6 +17,7 @@
 - The AI should create confirmed bookings through the authoritative application.
 - Guest requests for the manager should trigger active-call transfer where supported.
 - ₹0 initial development using local development and mocked services; no paid service without approval.
+- `SOUL.md` defines intended receptionist identity and conversational boundaries; backend code must enforce security and booking rules independently.
 
 ## Blockers
 1. The other developer's API documentation and sanitized sample response are not yet available.
@@ -26,7 +26,7 @@
 4. Recording, transcript retention, and production compliance decisions remain open.
 
 ## Next action
-Create the minimal FastAPI project scaffold and tests using synthetic fixtures and mock adapters. Do not require external credentials or assume an external API schema.
+Finish verifying the Markdown baseline, then create the minimal FastAPI scaffold and tests using synthetic fixtures and mock adapters. Do not require external credentials or assume an external API schema.
 
 ## Evidence rule
 Update this file after verified changes. Distinguish planned work from completed work, and include executed checks and their actual results.
