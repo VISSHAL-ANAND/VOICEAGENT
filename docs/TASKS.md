@@ -12,11 +12,11 @@ Statuses: **TODO**, **BLOCKED**, **IN PROGRESS**, **DONE**. Mark a task DONE onl
 
 ## P1 — Local backend
 - [x] **T-010: Scaffold FastAPI application** — health endpoint, validated local-only configuration, typed schemas, safe 404 handling, and local setup instructions are committed.
-  - Evidence: GitHub Actions run #50 passed dependency installation and all 26 pytest tests. One upstream TestClient/httpx deprecation warning remains.
+  - Evidence: GitHub Actions run #59 passed dependency installation and all 31 pytest tests. One upstream TestClient/httpx deprecation warning remains.
 - [x] **T-011: Add synthetic multi-property fixtures** — three fictional properties, typed schemas, and property list/detail endpoints are committed.
-  - Evidence: GitHub Actions run #39 passed, including tests for demo-only records, city filtering, detail lookup, and unknown-property 404.
-- [ ] **T-012: Define internal property/booking contracts** — IN PROGRESS. Added provider-neutral models and `PropertyManagementPort` in `app/contracts.py`; these are internal shapes, not the external API schema.
-  - Acceptance: contract tests pass in CI; external schema remains explicitly unknown until documentation is supplied.
+  - Evidence: GitHub Actions run #59 passed, including tests for demo-only records, city filtering, detail lookup, and unknown-property 404.
+- [x] **T-012: Define internal property/booking contracts** — provider-neutral models and `PropertyManagementPort` exist in `app/contracts.py`; they are internal shapes, not the external API schema.
+  - Evidence: GitHub Actions run #59 passed contract tests for date validation, guest confirmation, and authoritative booking-result invariants. External schema remains unknown until documentation is supplied.
 - [ ] **T-013: Implement booking workflow with mocks** — IN PROGRESS. Added deterministic demo-capacity checks and an idempotent request simulation. It always returns `simulated_not_reserved` and never claims a real booking.
   - Remaining acceptance: price-change, concurrency, and uncertain-outcome cases; ensure this simulation is kept separate from the eventual authoritative API adapter. Latest CI run #39 passed the current simulation tests.
 - [x] **T-014: Implement simulated manager handoff** — simulation supports answered, busy, no-answer, and failure outcomes; responses explicitly say no real call was transferred.
