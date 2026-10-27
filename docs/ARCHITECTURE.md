@@ -53,7 +53,7 @@ Local development and mocked dependencies first. Production deployment, persiste
 - `app/main.py` exposes health, synthetic property list/detail, demo availability, and demo booking-request endpoints.
 - `app/catalog.py` contains three fictional properties. The data is not connected to any property-management system.
 - `app/booking_simulator.py` applies fixed demo capacity limits and stores idempotency results in process memory, protected by a process-local lock so concurrent duplicate requests in this one process reuse the same result. Every request returns `simulated_not_reserved`; it does not create a reservation. It is still neither durable nor safe across multiple worker processes.
-- These components are scaffolding only. The real property API adapter and booking transaction boundary remain blocked on the external API contract. The in-memory simulation is not concurrency-safe or durable and must not be used for production.
+- These components are scaffolding only. The real property API adapter and booking transaction boundary remain blocked on the external API contract. The in-memory simulation has only a process-local lock; it is not durable, does not coordinate across worker processes, and must not be used for production.
 
 - `app/handoff_simulator.py` models answered, busy, no-answer, and failed manager handoff outcomes. The endpoint always marks itself as demo-only and `real_transfer: false`. A real telephony adapter and active-call transfer are not implemented.
 
