@@ -12,7 +12,7 @@
   - `POST /api/v1/demo/manager-handoff` — simulated answered/busy/no-answer/failure outcomes only
 - Demo booking requests always return `simulated_not_reserved`; no real room is held, booked, or confirmed.
 - Automated tests cover health, property listing/filtering/detail/404, demo availability, explicit non-reservation, idempotency, conflicting idempotency-key reuse, capacity failure, invalid date order, unknown-property availability, guest/date validation, retry after a rejected unknown-property request, booking-result invariants, and manager handoff outcomes.
-- GitHub Actions workflow `.github/workflows/tests.yml` is active. Latest previously verified run #105 for commit `c6b21a3b351a261c778fa0e71a765f053ebf4102` completed successfully with 34 tests; new booking edge-case tests are committed and their CI verification is pending. One upstream deprecation warning remains in Starlette's TestClient integration with httpx.
+- GitHub Actions workflow `.github/workflows/tests.yml` is active. GitHub Actions run #107 for commit `7f29bfd41c61cf793f625794a4c6932ac24e30e0` completed successfully: 36 tests passed, including the new booking edge-case tests, with one Starlette/httpx deprecation warning. One upstream deprecation warning remains in Starlette's TestClient integration with httpx.
 - This is still a local prototype. No real property API, live availability, actual booking, voice integration, phone number, manager transfer, or deployment is implemented or verified.
 
 ## Confirmed requirements
@@ -32,7 +32,7 @@ Python + FastAPI; Tamil, Hindi, English, Kannada, Telugu; inbound virtual number
 Update affected Markdown after each project work unit. On the fourth user prompt in a cycle, audit every Markdown file against repository evidence, correct discrepancies, and verify the final tree. Full audit completed on 2026-10-27 for all 12 Markdown files: `AGENTS.md`, `README.md`, `SOUL.md`, `docs/PROJECT.md`, `docs/ARCHITECTURE.md`, `docs/STATE.md`, `docs/TASKS.md`, `docs/DECISIONS.md`, `docs/SECURITY.md`, `docs/TESTING.md`, `docs/CHANGELOG.md`, and `docs/INTERACTION_LOG.md`. Corrected stale architecture/testing/CI status. Cadence reset to 0/4 after this audit; cross-session counting may be imperfect.
 
 ## Latest work in progress
-- Added a process-local lock around the demo idempotency check/insert and a concurrency test issuing 40 same-key requests across 12 threads. The current work adds a regression proving a rejected unknown-property request does not reserve/poison its idempotency key, plus a contract test proving even an authoritative `confirmed` result must include a booking reference. CI verification for these new tests is pending.
+- Added a process-local lock around the demo idempotency check/insert and a concurrency test issuing 40 same-key requests across 12 threads. The current work adds a regression proving a rejected unknown-property request does not reserve/poison its idempotency key, plus a contract test proving even an authoritative `confirmed` result must include a booking reference. GitHub Actions run #107 passed all 36 tests.
 - This does not solve durability or multi-process idempotency; production correctness requires support from the authoritative booking API/database.
 
 ## Next action
