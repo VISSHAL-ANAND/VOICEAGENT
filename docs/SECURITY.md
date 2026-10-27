@@ -43,4 +43,6 @@ No security control should be marked complete until implementation and verificat
 ## Current prototype guardrails
 - `app/config.py` accepts only `VOICEAGENT_MODE=local-mock`; it rejects production/live modes because no authoritative API or telephony integration is configured.
 - `LOG_LEVEL` is validated against standard Python levels. The current app configures standard logging but does not log guest content, phone numbers, credentials, or booking payloads.
-- These checks are development guardrails, not a substitute for deployment secrets management, authentication, authorization, tenant isolation, rate limiting, or production review.
+- Booking and simulated handoff request schemas reject unexpected fields; required strings are whitespace-normalized before validation. Booking responses use a constrained status and carry the capacity result separately from the non-reservation status.
+- Regression tests verify unexpected booking fields and whitespace-only idempotency keys are rejected, and verify that selected room, dates, and guest count are preserved in the simulated result.
+- These checks are development guardrails, not a substitute for deployment secrets management, authentication, authorization, tenant isolation, rate limiting, request/body-size limits, CSRF protections where applicable, durable idempotency, or production review. The prototype must not be exposed as a public guest-facing service.
