@@ -41,3 +41,9 @@ Changes are recorded after they are actually made and verified.
 - Read all 12 Markdown files from `main` and checked them against the repository tree, application modules, tests, and GitHub Actions evidence.
 - Corrected stale architecture/testing status and updated the README, state, and task evidence to latest observed successful CI run #73 (`40749a317b993f6f7ad0dffac563439aacc9b352`): 31 tests passed, one Starlette/httpx deprecation warning.
 - Marked documentation inventory and completeness review tasks complete. No provider, schema, hosting, privacy, or paid-service decision was invented.
+
+
+## 2026-10-27 — Booking simulation concurrency hardening
+- Added a process-local lock around idempotency lookup, payload conflict validation, and request insertion.
+- Added a regression test for 40 concurrent requests with the same idempotency key across 12 threads.
+- The new test's CI result is pending. This is not durable or multi-process idempotency and does not replace authoritative booking-system controls.
