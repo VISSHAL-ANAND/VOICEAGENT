@@ -47,3 +47,6 @@ Changes are recorded after they are actually made and verified.
 - Added a process-local lock around idempotency lookup, payload conflict validation, and request insertion.
 - Added a regression test for 40 concurrent requests with the same idempotency key across 12 threads.
 - GitHub Actions run #82 passed all 32 tests, including the concurrency regression. This is not durable or multi-process idempotency and does not replace authoritative booking-system controls.
+
+
+- Added tests that unknown-property booking requests return 404 and short idempotency keys return 422. GitHub Actions run #95 passed all 34 tests.
