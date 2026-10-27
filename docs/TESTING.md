@@ -1,7 +1,7 @@
 # Testing and Verification Strategy
 
 ## Current status
-The local FastAPI prototype and its tests are verified by GitHub Actions. The latest verified code-test run is #107 on commit `7f29bfd41c61cf793f625794a4c6932ac24e30e0`: 36 tests passed with one Starlette/httpx deprecation warning. Two new idempotency regression tests are committed; GitHub Actions run #118 passed all 38 tests. Real API, voice, telephony, persistence, production concurrency across workers, and production behavior remain unverified. Never report tests as passing unless executed.
+The local FastAPI prototype and its tests are verified by GitHub Actions. The latest verified code-test run is #118 on commit `dbed4d974af3700541de4755b58826fb31e19621`: 38 tests passed with one Starlette/httpx deprecation warning. Real API, voice, telephony, persistence, production concurrency across workers, and production behavior remain unverified. Never report tests as passing unless executed.
 
 ## Test layers
 1. **Unit tests:** date/occupancy validation, pricing rules, booking state transitions, language/session state, redaction.
