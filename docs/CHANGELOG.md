@@ -18,3 +18,6 @@ Changes are recorded after they are actually made and verified.
 - Added deterministic demo-capacity checking and an idempotent in-memory booking-request simulation. Responses are always `simulated_not_reserved`; no real booking is made.
 - Added tests for simulation-only availability, non-reservation, idempotency, conflicting key reuse, capacity failure, and invalid date order.
 - GitHub Actions run #10 completed successfully on the booking-simulation test commit; pytest passed.
+
+- Expanded endpoint tests for property detail success/404, unknown-property availability, reversed availability dates, and invalid guest counts.
+- GitHub Actions run #19 passed all 16 pytest tests on the latest application/test commit.
