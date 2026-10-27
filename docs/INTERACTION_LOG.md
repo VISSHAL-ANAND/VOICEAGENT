@@ -31,3 +31,11 @@ Keep this log concise. Record decisions that affect project direction, verified 
 1. Verify the full Markdown tree and read back updated documentation.
 2. Begin the local FastAPI scaffold with tests and synthetic fixtures.
 3. Keep all external services mocked until contracts and approvals are available.
+
+
+## Backend scaffold checkpoint — 2026-10-27
+- Added `app/schemas.py`, repaired `app/catalog.py` with three fictional records, and implemented health/list/detail endpoints in `app/main.py`.
+- Added `tests/test_api.py` covering health, demo-only records, case-insensitive city filtering, unknown-property 404, and blank-city validation.
+- Added `.github/workflows/tests.yml` for pytest on main pushes, pull requests, and manual runs.
+- Verified repository tree after commits. GitHub Actions API currently reports zero workflow runs; no test success is claimed.
+- Next: inspect Actions configuration/status, verify tests through CI if possible, then build mock booking flow without pretending to access live availability.
