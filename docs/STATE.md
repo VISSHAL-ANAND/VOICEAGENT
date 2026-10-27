@@ -32,14 +32,15 @@ Python + FastAPI; Tamil, Hindi, English, Kannada, Telugu; inbound virtual number
 ## Conversation audit cadence
 Update affected Markdown after each project work unit. On the fourth user prompt in a cycle, audit every Markdown file against repository evidence, correct discrepancies, and verify the final tree. Full audit completed on 2026-10-27 for the then-existing 12 Markdown files. A new full audit was completed on 2026-10-28 for all 13 current Markdown files, including `docs/VOICE_PROVIDER_RESEARCH.md`; the recursive tree returned `truncated=false`. This audit reconciled current implementation/test evidence, voice-contract status, and stale test-count/status notes. Cadence reset to 0/4 after this audit; cross-session counting may be imperfect.
 
-## Latest work in progress
-- Added a process-local lock around the demo idempotency check/insert and a concurrency test issuing 40 same-key requests across 12 threads. The current work adds regressions proving rejected unknown-property and invalid-guest requests do not poison a later valid retry, conflicting key reuse does not mutate the original result, and a `confirmed` result requires an authoritative booking reference. GitHub Actions run #118 passed all 38 tests.
+## Booking simulation limits
+- The process-local lock and regression tests protect only the in-memory demo simulator. Run #118 passed the 38-test suite at that checkpoint; later run #135 passed 47 tests after voice-contract coverage was added.
 - This does not solve durability or multi-process idempotency; production correctness requires support from the authoritative booking API/database.
+- Audit finding: `docs/PROJECT.md` lists room-type support as a first-prototype acceptance criterion, but the current synthetic catalog contains property-level amenities only and does not model room types. This requirement is not yet met; do not infer room inventory from the current fixtures.
 
 ## Full Markdown audit — 2026-10-28
 - Read all 13 Markdown files currently present on `main`: `AGENTS.md`, `README.md`, `SOUL.md`, and the ten files under `docs/` including `VOICE_PROVIDER_RESEARCH.md`.
 - Verified the recursive Git tree returned `truncated=false`; the inventory includes `app/voice_contracts.py` and `tests/test_voice_contracts.py`.
-- Reconciled README, state, tasks, architecture, testing, changelog, and interaction notes against code and GitHub Actions run #135 (47 tests passed). No provider, paid service, external API schema, or privacy policy was selected.
+- Reconciled README, state, tasks, architecture, testing, changelog, and interaction notes against code and GitHub Actions run #135 (47 tests passed). Flagged room-type modeling as an unmet first-prototype acceptance criterion. No provider, paid service, external API schema, or privacy policy was selected.
 - Prompt cadence reset to 0/4.
 
 ## Next action
