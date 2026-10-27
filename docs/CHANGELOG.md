@@ -56,3 +56,8 @@ Changes are recorded after they are actually made and verified.
 - Added a regression test that an unknown-property request returns 404 without poisoning a later valid request using the same idempotency key.
 - Added a contract regression test that `status="confirmed"` is rejected when the booking reference is missing, even if `authoritative=True`.
 - GitHub Actions run #107 on commit `7f29bfd41c61cf793f625794a4c6932ac24e30e0` passed all 36 tests, including both new edge-case regressions. One Starlette/httpx deprecation warning remains.
+
+
+## 2026-10-28 — Provider research and booking regression coverage
+- Added `docs/VOICE_PROVIDER_RESEARCH.md` with a preliminary comparison based on official public information for Exotel AgentStream, Nia Voice, Vakyam AI, and Twilio. No vendor selected or service activated.
+- Added two booking simulation tests for invalid-request retry and preservation of the original result after a conflicting idempotency-key reuse. CI is pending for these tests.
