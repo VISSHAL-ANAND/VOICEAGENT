@@ -14,13 +14,13 @@ Statuses: **TODO**, **BLOCKED**, **IN PROGRESS**, **DONE**. Mark a task DONE onl
 - [x] **T-010: Scaffold FastAPI application** — health endpoint, validated local-only configuration, typed schemas, safe 404 handling, and local setup instructions are committed.
   - Evidence: GitHub Actions run #95 passed dependency installation and all 34 pytest tests. One upstream TestClient/httpx deprecation warning remains.
 - [x] **T-011: Add synthetic multi-property fixtures** — three fictional properties, typed schemas, and property list/detail endpoints are committed.
-  - Evidence: GitHub Actions run #59 passed, including tests for demo-only records, city filtering, detail lookup, and unknown-property 404.
+  - Evidence: GitHub Actions run #95 passed, including tests for demo-only records, city filtering, detail lookup, and unknown-property 404.
 - [x] **T-012: Define internal property/booking contracts** — provider-neutral models and `PropertyManagementPort` exist in `app/contracts.py`; they are internal shapes, not the external API schema.
-  - Evidence: GitHub Actions run #59 passed contract tests for date validation, guest confirmation, and authoritative booking-result invariants. External schema remains unknown until documentation is supplied.
+  - Evidence: GitHub Actions run #95 passed contract tests for date validation, guest confirmation, and authoritative booking-result invariants. External schema remains unknown until documentation is supplied.
 - [ ] **T-013: Implement booking workflow with mocks** — IN PROGRESS. Added deterministic demo-capacity checks and an idempotent request simulation. It always returns `simulated_not_reserved` and never claims a real booking.
-  - Remaining acceptance: price-change, concurrency, and uncertain-outcome cases; ensure this simulation is kept separate from the eventual authoritative API adapter. Latest CI run #59 passed the current simulation tests.
+  - Remaining acceptance: uncertain-outcome coverage and keeping this simulation separate from the eventual authoritative API adapter. GitHub Actions run #95 passed 34 tests, including process-local concurrency and invalid-input coverage. Price-change behavior needs the authoritative quote contract.
 - [x] **T-014: Implement simulated manager handoff** — simulation supports answered, busy, no-answer, and failure outcomes; responses explicitly say no real call was transferred.
-  - Evidence: GitHub Actions run #59 passed all 31 tests, including handoff outcome and invalid-input coverage. Real telephony transfer remains a separate production task.
+  - Evidence: GitHub Actions run #95 passed all 34 tests, including handoff outcome and invalid-input coverage. Real telephony transfer remains a separate production task.
 
 ## P1 — External contract discovery
 - [ ] **T-020: Obtain property API materials** — sanitized JSON sample, schema, endpoints, auth, availability freshness, reservation semantics, idempotency, errors, tenant scoping.
