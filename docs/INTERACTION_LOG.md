@@ -90,3 +90,7 @@ Keep this log concise. Record decisions that affect project direction, verified 
 - Added a test issuing 40 same-key requests across 12 threads and expecting one request ID. GitHub Actions run #82 passed all 32 tests, including this regression.
 - Limitations remain explicit: in-memory state resets on restart and is not coordinated across multiple processes. Real booking integrity depends on authoritative API/database idempotency and transaction behavior.
 - No price-change policy was invented because current mock data has no price/quote model and the external contract is unknown.
+
+
+- Added API-level tests for unknown-property booking requests (404) and too-short idempotency keys (422). GitHub Actions run #95 on commit `dbb5b20f5d6c9dae79dfaf72ce78fe2a2cade84e` passed all 34 tests.
+- The process-local concurrency guard is tested but remains a prototype-only measure; no database durability or cross-worker guarantees are claimed.
