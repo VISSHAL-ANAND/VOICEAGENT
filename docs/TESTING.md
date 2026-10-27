@@ -45,5 +45,7 @@ For each meaningful change, record the exact commands executed, pass/fail outcom
 - Synthetic property list, demo-only marker, case-insensitive city filter, unknown-property 404, and invalid blank city.
 - Demo availability explicitly labels itself as not live inventory.
 - Demo booking requests never claim reservation, repeat idempotency keys return the same simulation ID, conflicting payloads with the same key return 409, over-capacity requests remain unreserved, and invalid date order returns 422.
-- GitHub Actions run #19 passed dependency installation and all 16 pytest tests on commit `c973ad74d73c90c15fc301f6949c9ccfcfc048d3`.
+- GitHub Actions run #29 passed dependency installation and all 22 pytest tests on commit `d4789b132f59d4f7e01bcdca03999c5e5fc68fa5`.
+- Handoff tests cover answered, busy, no-answer, failure, and invalid outcomes while asserting that no real transfer is claimed.
+- CI reports one upstream Starlette/httpx TestClient deprecation warning.
 - The tests validate only the local simulation. They do not validate a real booking API, database durability, concurrency, voice quality, telephony, or production deployment.
