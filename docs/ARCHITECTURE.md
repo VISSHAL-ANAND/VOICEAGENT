@@ -58,3 +58,9 @@ Local development and mocked dependencies first. Production deployment, persiste
 - `app/handoff_simulator.py` models answered, busy, no-answer, and failed manager handoff outcomes. The endpoint always marks itself as demo-only and `real_transfer: false`. A real telephony adapter and active-call transfer are not implemented.
 
 - `app/config.py` validates `VOICEAGENT_MODE` and `LOG_LEVEL`, currently allowing only local-mock mode. Live mode is deliberately rejected until authoritative property API and telephony adapters exist.
+
+## Provider-neutral contract layer
+- `app/contracts.py` defines internal stay-query, property-record, availability-result, booking-command, booking-result, and adapter protocol shapes.
+- These are VoiceAgent's internal contracts only. They do not claim to describe the other developer's external JSON/API schema.
+- The booking command requires explicit guest confirmation; a result cannot be marked `confirmed` unless it is authoritative and includes a booking reference.
+- The concrete external adapter remains blocked on verified API documentation and authentication/booking semantics.
