@@ -89,7 +89,13 @@ For each meaningful change, record the exact commands executed, pass/fail outcom
 - These tests validate fixture shape only. They do not prove room-specific availability, current pricing, or booking behavior.
 
 
-## Synthetic room-type fixture tests — CI pending
-- Every property response should include room options with a non-empty ID/name, maximum guest count in the supported range, amenities, non-negative sample nightly price, and `demo_only=True`.
-- Property detail tests verify expected demo room options; unknown property lookup must still return 404.
+## Synthetic room-type fixture tests — passed in CI run #156 (49 tests total)
+- Every property response includes room options with a non-empty ID/name, maximum guest count in the supported range, amenities, non-negative sample nightly price, and `demo_only=True`.
+- Property detail tests verify expected demo room options; unknown property lookup returns 404.
 - These tests validate fixture shape only. They do not prove room-specific availability, current pricing, or booking behavior.
+
+## Room-specific demo capacity checks — CI verification pending
+- A selected room type must belong to the requested property; unknown or cross-property room IDs return 404.
+- Guests at/below the selected room's maximum capacity return `simulated_room_capacity_suitable`; larger groups return `simulated_room_capacity_exceeded`.
+- Blank `room_type_id` is rejected; omitting it preserves the existing property-level response shape and status behavior.
+- Every selected-room response carries the room identity/capacity and a warning that this is only a synthetic capacity check—not date-based inventory, price, or availability.
