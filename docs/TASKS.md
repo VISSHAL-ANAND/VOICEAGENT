@@ -17,7 +17,7 @@ Statuses: **TODO**, **BLOCKED**, **IN PROGRESS**, **DONE**. Mark a task DONE onl
   - Evidence: GitHub Actions run #105 passed, including tests for demo-only records, city filtering, detail lookup, and unknown-property 404.
 - [x] **T-012: Define internal property/booking contracts** — provider-neutral models and `PropertyManagementPort` exist in `app/contracts.py`; they are internal shapes, not the external API schema.
   - Evidence: GitHub Actions run #107 passed contract tests for date validation, guest confirmation, and authoritative booking-result invariants, including an authoritative `confirmed` result missing its reference. External schema remains unknown until documentation is supplied.
-- [x] **T-015: Model synthetic room types** — implemented in `app/catalog.py` and `app/schemas.py`; CI verification pending.
+- [x] **T-015: Model synthetic room types** — implemented in `app/catalog.py` and `app/schemas.py`; GitHub Actions run #156 passed all 49 tests.
   - Evidence: three fictional properties each expose two typed demo room types with capacity, amenities, sample INR nightly price, and `demo_only=True`. API tests cover room records, demo labels, and property detail behavior. This does not implement room-specific live availability or authoritative pricing.
 
 - [ ] **T-013: Implement booking workflow with mocks** — IN PROGRESS. Added deterministic demo-capacity checks and an idempotent request simulation. It always returns `simulated_not_reserved` and never claims a real booking.
