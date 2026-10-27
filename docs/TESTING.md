@@ -1,7 +1,7 @@
 # Testing and Verification Strategy
 
 ## Current status
-The local FastAPI prototype and its tests are verified by GitHub Actions. The latest code-test run is #82 on commit `1e197c9772720ebe7d492ccf0d5fc143b987799d`: 32 tests passed with one Starlette/httpx deprecation warning. Real API, voice, telephony, persistence, concurrency, and production behavior remain unverified. Never report tests as passing unless executed.
+The local FastAPI prototype and its tests are verified by GitHub Actions. The latest code-test run is #95 on commit `dbb5b20f5d6c9dae79dfaf72ce78fe2a2cade84e`: 34 tests passed with one Starlette/httpx deprecation warning. Real API, voice, telephony, persistence, concurrency, and production behavior remain unverified. Never report tests as passing unless executed.
 
 ## Test layers
 1. **Unit tests:** date/occupancy validation, pricing rules, booking state transitions, language/session state, redaction.
@@ -45,7 +45,7 @@ For each meaningful change, record the exact commands executed, pass/fail outcom
 - Synthetic property list, demo-only marker, case-insensitive city filter, unknown-property 404, and invalid blank city.
 - Demo availability explicitly labels itself as not live inventory.
 - Demo booking requests never claim reservation, repeat idempotency keys return the same simulation ID, conflicting payloads with the same key return 409, over-capacity requests remain unreserved, and invalid date order returns 422.
-- GitHub Actions run #82 passed dependency installation and all 32 pytest tests on commit `1e197c9772720ebe7d492ccf0d5fc143b987799d`.
+- GitHub Actions run #95 passed dependency installation and all 34 pytest tests on commit `dbb5b20f5d6c9dae79dfaf72ce78fe2a2cade84e`.
 - Handoff tests cover answered, busy, no-answer, failure, and invalid outcomes while asserting that no real transfer is claimed.
 - Configuration tests verify local-mock defaults, log-level normalization, and rejection of production mode or invalid log levels.
 - CI reports one upstream Starlette/httpx TestClient deprecation warning.
@@ -63,3 +63,9 @@ For each meaningful change, record the exact commands executed, pass/fail outcom
 - Added a direct concurrent-call test: 40 same-idempotency-key requests across 12 threads must all receive the same simulated request ID.
 - The implementation uses a process-local lock only. This test does not prove multi-process safety, durable idempotency, database transaction correctness, or real booking behavior.
 - CI for this new test is pending at the time of this note.
+
+
+## Additional booking validation coverage
+- Booking requests for unknown properties return 404 without recording a request.
+- Idempotency keys shorter than the schema's minimum length are rejected with 422.
+- Both cases passed in GitHub Actions run #95.
