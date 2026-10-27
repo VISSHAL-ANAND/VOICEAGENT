@@ -32,8 +32,8 @@ Python + FastAPI; Tamil, Hindi, English, Kannada, Telugu; inbound virtual number
 Update affected Markdown after each project work unit. On the fourth user prompt in a cycle, audit every Markdown file against repository evidence, correct discrepancies, and verify the final tree. Full audit completed on 2026-10-27 for all 12 Markdown files: `AGENTS.md`, `README.md`, `SOUL.md`, `docs/PROJECT.md`, `docs/ARCHITECTURE.md`, `docs/STATE.md`, `docs/TASKS.md`, `docs/DECISIONS.md`, `docs/SECURITY.md`, `docs/TESTING.md`, `docs/CHANGELOG.md`, and `docs/INTERACTION_LOG.md`. Corrected stale architecture/testing/CI status. Cadence reset to 0/4 after this audit; cross-session counting may be imperfect.
 
 ## Latest work in progress
-- Added a process-local lock around the demo idempotency check/insert and a concurrency test issuing 40 same-key requests across 12 threads. GitHub Actions run #82 passed all 32 tests, including the new concurrency test.
+- Added a process-local lock around the demo idempotency check/insert and a concurrency test issuing 40 same-key requests across 12 threads. GitHub Actions run #95 on commit `dbb5b20f5d6c9dae79dfaf72ce78fe2a2cade84e` passed all 34 tests, including the concurrency test and new invalid-input tests.
 - This does not solve durability or multi-process idempotency; production correctness requires support from the authoritative booking API/database.
 
 ## Next action
-Continue tests for uncertain outcomes and clearly document that price-change behavior cannot be implemented faithfully until the authoritative quote/price contract is available. Research voice/telephony options without activating paid services; ask the user before any consequential provider, privacy, budget, or architecture choice.
+Continue tests for uncertain outcomes and review the API error/idempotency behavior. Price-change behavior cannot be implemented faithfully until the authoritative quote/price contract is available. Research voice/telephony options without activating paid services; ask the user before any consequential provider, privacy, budget, or architecture choice.
