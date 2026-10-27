@@ -12,7 +12,7 @@ Statuses: **TODO**, **BLOCKED**, **IN PROGRESS**, **DONE**. Mark a task DONE onl
 
 ## P1 — Local backend
 - [x] **T-010: Scaffold FastAPI application** — health endpoint, validated local-only configuration, typed schemas, safe 404 handling, and local setup instructions are committed.
-  - Evidence: GitHub Actions run #82 passed dependency installation and all 32 pytest tests. One upstream TestClient/httpx deprecation warning remains.
+  - Evidence: GitHub Actions run #95 passed dependency installation and all 34 pytest tests. One upstream TestClient/httpx deprecation warning remains.
 - [x] **T-011: Add synthetic multi-property fixtures** — three fictional properties, typed schemas, and property list/detail endpoints are committed.
   - Evidence: GitHub Actions run #59 passed, including tests for demo-only records, city filtering, detail lookup, and unknown-property 404.
 - [x] **T-012: Define internal property/booking contracts** — provider-neutral models and `PropertyManagementPort` exist in `app/contracts.py`; they are internal shapes, not the external API schema.
