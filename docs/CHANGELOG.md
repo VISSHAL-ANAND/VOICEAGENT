@@ -132,3 +132,9 @@ Changes are recorded after they are actually made and verified.
 - Added `render.yaml` for a Singapore-region Free web service, `/healthz` health check, disabled auto-deploy, remote bearer-token mode, and a `sync: false` secret prompt.
 - The connected direct service-creation action was blocked by safety checks. No service or public URL was created; the Blueprint must be created from the Render Dashboard and the token entered privately.
 - Full Markdown audit completed across all 13 Markdown files; recursive tree returned `truncated=false`. Corrected stale test-count and remote-hosting status. Latest verified application CI remains run #282 (87 passed).
+
+
+## 2026-10-28 — Render Free mock deployment
+- User deployed `voiceagent-remote-demo` from `VISSHAL-ANAND/VOICEAGENT` on Render Free in Singapore.
+- Render reports build/deploy succeeded and application startup completed. Logs show unauthenticated `GET /` returns 401.
+- Follow-up verification found actual service settings differ from intended Blueprint: health-check path is blank and auto-deploy is enabled. Dashboard correction and health/authenticated-route checks remain pending.
