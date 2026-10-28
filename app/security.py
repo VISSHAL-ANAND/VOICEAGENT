@@ -1,6 +1,9 @@
 """Small ASGI security middleware for bounded request bodies."""
 
 import json
+import threading
+import time
+from collections import deque
 from typing import Any
 
 
@@ -73,3 +76,44 @@ class RequestBodyLimitMiddleware:
             "body": payload,
             "more_body": False,
         })
+
+
+
+class InMemoryRateLimiter:
+    """Process-local sliding-window limiter; use an edge proxy for public deployments."""
+
+    def __init__(self, window_seconds: int = 60, max_clients: int = 10_000) -> None:
+        self.window_seconds = window_seconds
+        self.max_clients = max_clients
+        self._events: dict[str, deque[float]] = {}
+        self._lock = threading.Lock()
+
+    def check(self, client_key: str, limit: int) -> int | None:
+        """Return retry-after seconds when blocked, otherwise None."""
+        now = time.monotonic()
+        cutoff = now - self.window_seconds
+        with self._lock:
+            for key in list(self._events):
+                events = self._events[key]
+                while events and events[0] <= cutoff:
+                    events.popleft()
+                if not events:
+                    del self._events[key]
+
+            events = self._events.get(client_key)
+            if events is None:
+                if len(self._events) >= self.max_clients:
+                    return self.window_seconds
+                events = deque()
+                self._events[client_key] = events
+
+            if len(events) >= limit:
+                return max(1, int(events[0] + self.window_seconds - now + 0.999))
+
+            events.append(now)
+            return None
+
+    def reset(self) -> None:
+        """Clear limiter state; intended for deterministic tests and controlled restarts."""
+        with self._lock:
+            self._events.clear()
