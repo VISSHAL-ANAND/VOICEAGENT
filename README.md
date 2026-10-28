@@ -41,6 +41,11 @@ The app now supports an explicit `VOICEAGENT_EXPOSURE=remote` setting. Remote mo
 
 This is only an initial access-control layer. It is not enough to declare the app safe for internet exposure: HTTPS/TLS, request-size limits, rate limiting, monitoring, deployment configuration review, and a production security review remain outstanding. The app is still mock-only. Do not expose it publicly until the deployment is configured with remote mode and the remaining controls are reviewed. No deployment has been performed.
 
+### Remote demo access — protected, not yet deployed
+The app now supports an explicit `VOICEAGENT_EXPOSURE=remote` setting. Remote mode refuses to start unless `VOICEAGENT_API_TOKEN` is configured with at least 32 characters, requires `Authorization: Bearer <token>` for API routes except `/healthz`, and disables the interactive docs/OpenAPI routes when the app starts in remote mode. Use a randomly generated token stored only in the hosting platform's secret settings; never commit it or put it in screenshots/logs. For example, generate a token with `python -c 'import secrets; print(secrets.token_urlsafe(48))'` in a trusted environment.
+
+This is only an initial access-control layer. It is not enough to declare the app safe for internet exposure: HTTPS/TLS, request-size limits, rate limiting, monitoring, deployment configuration review, and a production security review remain outstanding. The app is still mock-only. Do not expose it publicly until the deployment is configured with remote mode and the remaining controls are reviewed. No deployment has been performed.
+
 ## Local demo booking endpoints
 - `GET /api/v1/demo/availability?property_id=demo-coimbatore-001&check_in=2026-11-10&check_out=2026-11-12&guests=2` returns fictional property-level capacity data. Add `room_type_id=demo-coimbatore-standard` to check the selected room type's guest-capacity limit only; it does not check dates against inventory.
 - With `room_type_id`, the endpoint returns `simulated_room_capacity_suitable` or `simulated_room_capacity_exceeded`, validates that the room belongs to the requested property, and includes the selected room's demo capacity. Without it, the legacy property-level status remains unchanged.
