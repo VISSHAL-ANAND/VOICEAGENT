@@ -1,7 +1,7 @@
 # Architecture — Initial Design
 
 ## Status
-The repository contains a CI-tested local FastAPI prototype. Synthetic property data, demo availability/booking requests, and manager handoff are implemented; they are explicitly simulations. The authoritative property API, voice model, telephony, persistence, and deployment remain unimplemented. Revise the production design only when verified API/provider evidence and user-approved decisions are available.
+The repository contains a CI-tested mock-only FastAPI prototype. Synthetic property data, demo availability/booking requests, and manager handoff are explicitly simulations. The user approved a limited Render Free remote test deployment; `render.yaml` defines its intended configuration, but no service has been created or deployed. The authoritative property API, voice model, telephony, and production persistence remain unimplemented.
 
 ## Components
 1. **Telephony adapter** — receives inbound call events, streams audio if supported, and performs live transfers.
@@ -57,11 +57,11 @@ Local development and mocked dependencies first. Production deployment, persiste
 
 - `app/handoff_simulator.py` models answered, busy, no-answer, and failed manager handoff outcomes. The endpoint always marks itself as demo-only and `real_transfer: false`. A real telephony adapter and active-call transfer are not implemented.
 
-- `app/config.py` validates `VOICEAGENT_MODE` and `LOG_LEVEL`, currently allowing only local-mock mode. It also validates `VOICEAGENT_EXPOSURE`; remote exposure requires a long non-placeholder API token. Live mode is deliberately rejected until authoritative property API and telephony adapters exist.
+- `app/config.py` validates `VOICEAGENT_MODE` and `LOG_LEVEL`, allows only `local-mock`, and validates `VOICEAGENT_EXPOSURE`; remote exposure requires a long non-placeholder API token. Live mode is deliberately rejected until authoritative property API and telephony adapters exist.
 
 ## Synthetic room-type fixture model
 - `app/schemas.py` defines `RoomTypeSummary` with a demo room type ID, display name, maximum guest count, amenities, sample nightly INR price, and a strict `demo_only=True` marker.
-- Property list/detail responses include the room type records. These fixtures enable deterministic prototype work but must never be used as live inventory, a binding quote, or a promise of availability. Availability remains a separate mock endpoint and is not room-type-specific yet.
+- Property list/detail responses include room records. Room-specific demo availability checks guest capacity only; they do not query dates against live inventory or return an authoritative price.
 
 ## Provider-neutral contract layer
 - `app/contracts.py` defines internal stay-query, property-record, availability-result, booking-command, booking-result, and adapter protocol shapes.
@@ -82,13 +82,8 @@ The optional `room_type_id` on `GET /api/v1/demo/availability` resolves only wit
 The demo booking-request endpoint also accepts an optional room ID. It validates the room through the same property-scoped fixture lookup and checks its guest capacity before recording the in-memory simulation request. A suitable capacity still results only in `simulated_not_reserved`; `capacity_status` separately reports the mock capacity outcome. The response echoes the property, stay dates, guest count, and selected room so clients can verify which input was simulated. Room selection participates in idempotency payload comparison, so reusing a key with a different room is rejected. Booking request schemas reject unknown fields and strip surrounding whitespace before validation. This remains process-local mock behavior, not a booking guarantee.
 
 
-## Remote test access boundary — initial implementation
-`app/config.py` supports an explicit `VOICEAGENT_EXPOSURE=remote` setting that requires a 32-character-or-longer `VOICEAGENT_API_TOKEN`. In remote mode, all API routes except `/healthz` require a Bearer token, and interactive docs/OpenAPI routes are disabled at app initialization. The token is compared without ordinary string equality and excluded from settings repr. This is an initial access gate only, not a complete public deployment architecture; TLS, rate limiting, body-size limits, monitoring, and hosting configuration remain unresolved.
-
-## Remote test access boundary — initial implementation
-`app/config.py` supports an explicit `VOICEAGENT_EXPOSURE=remote` setting that requires a 32-character-or-longer `VOICEAGENT_API_TOKEN`. In remote mode, all API routes except `/healthz` require a Bearer token, and interactive docs/OpenAPI routes are disabled at app initialization. The token is compared without ordinary string equality and excluded from settings repr. This is an initial access gate only, not a complete public deployment architecture; TLS, rate limiting, body-size limits, monitoring, and hosting configuration remain unresolved.
-
-The app also installs `RequestBodyLimitMiddleware` (`app/security.py`) with a 65,536-byte maximum request body. It checks declared Content-Length and counts streamed body chunks before forwarding a bounded body to FastAPI; oversized requests receive 413. This is a single-request application guard, not a replacement for reverse-proxy/server limits or rate limiting. CI run #254 passed the boundary and over-limit tests.
-
-## Remote-test security boundary
-Remote exposure uses bearer authentication, disabled API docs, a 64 KiB application request-body cap, an in-process per-client-IP rate limiter, and conservative response security headers. The limiter does not trust caller-supplied forwarding headers and does not coordinate across workers or restarts. HSTS is emitted only when the ASGI request scheme is HTTPS; this does not configure TLS. Any internet-facing deployment must add verified TLS termination and trusted edge/proxy protections, plus monitoring and a deployment review; these app-level prototype controls are not a complete perimeter.
+## Remote test access and deployment boundary
+- Remote mode requires a non-placeholder bearer token of at least 32 characters for every API route except `/healthz`; interactive docs/OpenAPI routes are disabled.
+- The app rejects request bodies over 65,536 bytes, applies an in-process per-client-IP sliding-window limit (default 60/minute), and emits conservative response security headers. HSTS is emitted only when the ASGI request scheme is HTTPS; this does not configure TLS at the host.
+- The user approved a mock-only Render Free remote test. `render.yaml` describes the intended service and uses `sync: false` for `VOICEAGENT_API_TOKEN`, so the token must be entered as a private dashboard secret. The connected deployment action did not create a service; deployment remains pending.
+- The in-process limiter resets on restart and is not distributed. Before sharing a URL, verify the actual deployed TLS, health endpoint, unauthorized/authorized requests, rate limiting, and service logs. Do not use real guest data or real bookings.
