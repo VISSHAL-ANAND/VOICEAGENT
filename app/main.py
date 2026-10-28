@@ -2,8 +2,10 @@
 
 from datetime import date
 import logging
+import secrets
 
-from fastapi import FastAPI, HTTPException, Query
+from fastapi import FastAPI, HTTPException, Query, Request
+from fastapi.responses import JSONResponse
 
 from app.booking_simulator import check_demo_availability, create_demo_booking_request
 from app.config import settings
@@ -25,11 +27,37 @@ logging.basicConfig(
     format="%(asctime)s %(levelname)s %(name)s %(message)s",
 )
 
+# Remote mode hides interactive API documentation and the schema endpoint.
+# It still provides mock data only; this is not a production booking service.
 app = FastAPI(
     title="VoiceAgent API",
     version="0.2.0",
     description="Local prototype. Property data and booking flows are simulations only.",
+    docs_url=None if settings.exposure == "remote" else "/docs",
+    redoc_url=None if settings.exposure == "remote" else "/redoc",
+    openapi_url=None if settings.exposure == "remote" else "/openapi.json",
 )
+
+
+@app.middleware("http")
+async def protect_remote_requests(request: Request, call_next):
+    """Require a configured bearer token for all remote routes except health."""
+    if settings.exposure == "remote" and request.url.path != "/healthz":
+        authorization = request.headers.get("authorization", "")
+        scheme, separator, credential = authorization.partition(" ")
+        valid = (
+            separator == " "
+            and scheme.lower() == "bearer"
+            and bool(settings.api_token)
+            and secrets.compare_digest(credential, settings.api_token or "")
+        )
+        if not valid:
+            return JSONResponse(
+                status_code=401,
+                content={"detail": "Valid bearer token required"},
+                headers={"WWW-Authenticate": "Bearer"},
+            )
+    return await call_next(request)
 
 
 @app.get("/healthz", response_model=HealthResponse, tags=["operations"])
