@@ -46,7 +46,7 @@ A multi-property homestay/hotel company wants an AI receptionist to answer incom
 - Treating a static JSON export as live authoritative availability.
 - Taking or storing payment-card data.
 - Claiming production phone connectivity before provider integration is tested.
-- Unapproved paid services or production deployment.
+- Unapproved paid services or production deployment. A limited mock-only remote test deployment on Render Free has since been approved; it does not authorize paid upgrades or production use.
 
 ## Acceptance criteria for the first local prototype
 - A repeatable local run path is documented.
