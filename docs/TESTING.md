@@ -141,3 +141,13 @@ After the service is created from `render.yaml`, verify:
 - API requests without a token or with a wrong token return 401; the correct token reaches mock endpoints.
 - Repeated requests hit the configured 429 rate limit; no secret appears in logs.
 - The public URL is not shared until those checks pass. This is a manual deployment test, not covered by CI.
+
+
+## Deployment verification plan — pending Render Blueprint creation
+After the service is created from `render.yaml`, verify:
+- The Render service uses the Free plan and Singapore region, and auto-deploy is disabled.
+- `VOICEAGENT_EXPOSURE=remote`, `VOICEAGENT_MODE=local-mock`, and the token exists only in Render's private environment settings.
+- HTTPS is served by the host; `/healthz` returns only the expected low-sensitivity health response.
+- API requests without a token or with a wrong token return 401; the correct token reaches mock endpoints.
+- Repeated requests hit the configured 429 rate limit; no secret appears in logs.
+- The public URL is not shared until those checks pass. This is a manual deployment test, not covered by CI.
