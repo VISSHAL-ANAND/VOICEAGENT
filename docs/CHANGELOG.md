@@ -100,3 +100,8 @@ Changes are recorded after they are actually made and verified.
 - Added Bearer-token checks to remote API routes (except `/healthz`), disabled interactive docs/OpenAPI routes when remote mode is active, and excluded the token from settings repr.
 - Added config and API security tests. GitHub Actions verification is pending; this is not a full internet-exposure approval. HTTPS, rate limits, request-size limits, monitoring, and deployment review remain open.
 - Verification/fix: an initial run failed because the placeholder test value was shorter than the minimum-token check; the revised test then revealed the guard did not reject a longer `replace-me...` placeholder. The guard now rejects the placeholder prefix, and GitHub Actions run #243 on commit `f207f1969cc1cfdd969718d8851b842fec8efcd4` passed all 75 tests. One upstream Starlette/httpx deprecation warning remains.
+
+
+## 2026-10-28 — Request body size cap
+- Added ASGI middleware to reject HTTP request bodies over 65,536 bytes with HTTP 413, including bodies delivered in multiple chunks. This is an application-level guard; reverse-proxy/server limits and rate limiting remain necessary.
+- Added tests for over-limit and exact-limit bodies. GitHub Actions run #254 on commit `cb53358b0f7075827b6780bb02da9c4be7ef1191` passed all 77 tests (one upstream Starlette/httpx TestClient deprecation warning).
