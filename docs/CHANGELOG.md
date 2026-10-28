@@ -105,3 +105,10 @@ Changes are recorded after they are actually made and verified.
 ## 2026-10-28 — Request body size cap
 - Added ASGI middleware to reject HTTP request bodies over 65,536 bytes with HTTP 413, including bodies delivered in multiple chunks. This is an application-level guard; reverse-proxy/server limits and rate limiting remain necessary.
 - Added tests for over-limit and exact-limit bodies. GitHub Actions run #254 on commit `cb53358b0f7075827b6780bb02da9c4be7ef1191` passed all 77 tests (one upstream Starlette/httpx TestClient deprecation warning).
+
+
+## 2026-10-28 — Remote request rate limiting
+- Added a configurable in-memory sliding-window request limit for remote mode (default 60 requests per client IP per minute), with 429 and `Retry-After` responses.
+- Added validated `VOICEAGENT_RATE_LIMIT_PER_MINUTE` configuration, bounded client tracking, and tests for enforcement and forwarded-header spoofing.
+- GitHub Actions run #271 on commit `c24eb4c011a58a5a2d1e23b36a07c3a5d5c3e286` passed all 85 tests.
+- Limitation: in-process limiter only; public deployment still requires trusted edge rate limiting, HTTPS/TLS, monitoring, host restrictions, and review.
