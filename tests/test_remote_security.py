@@ -141,3 +141,33 @@ def test_remote_rate_limit_uses_client_address_not_forwarded_header(monkeypatch)
     assert first.status_code == 200
     assert second.status_code == 429
     main_module.app.state.remote_rate_limiter.reset()
+
+
+
+def test_remote_responses_include_security_headers(monkeypatch) -> None:
+    monkeypatch.setattr(main_module, "settings", remote_settings())
+    client = TestClient(main_module.app)
+
+    response = client.get("/healthz")
+
+    assert response.status_code == 200
+    assert response.headers["x-content-type-options"] == "nosniff"
+    assert response.headers["x-frame-options"] == "DENY"
+    assert response.headers["referrer-policy"] == "no-referrer"
+    assert response.headers["permissions-policy"] == "camera=(), microphone=(), geolocation=()"
+    assert response.headers["cross-origin-resource-policy"] == "same-origin"
+    assert response.headers["cache-control"] == "no-store"
+    assert response.headers["content-security-policy"] == (
+        "default-src 'none'; frame-ancestors 'none'; base-uri 'none'"
+    )
+    assert "strict-transport-security" not in response.headers
+
+
+def test_hsts_is_only_set_when_request_is_https(monkeypatch) -> None:
+    monkeypatch.setattr(main_module, "settings", remote_settings())
+    client = TestClient(main_module.app, base_url="https://testserver")
+
+    response = client.get("/healthz")
+
+    assert response.status_code == 200
+    assert response.headers["strict-transport-security"] == "max-age=31536000"
