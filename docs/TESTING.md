@@ -1,7 +1,7 @@
 # Testing and Verification Strategy
 
 ## Current status
-The local FastAPI prototype and its tests are verified by GitHub Actions. The latest verified application-test run is #254 on commit `cb53358b0f7075827b6780bb02da9c4be7ef1191`: 77 tests passed with one Starlette/httpx deprecation warning. Real API, voice-provider adapter, telephony, persistence, production concurrency across workers, and production behavior remain unverified. Never report tests as passing unless executed.
+The mock-only FastAPI prototype and its tests are verified by GitHub Actions. The latest verified application-test run is #282 on commit `47653c39183d5f943aea3d502ab8b0ac21c73e52`: 87 tests passed with one Starlette/httpx deprecation warning. The user approved a Render Free remote test, but the service has not been created/deployed. Real API, voice-provider adapter, telephony, persistence, production concurrency across workers, and production behavior remain unverified. Never report tests as passing unless executed.
 
 ## Test layers
 1. **Unit tests:** date/occupancy validation, pricing rules, booking state transitions, language/session state, redaction.
@@ -131,3 +131,13 @@ For each meaningful change, record the exact commands executed, pass/fail outcom
 - GitHub Actions run #282 on commit `47653c39183d5f943aea3d502ab8b0ac21c73e52` passed all 87 tests.
 - Added checks for browser security headers, restrictive CSP in remote mode, and HSTS only when the ASGI request is HTTPS.
 - This verifies application response behavior only. It does not verify TLS termination, reverse-proxy forwarding configuration, public reachability, or a hosting provider's perimeter.
+
+
+## Deployment verification plan — pending Render Blueprint creation
+After the service is created from `render.yaml`, verify:
+- The Render service uses the Free plan and Singapore region, and auto-deploy is disabled.
+- `VOICEAGENT_EXPOSURE=remote`, `VOICEAGENT_MODE=local-mock`, and the token exists only in Render's private environment settings.
+- HTTPS is served by the host; `/healthz` returns only the expected low-sensitivity health response.
+- API requests without a token or with a wrong token return 401; the correct token reaches mock endpoints.
+- Repeated requests hit the configured 429 rate limit; no secret appears in logs.
+- The public URL is not shared until those checks pass. This is a manual deployment test, not covered by CI.
