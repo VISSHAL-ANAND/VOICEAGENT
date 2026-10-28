@@ -11,7 +11,7 @@ from app.booking_simulator import check_demo_availability, create_demo_booking_r
 from app.config import settings
 from app.catalog import get_property, list_properties
 from app.handoff_simulator import simulate_manager_handoff
-from app.security import RequestBodyLimitMiddleware
+from app.security import InMemoryRateLimiter, RequestBodyLimitMiddleware
 from app.schemas import (
     AvailabilityResponse,
     BookingSimulationRequest,
@@ -39,11 +39,26 @@ app = FastAPI(
     openapi_url=None if settings.exposure == "remote" else "/openapi.json",
 )
 app.add_middleware(RequestBodyLimitMiddleware, max_body_bytes=65_536)
+app.state.remote_rate_limiter = InMemoryRateLimiter()
 
 
 @app.middleware("http")
 async def protect_remote_requests(request: Request, call_next):
     """Require a configured bearer token for all remote routes except health."""
+    if settings.exposure == "remote":
+        # Do not trust X-Forwarded-For here: it is caller-controlled unless a
+        # trusted proxy explicitly strips and rewrites it.
+        client_key = request.client.host if request.client else "unknown"
+        retry_after = app.state.remote_rate_limiter.check(
+            client_key, settings.rate_limit_per_minute
+        )
+        if retry_after is not None:
+            return JSONResponse(
+                status_code=429,
+                content={"detail": "Request rate limit exceeded"},
+                headers={"Retry-After": str(retry_after), "Cache-Control": "no-store"},
+            )
+
     if settings.exposure == "remote" and request.url.path != "/healthz":
         authorization = request.headers.get("authorization", "")
         scheme, separator, credential = authorization.partition(" ")
