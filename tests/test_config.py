@@ -42,7 +42,7 @@ def test_remote_exposure_rejects_placeholder_token() -> None:
     with pytest.raises(ValueError, match="must not be a placeholder"):
         Settings.from_env({
             "VOICEAGENT_EXPOSURE": "remote",
-            "VOICEAGENT_API_TOKEN": "replace-me-with-a-secret",
+            "VOICEAGENT_API_TOKEN": "replace-me-with-a-secret-placeholder",
         })
 
 
