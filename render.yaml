@@ -1,0 +1,22 @@
+services:
+  - type: web
+    name: voiceagent-remote-demo
+    runtime: python
+    plan: free
+    region: singapore
+    branch: main
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn app.main:app --host 0.0.0.0 --port $PORT
+    healthCheckPath: /healthz
+    autoDeploy: false
+    envVars:
+      - key: VOICEAGENT_MODE
+        value: local-mock
+      - key: VOICEAGENT_EXPOSURE
+        value: remote
+      - key: VOICEAGENT_API_TOKEN
+        sync: false
+      - key: VOICEAGENT_RATE_LIMIT_PER_MINUTE
+        value: "60"
+      - key: LOG_LEVEL
+        value: INFO
