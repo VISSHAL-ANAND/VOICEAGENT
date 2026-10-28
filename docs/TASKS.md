@@ -63,3 +63,7 @@ Statuses: **TODO**, **BLOCKED**, **IN PROGRESS**, **DONE**. Mark a task DONE onl
 ## Work discipline
 Before each task, inspect relevant code/docs and Git status. Read `AGENTS.md` and `SOUL.md` before agent-related work. Update this list and `docs/STATE.md` as work changes. Follow the fourth-prompt full Markdown audit rule in `AGENTS.md`. After each project work unit, update affected documents and record verified progress.
 
+
+## P0 — Remote smoke verification
+- [ ] **T-044: Run secret-safe remote smoke test** — BLOCKED on repository owner adding the Render bearer token as GitHub Actions secret `VOICEAGENT_API_TOKEN`. Workflow `.github/workflows/remote-smoke.yml` is committed and manual-only; it checks `/healthz`, missing/invalid token rejection, and valid-token API access without printing secrets or payloads. After the secret is added, run **Actions → Remote demo smoke test → Run workflow** and record the outcome.
+- [ ] **T-045: Correct Render host settings** — BLOCKED on Render Dashboard action. Set health-check path to `/healthz` and automatic deploys to OFF; connected Render actions in this session can inspect but not modify these settings. Verify the resulting configuration via the Render service inspector.
