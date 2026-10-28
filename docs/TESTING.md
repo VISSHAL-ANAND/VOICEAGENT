@@ -1,7 +1,7 @@
 # Testing and Verification Strategy
 
 ## Current status
-The local FastAPI prototype and its tests are verified by GitHub Actions. The latest verified application-test run is #243 on commit `f207f1969cc1cfdd969718d8851b842fec8efcd4`: 75 tests passed with one Starlette/httpx deprecation warning. Real API, voice-provider adapter, telephony, persistence, production concurrency across workers, and production behavior remain unverified. Never report tests as passing unless executed.
+The local FastAPI prototype and its tests are verified by GitHub Actions. The latest verified application-test run is #254 on commit `cb53358b0f7075827b6780bb02da9c4be7ef1191`: 77 tests passed with one Starlette/httpx deprecation warning. Real API, voice-provider adapter, telephony, persistence, production concurrency across workers, and production behavior remain unverified. Never report tests as passing unless executed.
 
 ## Test layers
 1. **Unit tests:** date/occupancy validation, pricing rules, booking state transitions, language/session state, redaction.
@@ -114,4 +114,8 @@ For each meaningful change, record the exact commands executed, pass/fail outcom
 - Remote configuration must reject missing, too-short, or placeholder API tokens and invalid exposure values.
 - Remote API requests must reject missing/wrong Bearer tokens with 401 and accept the configured token; `/healthz` remains accessible without a token.
 - Local-mode API behavior remains unchanged. The configured token must not appear in the settings repr.
-- These tests exercise application-level token gating only. They do not prove HTTPS, rate limiting, request-size limits, deployment settings, or full internet-exposure safety. An initial run exposed an incorrect placeholder-token test fixture; the fixture and placeholder rejection were corrected, and run #243 passed.
+- These tests exercise application-level token gating and body-size enforcement only. They do not prove HTTPS, rate limiting, deployment settings, or full internet-exposure safety. An initial run exposed an incorrect placeholder-token test fixture; the fixture and placeholder rejection were corrected, and run #243 passed.
+
+## Request-body size guard — passed in CI run #254 (77 tests total)
+- Bodies larger than 65,536 bytes are rejected with HTTP 413 before FastAPI route processing; the exact limit is accepted by the middleware and handled by normal request validation.
+- Middleware tests cover both an oversized body and the boundary size. This is not a rate limiter and does not replace HTTP server or reverse-proxy request limits.
