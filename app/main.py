@@ -43,6 +43,28 @@ app.state.remote_rate_limiter = InMemoryRateLimiter()
 
 
 @app.middleware("http")
+async def add_security_headers(request: Request, call_next):
+    """Apply conservative browser/security headers to every response."""
+    response = await call_next(request)
+    response.headers.setdefault("X-Content-Type-Options", "nosniff")
+    response.headers.setdefault("X-Frame-Options", "DENY")
+    response.headers.setdefault("Referrer-Policy", "no-referrer")
+    response.headers.setdefault("Permissions-Policy", "camera=(), microphone=(), geolocation=()")
+    response.headers.setdefault("Cross-Origin-Resource-Policy", "same-origin")
+    response.headers.setdefault("Cache-Control", "no-store")
+    if settings.exposure == "remote":
+        response.headers.setdefault(
+            "Content-Security-Policy",
+            "default-src 'none'; frame-ancestors 'none'; base-uri 'none'",
+        )
+    # Only emit HSTS when the ASGI request itself is HTTPS. TLS termination and
+    # forwarded-proto trust must be configured and verified at the host/proxy.
+    if request.url.scheme == "https":
+        response.headers.setdefault("Strict-Transport-Security", "max-age=31536000")
+    return response
+
+
+@app.middleware("http")
 async def protect_remote_requests(request: Request, call_next):
     """Require a configured bearer token for all remote routes except health."""
     if settings.exposure == "remote":
