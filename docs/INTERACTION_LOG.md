@@ -155,3 +155,8 @@ Keep this log concise. Record decisions that affect project direction, verified 
 - Added `VOICEAGENT_EXPOSURE=remote` configuration that requires a long non-placeholder API token, Bearer-token middleware for API routes except `/healthz`, and disabling interactive docs/OpenAPI routes when remote mode is active. Added configuration and endpoint security tests.
 - No secrets were generated or committed; no host was selected, no deployment occurred, and no paid service was activated.
 - Verification: initial runs #230–242 exposed a placeholder-token test/guard mismatch; the test fixture and guard were corrected. GitHub Actions run #243 on commit `f207f1969cc1cfdd969718d8851b842fec8efcd4` passed all 75 tests (one upstream Starlette/httpx deprecation warning). Remaining blockers before internet exposure include HTTPS, rate limiting/abuse controls, request-size limits, monitoring, and deployment review.
+
+## 2026-10-28 — Remote request-body cap
+- Added `RequestBodyLimitMiddleware` with a 65,536-byte request-body maximum. It rejects oversized bodies with 413 before route handling, including streamed/chunked requests, and tests both over-limit and boundary-sized requests.
+- GitHub Actions run #254 on commit `cb53358b0f7075827b6780bb02da9c4be7ef1191` passed all 77 tests (one upstream Starlette/httpx TestClient deprecation warning).
+- Rate limiting, reverse-proxy limits, HTTPS, monitoring, hosting choice, and deployment review remain open. No deployment or paid service was activated.
