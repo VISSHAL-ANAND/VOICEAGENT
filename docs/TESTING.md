@@ -119,3 +119,9 @@ For each meaningful change, record the exact commands executed, pass/fail outcom
 ## Request-body size guard — passed in CI run #254 (77 tests total)
 - Bodies larger than 65,536 bytes are rejected with HTTP 413 before FastAPI route processing; the exact limit is accepted by the middleware and handled by normal request validation.
 - Middleware tests cover both an oversized body and the boundary size. This is not a rate limiter and does not replace HTTP server or reverse-proxy request limits.
+
+
+## Remote rate-limit regression coverage — 2026-10-28
+- GitHub Actions run #271 on commit `c24eb4c011a58a5a2d1e23b36a07c3a5d5c3e286` passed all 85 tests.
+- Added checks for rate-limit configuration defaults and bounds, 429 response with `Retry-After`, and resistance to caller-controlled `X-Forwarded-For` spoofing.
+- The limiter is in-process only; these tests do not verify distributed protection, real proxy/TLS configuration, or internet deployment.
