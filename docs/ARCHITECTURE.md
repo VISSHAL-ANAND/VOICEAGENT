@@ -84,3 +84,6 @@ The demo booking-request endpoint also accepts an optional room ID. It validates
 
 ## Remote test access boundary — initial implementation
 `app/config.py` supports an explicit `VOICEAGENT_EXPOSURE=remote` setting that requires a 32-character-or-longer `VOICEAGENT_API_TOKEN`. In remote mode, all API routes except `/healthz` require a Bearer token, and interactive docs/OpenAPI routes are disabled at app initialization. The token is compared without ordinary string equality and excluded from settings repr. This is an initial access gate only, not a complete public deployment architecture; TLS, rate limiting, body-size limits, monitoring, and hosting configuration remain unresolved.
+
+## Remote test access boundary — initial implementation
+`app/config.py` supports an explicit `VOICEAGENT_EXPOSURE=remote` setting that requires a 32-character-or-longer `VOICEAGENT_API_TOKEN`. In remote mode, all API routes except `/healthz` require a Bearer token, and interactive docs/OpenAPI routes are disabled at app initialization. The token is compared without ordinary string equality and excluded from settings repr. This is an initial access gate only, not a complete public deployment architecture; TLS, rate limiting, body-size limits, monitoring, and hosting configuration remain unresolved.
