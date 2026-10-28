@@ -56,3 +56,18 @@ def test_remote_exposure_accepts_configured_token_without_returning_it_in_repr()
     assert settings.exposure == "remote"
     assert settings.api_token == token
     assert token not in repr(settings)
+
+
+
+def test_rate_limit_defaults_to_sixty_per_minute() -> None:
+    assert Settings.from_env({}).rate_limit_per_minute == 60
+
+
+@pytest.mark.parametrize("value", ["0", "-1", "10001", "many"])
+def test_invalid_rate_limit_is_rejected(value: str) -> None:
+    with pytest.raises(ValueError, match="VOICEAGENT_RATE_LIMIT_PER_MINUTE"):
+        Settings.from_env({"VOICEAGENT_RATE_LIMIT_PER_MINUTE": value})
+
+
+def test_custom_rate_limit_is_accepted() -> None:
+    assert Settings.from_env({"VOICEAGENT_RATE_LIMIT_PER_MINUTE": "12"}).rate_limit_per_minute == 12
