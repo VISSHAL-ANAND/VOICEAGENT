@@ -62,3 +62,8 @@ Statuses: **TODO**, **BLOCKED**, **IN PROGRESS**, **DONE**. Mark a task DONE onl
 
 ## Work discipline
 Before each task, inspect relevant code/docs and Git status. Read `AGENTS.md` and `SOUL.md` before agent-related work. Update this list and `docs/STATE.md` as work changes. Follow the fourth-prompt full Markdown audit rule in `AGENTS.md`. After each project work unit, update affected documents and record verified progress.
+
+
+## P0 — Render mock-only remote test
+- [ ] **T-043: Verify and lock down the Render Free deployment** — IN PROGRESS. Render confirms `voiceagent-remote-demo` is live on the Free plan at `https://voiceagent-remote-demo.onrender.com`; build and app startup succeeded, and logs show unauthenticated `GET /` returns 401.
+  - Remaining: in Render Dashboard set health-check path to `/healthz` and disable automatic deploys (actual service currently has blank health check and auto-deploy enabled, despite `render.yaml` specifying intended settings). Then verify health, missing-token 401, valid-token API response without revealing the secret, and request logs. Do not use real guest data, real bookings, or telephony. Do not upgrade or add payment method.
