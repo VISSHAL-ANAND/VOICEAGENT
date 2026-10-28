@@ -173,3 +173,9 @@ Keep this log concise. Record decisions that affect project direction, verified 
 - Added remote-mode in-process sliding-window throttling: default 60 requests per client IP per minute, configurable within validated bounds, 429 plus `Retry-After`, bounded client-key tracking, and no trust in caller-supplied `X-Forwarded-For`.
 - Added configuration and API regressions. GitHub Actions run #271 on commit `c24eb4c011a58a5a2d1e23b36a07c3a5d5c3e286` passed all 85 tests (one upstream Starlette/httpx deprecation warning).
 - Remaining before any public exposure: HTTPS/TLS and edge controls, distributed rate limiting, monitoring, platform access restrictions, deployment review. The prototype is mock-only and has not been deployed.
+
+
+## 2026-10-28 — Remote response headers
+- Added response headers for content-type sniffing, framing, referrer, browser permissions, cross-origin resource policy, and cache control; remote mode also receives a restrictive CSP. HSTS is set only for HTTPS ASGI requests.
+- GitHub Actions run #282 on commit `47653c39183d5f943aea3d502ab8b0ac21c73e52` passed all 87 tests (one upstream Starlette/httpx deprecation warning).
+- No host selected and no deployment performed. Actual TLS, trusted edge controls, monitoring, and deployment review remain outstanding.
