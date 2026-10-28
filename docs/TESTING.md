@@ -151,3 +151,7 @@ After the service is created from `render.yaml`, verify:
 - API requests without a token or with a wrong token return 401; the correct token reaches mock endpoints.
 - Repeated requests hit the configured 429 rate limit; no secret appears in logs.
 - The public URL is not shared until those checks pass. This is a manual deployment test, not covered by CI.
+
+
+## Manual remote deployment smoke test
+Workflow: `.github/workflows/remote-smoke.yml` (manual `workflow_dispatch` only). Add the Render bearer token as repository Actions secret `VOICEAGENT_API_TOKEN` and manually run **Actions → Remote demo smoke test → Run workflow**. It validates health 200/mock mode, missing-token 401, invalid-token 401, and valid-token properties API 200 with expected JSON shape. The workflow intentionally suppresses response bodies and never prints credentials. It cannot run successfully until the repository secret is configured. A successful smoke test is only deployment verification for the mock demo, not a production security audit.
