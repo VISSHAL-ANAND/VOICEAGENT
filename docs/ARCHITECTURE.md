@@ -85,7 +85,7 @@ The demo booking-request endpoint also accepts an optional room ID. It validates
 ## Remote test access and deployment boundary
 - Remote mode requires a non-placeholder bearer token of at least 32 characters for every API route except `/healthz`; interactive docs/OpenAPI routes are disabled.
 - The app rejects request bodies over 65,536 bytes, applies an in-process per-client-IP sliding-window limit (default 60/minute), and emits conservative response security headers. HSTS is emitted only when the ASGI request scheme is HTTPS; this does not configure TLS at the host.
-- The user approved a mock-only Render Free remote test. `render.yaml` describes the intended service and uses `generateValue: true` for `VOICEAGENT_API_TOKEN`, so Render generates and stores the bearer token as an environment secret. The connected deployment action did not create a service; deployment remains pending.
+- The user approved a mock-only Render Free remote test. `render.yaml` describes the intended service and uses `generateValue: true` for `VOICEAGENT_API_TOKEN`, so Render generates and stores the bearer token as an environment secret. The user manually created the service in Render; the service is live, but deployment verification is incomplete.
 - The in-process limiter resets on restart and is not distributed. Before sharing a URL, verify the actual deployed TLS, health endpoint, unauthorized/authorized requests, rate limiting, and service logs. Do not use real guest data or real bookings.
 
 
