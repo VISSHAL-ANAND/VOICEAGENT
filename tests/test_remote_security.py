@@ -64,3 +64,32 @@ def test_local_exposure_keeps_existing_local_demo_access(monkeypatch) -> None:
     response = client.get("/api/v1/properties")
 
     assert response.status_code == 200
+
+
+
+def test_request_body_larger_than_limit_is_rejected(monkeypatch) -> None:
+    monkeypatch.setattr(main_module, "settings", Settings.from_env({}))
+    client = TestClient(main_module.app)
+
+    response = client.post(
+        "/api/v1/demo/booking-requests",
+        content=b"x" * (65_536 + 1),
+        headers={"Content-Type": "application/json"},
+    )
+
+    assert response.status_code == 413
+    assert response.json() == {"detail": "Request body too large"}
+
+
+def test_request_body_at_limit_reaches_normal_validation(monkeypatch) -> None:
+    monkeypatch.setattr(main_module, "settings", Settings.from_env({}))
+    client = TestClient(main_module.app)
+
+    response = client.post(
+        "/api/v1/demo/booking-requests",
+        content=b"x" * 65_536,
+        headers={"Content-Type": "application/json"},
+    )
+
+    # The body is within the size cap, so FastAPI's JSON validation handles it.
+    assert response.status_code == 422
