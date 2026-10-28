@@ -112,3 +112,9 @@ Changes are recorded after they are actually made and verified.
 - Added validated `VOICEAGENT_RATE_LIMIT_PER_MINUTE` configuration, bounded client tracking, and tests for enforcement and forwarded-header spoofing.
 - GitHub Actions run #271 on commit `c24eb4c011a58a5a2d1e23b36a07c3a5d5c3e286` passed all 85 tests.
 - Limitation: in-process limiter only; public deployment still requires trusted edge rate limiting, HTTPS/TLS, monitoring, host restrictions, and review.
+
+
+## 2026-10-28 — Remote response security headers
+- Added conservative security headers to responses, a restrictive CSP in remote mode, and conditional HSTS only when the ASGI request scheme is HTTPS.
+- Added regression coverage for expected headers and HTTPS-only HSTS behavior. GitHub Actions run #282 passed all 87 tests.
+- These application headers do not configure or prove HTTPS at the host/proxy layer.
