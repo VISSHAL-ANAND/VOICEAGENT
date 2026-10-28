@@ -77,3 +77,13 @@ Read [AGENTS.md](AGENTS.md) for engineering rules and [SOUL.md](SOUL.md) for the
 
 ## Remote mock demo status
 The Render Free mock-only service is deployed and Render reports it live: `https://voiceagent-remote-demo.onrender.com`. The build and application startup succeeded; logs show unauthenticated access to `/` receives 401. Health and authenticated API checks remain pending. In the actual manually created service, the health-check path is blank and automatic deploys are enabled; correct these in Render Dashboard to `/healthz` and auto-deploy OFF. This public endpoint is for synthetic demo data only. No real bookings, guest data, voice calls, or manager transfers are supported.
+
+
+### Remote demo smoke test
+A manual GitHub Actions smoke test is available in `.github/workflows/remote-smoke.yml`. To run it without exposing the bearer token in chat or source:
+1. In GitHub, open repository **Settings → Secrets and variables → Actions → New repository secret**.
+2. Add secret `VOICEAGENT_API_TOKEN` with the exact bearer token configured in the Render service. Do not commit it or paste it into issues/logs.
+3. Open **Actions → Remote demo smoke test → Run workflow**.
+4. Confirm the job verifies `/healthz`, rejects missing and invalid credentials, and accepts the valid token. The workflow intentionally prints status-only results and never prints the token or response payloads.
+
+The workflow is manual-only. It will fail with a clear message until the secret is configured. The token must be copied privately from Render's environment settings into GitHub Secrets by the repository owner; the assistant does not need to see it.
