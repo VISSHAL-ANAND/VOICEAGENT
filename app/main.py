@@ -49,7 +49,7 @@ async def protect_remote_requests(request: Request, call_next):
             separator == " "
             and scheme.lower() == "bearer"
             and bool(settings.api_token)
-            and secrets.compare_digest(credential, settings.api_token or "")
+            and secrets.compare_digest(credential.encode("utf-8"), (settings.api_token or "").encode("utf-8"))
         )
         if not valid:
             return JSONResponse(
