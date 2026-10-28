@@ -125,3 +125,9 @@ For each meaningful change, record the exact commands executed, pass/fail outcom
 - GitHub Actions run #271 on commit `c24eb4c011a58a5a2d1e23b36a07c3a5d5c3e286` passed all 85 tests.
 - Added checks for rate-limit configuration defaults and bounds, 429 response with `Retry-After`, and resistance to caller-controlled `X-Forwarded-For` spoofing.
 - The limiter is in-process only; these tests do not verify distributed protection, real proxy/TLS configuration, or internet deployment.
+
+
+## Remote response security-header coverage — 2026-10-28
+- GitHub Actions run #282 on commit `47653c39183d5f943aea3d502ab8b0ac21c73e52` passed all 87 tests.
+- Added checks for browser security headers, restrictive CSP in remote mode, and HSTS only when the ASGI request is HTTPS.
+- This verifies application response behavior only. It does not verify TLS termination, reverse-proxy forwarding configuration, public reachability, or a hosting provider's perimeter.
