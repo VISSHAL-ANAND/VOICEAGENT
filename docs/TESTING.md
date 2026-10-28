@@ -1,7 +1,7 @@
 # Testing and Verification Strategy
 
 ## Current status
-The local FastAPI prototype and its tests are verified by GitHub Actions. The latest verified application-test run is #216 on commit `3042e590ed8c63a7b503be872a90022d4ded341c`: 66 tests passed with one Starlette/httpx deprecation warning. Real API, voice-provider adapter, telephony, persistence, production concurrency across workers, and production behavior remain unverified. Never report tests as passing unless executed.
+The local FastAPI prototype and its tests are verified by GitHub Actions. The latest verified application-test run is #243 on commit `f207f1969cc1cfdd969718d8851b842fec8efcd4`: 75 tests passed with one Starlette/httpx deprecation warning. Real API, voice-provider adapter, telephony, persistence, production concurrency across workers, and production behavior remain unverified. Never report tests as passing unless executed.
 
 ## Test layers
 1. **Unit tests:** date/occupancy validation, pricing rules, booking state transitions, language/session state, redaction.
@@ -110,8 +110,8 @@ For each meaningful change, record the exact commands executed, pass/fail outcom
 - Strict response-schema tests reject partial room metadata and room-capacity statuses without room metadata. All selected-room booking and schema guardrail tests passed in run #198 on commit `40daa12ba8975b8c575441b3d2775166a8187042`.
 
 
-## Remote access-control tests — added; CI verification pending
+## Remote access-control tests — passed in CI run #243 (75 tests total)
 - Remote configuration must reject missing, too-short, or placeholder API tokens and invalid exposure values.
 - Remote API requests must reject missing/wrong Bearer tokens with 401 and accept the configured token; `/healthz` remains accessible without a token.
 - Local-mode API behavior remains unchanged. The configured token must not appear in the settings repr.
-- These tests exercise application-level token gating only. They do not prove HTTPS, rate limiting, request-size limits, deployment settings, or full internet-exposure safety.
+- These tests exercise application-level token gating only. They do not prove HTTPS, rate limiting, request-size limits, deployment settings, or full internet-exposure safety. An initial run exposed an incorrect placeholder-token test fixture; the fixture and placeholder rejection were corrected, and run #243 passed.
