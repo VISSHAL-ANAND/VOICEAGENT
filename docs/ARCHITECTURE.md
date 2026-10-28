@@ -57,7 +57,7 @@ Local development and mocked dependencies first. Production deployment, persiste
 
 - `app/handoff_simulator.py` models answered, busy, no-answer, and failed manager handoff outcomes. The endpoint always marks itself as demo-only and `real_transfer: false`. A real telephony adapter and active-call transfer are not implemented.
 
-- `app/config.py` validates `VOICEAGENT_MODE` and `LOG_LEVEL`, currently allowing only local-mock mode. Live mode is deliberately rejected until authoritative property API and telephony adapters exist.
+- `app/config.py` validates `VOICEAGENT_MODE` and `LOG_LEVEL`, currently allowing only local-mock mode. It also validates `VOICEAGENT_EXPOSURE`; remote exposure requires a long non-placeholder API token. Live mode is deliberately rejected until authoritative property API and telephony adapters exist.
 
 ## Synthetic room-type fixture model
 - `app/schemas.py` defines `RoomTypeSummary` with a demo room type ID, display name, maximum guest count, amenities, sample nightly INR price, and a strict `demo_only=True` marker.
