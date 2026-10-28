@@ -35,6 +35,12 @@
 - Call recording/transcription policy and retention.
 - Hosting choice, availability target, latency target, and approved production budget.
 
+## D-007 — Remote test hosting remains unselected
+- **Status:** Open; user has approved the goal of remote testing but has not selected a host.
+- **Context:** User selected internet-accessible testing while maintaining a ₹0 development budget and no paid-service activation without approval.
+- **Options researched on 2026-10-28:** Render Free Web Service (supports Python/FastAPI, managed TLS, environment secrets; sleeps after 15 minutes idle and has ephemeral local storage); Koyeb Free Web Service (512 MB RAM, 0.1 vCPU, scale-to-zero after one hour, region limited to Frankfurt or Washington, D.C.); Hugging Face Docker/Gradio Spaces are not a zero-subscription option for ordinary personal accounts despite the listed free CPU hardware.
+- **Provisional recommendation:** Render for a mock-only remote test, provided the user approves it. No account, service, deployment, domain, or paid feature has been activated. A public URL still requires remote mode, a secret token, HTTPS, rate/abuse controls, monitoring, and a reviewed deployment configuration.
+
 ## D-006 — Explicit local-only runtime mode until real adapters exist
 - **Status:** Accepted for the prototype
 - **Context:** The backend currently uses synthetic property records, simulated capacity, and simulated handoff outcomes.
