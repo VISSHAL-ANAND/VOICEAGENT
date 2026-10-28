@@ -179,3 +179,11 @@ Keep this log concise. Record decisions that affect project direction, verified 
 - Added response headers for content-type sniffing, framing, referrer, browser permissions, cross-origin resource policy, and cache control; remote mode also receives a restrictive CSP. HSTS is set only for HTTPS ASGI requests.
 - GitHub Actions run #282 on commit `47653c39183d5f943aea3d502ab8b0ac21c73e52` passed all 87 tests (one upstream Starlette/httpx deprecation warning).
 - No host selected and no deployment performed. Actual TLS, trusted edge controls, monitoring, and deployment review remain outstanding.
+
+
+## 2026-10-28 — Render Free approved; deployment blueprint prepared
+- User approved Render Free for a remote, mock-only test. This does not authorize a paid upgrade or production use.
+- Added `render.yaml` for a Free web service in Singapore, with `/healthz` health check, auto-deploy disabled, remote mode, and a private-secret prompt for the bearer token.
+- Attempted direct service creation through the connected Render action; it was blocked by safety checks. No Render service, public URL, or paid resource was created. Next: create the Blueprint from the Render Dashboard, enter a privately generated token, deploy Free only, and verify HTTPS/auth/rate-limit behavior before sharing the URL.
+- Render Free limitations checked against official docs: sleeps after 15 minutes idle, wake-up may take about a minute, local filesystem is ephemeral, and usage limits apply. Do not add a payment method or upgrade without approval.
+- Full Markdown audit completed for all 13 Markdown files; recursive tree returned `truncated=false`. Corrected stale test evidence and duplicate remote-security documentation. Latest verified application CI remains run #282 (87 passed, one upstream deprecation warning). Cadence reset to 0/4.
