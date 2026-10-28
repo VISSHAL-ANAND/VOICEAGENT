@@ -84,3 +84,10 @@ Create the Render service from the checked-in Blueprint in the Render Dashboard;
 - User approved Render Free for a mock-only remote test. Added a `render.yaml` Blueprint with Free plan, Singapore region, health check, disabled auto-deploy, and a secret prompt for the bearer token.
 - Direct service creation was blocked by the connected action's safety checks; no service was created, no public URL exists, and no paid resource was activated.
 - Cadence reset to 0/4. Next step is dashboard Blueprint creation, secret entry, deployment, and post-deploy security verification.
+
+
+## Render deployment verification — 2026-10-28
+- Render account confirms service `voiceagent-remote-demo` is deployed and `LIVE` at `https://voiceagent-remote-demo.onrender.com`, Free plan, Singapore, branch `main`. Render reports build and deploy succeeded; logs show FastAPI startup completed.
+- Render's service logs show unauthenticated `GET /` returned `401 Unauthorized`, consistent with the remote bearer-token gate. The public `/healthz` response and authenticated API behavior are not yet independently verified; the web fetch tool could not access the service URL.
+- Important dashboard mismatch: the created service has an empty health-check path and automatic deploys enabled. Intended settings are health check `/healthz` and automatic deploys OFF. The checked-in `render.yaml` has those intended values, but the manually created service did not inherit them.
+- Next: user must change health check path to `/healthz` and disable auto-deploy in Render Dashboard. Then verify `/healthz`, missing-token 401, valid-token API access without sharing the token, and logs. Keep the service Free and mock-only. No real guest data, bookings, telephony, or manager transfer.
