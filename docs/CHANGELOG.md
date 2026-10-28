@@ -122,8 +122,8 @@ Changes are recorded after they are actually made and verified.
 
 ## 2026-10-28 — Render Free remote-test blueprint
 - User explicitly approved Render Free for a mock-only remote test; no paid plan or production deployment was approved.
-- Added `render.yaml` for a Singapore-region Free web service, `/healthz` health check, disabled auto-deploy, remote bearer-token mode, and a `sync: false` secret prompt.
-- The connected direct service-creation action was blocked by safety checks. No service or public URL was created; the Blueprint must be created from the Render Dashboard and the token entered privately.
+- Added `render.yaml` for a Singapore-region Free web service, `/healthz` health check, disabled auto-deploy, remote bearer-token mode, and a Render-generated 256-bit bearer token.
+- The connected direct service-creation action was blocked by safety checks. No service or public URL was created; the Blueprint must be created from the Render Dashboard; the token is generated and stored by Render.
 - Full Markdown audit completed across all 13 Markdown files; recursive tree returned `truncated=false`. Corrected stale test-count and remote-hosting status. Latest verified application CI remains run #282 (87 passed).
 
 
