@@ -1,0 +1,81 @@
+name: Remote demo smoke test
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  remote-smoke:
+    runs-on: ubuntu-latest
+    timeout-minutes: 3
+    steps:
+      - name: Verify remote demo without printing credentials
+        env:
+          VOICEAGENT_BASE_URL: https://voiceagent-remote-demo.onrender.com
+          VOICEAGENT_API_TOKEN: ${{ secrets.VOICEAGENT_API_TOKEN }}
+        run: |
+          python - <<'PY'
+          import json
+          import os
+          import sys
+          import urllib.error
+          import urllib.request
+          from urllib.parse import urlparse
+
+          base_url = os.environ["VOICEAGENT_BASE_URL"].rstrip("/")
+          token = os.environ.get("VOICEAGENT_API_TOKEN", "")
+          parsed = urlparse(base_url)
+          if parsed.scheme != "https" or parsed.hostname != "voiceagent-remote-demo.onrender.com":
+              sys.exit("FAIL: configured base URL is not the approved HTTPS demo host.")
+          if len(token) < 32:
+              sys.exit("FAIL: add the Render bearer token as the GitHub Actions secret VOICEAGENT_API_TOKEN; never put it in source or logs.")
+
+          def request(path, bearer=None):
+              headers = {"Accept": "application/json"}
+              if bearer is not None:
+                  headers["Authorization"] = "Bearer " + bearer
+              req = urllib.request.Request(base_url + path, headers=headers)
+              try:
+                  with urllib.request.urlopen(req, timeout=20) as response:
+                      return response.status, response.read()
+              except urllib.error.HTTPError as exc:
+                  # Do not print response bodies or request headers; keep the report secret-free.
+                  return exc.code, b""
+              except Exception as exc:
+                  sys.exit(f"FAIL: request to {path} could not complete ({type(exc).__name__}).")
+
+          status, body = request("/healthz")
+          if status != 200:
+              sys.exit(f"FAIL: /healthz returned HTTP {status}; expected 200.")
+          try:
+              health = json.loads(body)
+          except Exception:
+              sys.exit("FAIL: /healthz did not return valid JSON.")
+          if health.get("mode") != "local-mock":
+              sys.exit("FAIL: health endpoint did not report the expected mock-only mode.")
+          print("PASS: /healthz returned HTTP 200 and local-mock mode.")
+
+          status, _ = request("/api/v1/properties")
+          if status != 401:
+              sys.exit(f"FAIL: unauthenticated properties request returned HTTP {status}; expected 401.")
+          print("PASS: unauthenticated API request rejected (401).")
+
+          status, _ = request("/api/v1/properties", "intentionally-invalid-smoke-test-token")
+          if status != 401:
+              sys.exit(f"FAIL: invalid-token request returned HTTP {status}; expected 401.")
+          print("PASS: invalid bearer token rejected (401).")
+
+          status, body = request("/api/v1/properties", token)
+          if status != 200:
+              sys.exit(f"FAIL: valid-token properties request returned HTTP {status}; expected 200.")
+          try:
+              result = json.loads(body)
+          except Exception:
+              sys.exit("FAIL: authenticated properties endpoint did not return valid JSON.")
+          if not isinstance(result, dict) or not isinstance(result.get("items"), list):
+              sys.exit("FAIL: authenticated properties response did not match the expected response shape.")
+          print("PASS: valid bearer token accepted; properties response shape is valid.")
+          print("Remote mock demo smoke test passed. No credential or guest/property payload was printed.")
+          PY
