@@ -160,3 +160,9 @@ Keep this log concise. Record decisions that affect project direction, verified 
 - Added `RequestBodyLimitMiddleware` with a 65,536-byte request-body maximum. It rejects oversized bodies with 413 before route handling, including streamed/chunked requests, and tests both over-limit and boundary-sized requests.
 - GitHub Actions run #254 on commit `cb53358b0f7075827b6780bb02da9c4be7ef1191` passed all 77 tests (one upstream Starlette/httpx TestClient deprecation warning).
 - Rate limiting, reverse-proxy limits, HTTPS, monitoring, hosting choice, and deployment review remain open. No deployment or paid service was activated.
+
+
+## 2026-10-28 — Zero-cost remote hosting research
+- Compared official hosting documentation for Render Free, Koyeb Free, and Hugging Face Spaces. Render supports FastAPI and managed TLS but sleeps after 15 minutes idle and has ephemeral local storage; Koyeb Free has 512 MB RAM/0.1 vCPU and scales to zero after one hour in Frankfurt or Washington, D.C.; ordinary personal Hugging Face Docker/Gradio Spaces require a paid subscription.
+- Render is a provisional recommendation for a mock-only remote test, not a selected provider. No host, account, domain, deployment, or paid feature has been activated. User approval is required before creating/deploying a service.
+- Prompt cadence after this work unit: 3/4 since the last full Markdown audit; the next user prompt triggers the required full Markdown audit of every `.md` file and recursive tree verification.
