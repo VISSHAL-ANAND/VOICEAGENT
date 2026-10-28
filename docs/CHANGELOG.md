@@ -138,3 +138,8 @@ Changes are recorded after they are actually made and verified.
 - User deployed `voiceagent-remote-demo` from `VISSHAL-ANAND/VOICEAGENT` on Render Free in Singapore.
 - Render reports build/deploy succeeded and application startup completed. Logs show unauthenticated `GET /` returns 401.
 - Follow-up verification found actual service settings differ from intended Blueprint: health-check path is blank and auto-deploy is enabled. Dashboard correction and health/authenticated-route checks remain pending.
+
+
+## 2026-10-28 — Secret-safe remote smoke test
+- Added manual-only `.github/workflows/remote-smoke.yml` to verify health response, missing/invalid token rejection, and authenticated properties access without logging credentials or response payloads.
+- Documented required GitHub Actions secret setup and remaining Render dashboard settings in README and security/testing/task docs. Workflow execution awaits repository owner adding the secret privately.
