@@ -32,7 +32,7 @@ Python + FastAPI; Tamil, Hindi, English, Kannada, Telugu; inbound virtual number
 - Manager handoff endpoint is only a simulation; no telephony provider is configured and no real call can be transferred.
 
 ## Conversation audit cadence
-Update affected Markdown after each project work unit. On the fourth user prompt in a cycle, audit every Markdown file against repository evidence, correct discrepancies, and verify the final tree. Full audit completed on 2026-10-27 for the then-existing 12 Markdown files. A new full audit was completed on 2026-10-28 for all 13 current Markdown files, including `docs/VOICE_PROVIDER_RESEARCH.md`; the recursive tree returned `truncated=false`. This audit reconciled current implementation/test evidence, voice-contract status, and stale test-count/status notes. Cadence reset to 0/4 after that audit. Since then, the user has sent three prompts (next user prompt triggers the required full Markdown audit); cross-session counting may be imperfect.
+Update affected Markdown after each project work unit. On the fourth user prompt in a cycle, audit every Markdown file against repository evidence, correct discrepancies, and verify the final tree. The full audit recorded below was completed after the user approved Render Free remote testing; cadence resets to 0/4. Cross-session counting may be imperfect.
 
 ## Booking simulation limits
 - The process-local lock and regression tests protect only the in-memory demo simulator. Run #118 passed the 38-test suite at that checkpoint; later run #135 passed 47 tests after voice-contract coverage was added.
@@ -52,7 +52,7 @@ Update affected Markdown after each project work unit. On the fourth user prompt
 - This is fixture data only; no live availability, real quote, or booking capability was added.
 
 ## Next action
-Next choose and approve a hosting target before deployment; then verify TLS termination, trusted edge rate limiting, host access restrictions, monitoring, and deployment-level security. Do not deploy publicly before that review. The first two CI runs failed because the placeholder-token test fixture was too short and then not matched by the guard; both issues were corrected and run #243 passed. The user selected remote testing, but no host or deployment was selected and nothing has been deployed. Keep the service off public networks until the controls and hosting configuration are reviewed. Real API integration remains blocked on the other developer's sanitized schema/authentication contract; production readiness still requires tenant isolation, rate limits, durable idempotency, privacy policy, and review. The voice/session contract exists but is not wired to a real adapter. Preliminary provider research is documented; obtain concrete answers about sandbox access, Indian inbound-number eligibility, transfer support, and cost before any signup. Price-change behavior and true uncertain-outcome recovery remain blocked on the authoritative quote/booking API contract. Ask the user before any consequential provider, privacy, budget, or architecture choice.
+Create the Render service from the checked-in Blueprint in the Render Dashboard, enter a privately generated bearer token in the prompted secret field, and deploy only the Free plan. The connected deployment action did not create a service. After deployment, verify HTTPS, `/healthz`, 401 for missing/wrong tokens, successful authenticated API access, rate-limit responses, and logs before sharing the URL. Do not add a payment method or upgrade without approval. Real API integration remains blocked on the other developer's sanitized schema/authentication contract; production readiness still requires tenant isolation, durable idempotency, privacy policy, and review. The voice/session contract exists but is not wired to a real adapter. Provider research remains preliminary; no voice/telephony provider or paid number is selected. Price-change behavior and uncertain booking outcome recovery remain blocked on the authoritative API contract. Ask before any further consequential provider, privacy, budget, or architecture choice.
 
 
 ## Remote rate limiting — 2026-10-28
@@ -66,3 +66,12 @@ Next choose and approve a hosting target before deployment; then verify TLS term
 - Added conservative response headers: content-type sniffing disabled, framing denied, referrer minimized, browser permissions restricted, cross-origin resource policy set to same-origin, and caching disabled. Remote mode adds a restrictive Content Security Policy.
 - HSTS is only emitted when the ASGI request scheme is HTTPS; this is not a TLS deployment and does not verify proxy configuration.
 - GitHub Actions run #282 on commit `47653c39183d5f943aea3d502ab8b0ac21c73e52` passed all 87 tests, including the new response-header assertions.
+
+
+## Fourth-prompt full Markdown audit — 2026-10-28 (remote-host approval)
+- Read all 13 Markdown files on `main` and checked the repository's recursive tree; `truncated=false`.
+- Reconciled stale test-status references to the latest verified application run #282: 87 tests passed with one upstream Starlette/httpx deprecation warning.
+- Corrected duplicate/stale remote-security descriptions in `docs/ARCHITECTURE.md`, stale testing status, and host-selection state.
+- User approved Render Free for a mock-only remote test. Added a `render.yaml` Blueprint with Free plan, Singapore region, health check, disabled auto-deploy, and a secret prompt for the bearer token.
+- Direct service creation was blocked by the connected action's safety checks; no service was created, no public URL exists, and no paid resource was activated.
+- Cadence reset to 0/4. Next step is dashboard Blueprint creation, secret entry, deployment, and post-deploy security verification.
