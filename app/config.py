@@ -15,6 +15,7 @@ class Settings:
     log_level: str = "INFO"
     exposure: str = "local"
     api_token: str | None = field(default=None, repr=False)
+    rate_limit_per_minute: int = 60
 
     @classmethod
     def from_env(cls, environ: Mapping[str, str] | None = None) -> "Settings":
@@ -33,6 +34,14 @@ class Settings:
         if exposure not in {"local", "remote"}:
             raise ValueError("VOICEAGENT_EXPOSURE must be either 'local' or 'remote'.")
 
+        raw_rate_limit = source.get("VOICEAGENT_RATE_LIMIT_PER_MINUTE", "60").strip()
+        try:
+            rate_limit_per_minute = int(raw_rate_limit)
+        except ValueError as exc:
+            raise ValueError("VOICEAGENT_RATE_LIMIT_PER_MINUTE must be an integer from 1 to 10000.") from exc
+        if not 1 <= rate_limit_per_minute <= 10_000:
+            raise ValueError("VOICEAGENT_RATE_LIMIT_PER_MINUTE must be an integer from 1 to 10000.")
+
         api_token = source.get("VOICEAGENT_API_TOKEN", "").strip() or None
         if exposure == "remote":
             if api_token is None or len(api_token) < 32:
@@ -47,6 +56,7 @@ class Settings:
             log_level=log_level,
             exposure=exposure,
             api_token=api_token,
+            rate_limit_per_minute=rate_limit_per_minute,
         )
 
 
