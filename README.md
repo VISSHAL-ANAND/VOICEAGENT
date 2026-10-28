@@ -13,10 +13,10 @@ VoiceAgent is being built as a phone-based AI receptionist for a company managin
 - ₹0 initial development using local execution and mocked/synthetic services.
 
 ## Technology and cost
-- Python + FastAPI backend with validated local-only configuration.
+- Python + FastAPI backend with local-default configuration and an explicit protected remote-test mode.
 - Provider-neutral interfaces for voice sessions and the property-management API; the actual voice-provider, audio transport, and telephony adapters are not implemented.
 - Synthetic property and room-type fixtures with sample INR nightly prices, plus mocked external services before real credentials are available. Room prices and room labels are illustrative only—not quotes, inventory, or availability.
-- GitHub Actions run #271 on commit `c24eb4c011a58a5a2d1e23b36a07c3a5d5c3e286` passed all 85 pytest tests, including remote bearer-token checks, oversized request-body rejection, and remote rate-limit behavior. One upstream Starlette/httpx TestClient deprecation warning remains.
+- GitHub Actions run #282 on commit `47653c39183d5f943aea3d502ab8b0ac21c73e52` passed all 87 pytest tests, including remote bearer-token checks, oversized request-body rejection, rate limiting, and security response headers. One upstream Starlette/httpx TestClient deprecation warning remains.
 
 No paid service should be activated without explicit approval. Voice-model usage, phone numbers, calling, hosting, and database plans may incur costs.
 
@@ -37,9 +37,9 @@ uvicorn app.main:app --reload
 Open `http://127.0.0.1:8000/healthz` for the health response and `http://127.0.0.1:8000/docs` for the FastAPI API explorer. The automated test workflow has passed in GitHub Actions; the assistant has not deployed this application to a public server.
 
 ### Remote demo access — protected, not yet deployed
-The app supports an explicit `VOICEAGENT_EXPOSURE=remote` setting. Remote mode refuses to start unless `VOICEAGENT_API_TOKEN` is configured with at least 32 non-placeholder characters, requires `Authorization: Bearer <token>` for API routes except `/healthz`, disables interactive docs/OpenAPI routes, rejects request bodies larger than 64 KiB, and applies a configurable in-process limit of 60 requests per client IP per minute by default (`VOICEAGENT_RATE_LIMIT_PER_MINUTE`). The limiter returns HTTP 429 with `Retry-After` when exceeded. It deliberately does not trust caller-supplied `X-Forwarded-For` headers. Use a randomly generated token stored only in the hosting platform's secret settings; never commit it or put it in screenshots/logs. For example, generate a token with `python -c 'import secrets; print(secrets.token_urlsafe(48))'` in a trusted environment.
+The app supports an explicit `VOICEAGENT_EXPOSURE=remote` setting. Remote mode refuses to start unless `VOICEAGENT_API_TOKEN` is configured with at least 32 non-placeholder characters, requires `Authorization: Bearer <token>` for API routes except `/healthz`, disables interactive docs/OpenAPI routes, rejects request bodies larger than 64 KiB, and applies a configurable in-process limit of 60 requests per client IP per minute by default (`VOICEAGENT_RATE_LIMIT_PER_MINUTE`). The limiter returns HTTP 429 with `Retry-After` when exceeded. It deliberately does not trust caller-supplied `X-Forwarded-For` headers. Responses also include conservative browser security headers, with HSTS emitted only when the ASGI request scheme is HTTPS. Use a randomly generated token stored only in the hosting platform's secret settings; never commit it or put it in screenshots/logs. For example, generate a token with `python -c 'import secrets; print(secrets.token_urlsafe(48))'` in a trusted environment.
 
-**This is not approval to expose the app to the internet.** The rate limiter is process-local and resets on restart; it does not coordinate across workers or replace edge/proxy rate limiting. HTTPS/TLS, host/platform access restrictions, monitoring, security headers, deployment configuration review, and a production security review remain outstanding. The app is mock-only. No deployment has been performed.
+**This is not approval to expose the app to the internet.** The rate limiter is process-local and resets on restart; it does not coordinate across workers or replace edge/proxy rate limiting. Verified TLS/HTTPS at the actual host, trusted edge controls, host/platform access restrictions, monitoring, deployment configuration review, and a production security review remain outstanding. The app is mock-only. No deployment has been performed.
 
 
 ## Local demo booking endpoints
