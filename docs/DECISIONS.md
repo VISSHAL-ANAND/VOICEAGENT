@@ -35,11 +35,11 @@
 - Call recording/transcription policy and retention.
 - Hosting choice, availability target, latency target, and approved production budget.
 
-## D-007 — Remote test hosting remains unselected
-- **Status:** Open; user has approved the goal of remote testing but has not selected a host.
-- **Context:** User selected internet-accessible testing while maintaining a ₹0 development budget and no paid-service activation without approval.
-- **Options researched on 2026-10-28:** Render Free Web Service (supports Python/FastAPI, managed TLS, environment secrets; sleeps after 15 minutes idle and has ephemeral local storage); Koyeb Free Web Service (512 MB RAM, 0.1 vCPU, scale-to-zero after one hour, region limited to Frankfurt or Washington, D.C.); Hugging Face Docker/Gradio Spaces are not a zero-subscription option for ordinary personal accounts despite the listed free CPU hardware.
-- **Provisional recommendation:** Render for a mock-only remote test, provided the user approves it. No account, service, deployment, domain, or paid feature has been activated. A public URL still requires remote mode, a secret token, HTTPS, rate/abuse controls, monitoring, and a reviewed deployment configuration.
+## D-007 — Render Free for mock-only remote testing
+- **Status:** Accepted for a limited remote test; service creation/deployment pending.
+- **Context:** User selected internet-accessible testing and explicitly approved Render Free while maintaining the ₹0 budget and no paid-service activation without approval.
+- **Decision:** Use a Render Free Web Service in Singapore, with remote mode, a long bearer token stored only as a Render secret, and auto-deploy disabled. The checked-in `render.yaml` is the intended Blueprint. No production or paid upgrade is authorized.
+- **Consequences:** Free services sleep after 15 minutes without inbound traffic, can take about a minute to wake, and use ephemeral local storage. Usage limits apply; if a payment method is attached, some overages may be billable. The user must create the Blueprint in the Render Dashboard and enter the secret because the connected direct-create action was blocked. Verify TLS/auth/rate limits after deployment before sharing the URL.
 
 ## D-006 — Explicit local-only runtime mode until real adapters exist
 - **Status:** Accepted for the prototype
