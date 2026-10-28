@@ -38,8 +38,8 @@
 ## D-007 — Render Free for mock-only remote testing
 - **Status:** Accepted for a limited remote test; service creation/deployment pending.
 - **Context:** User selected internet-accessible testing and explicitly approved Render Free while maintaining the ₹0 budget and no paid-service activation without approval.
-- **Decision:** Use a Render Free Web Service in Singapore, with remote mode, a long bearer token stored only as a Render secret, and auto-deploy disabled. The checked-in `render.yaml` is the intended Blueprint. No production or paid upgrade is authorized.
-- **Consequences:** Free services sleep after 15 minutes without inbound traffic, can take about a minute to wake, and use ephemeral local storage. Usage limits apply; if a payment method is attached, some overages may be billable. The user must create the Blueprint in the Render Dashboard and enter the secret because the connected direct-create action was blocked. Verify TLS/auth/rate limits after deployment before sharing the URL.
+- **Decision:** Use a Render Free Web Service in Singapore, with remote mode, a Render-generated 256-bit bearer token stored as a private environment variable, and auto-deploy disabled. The checked-in `render.yaml` is the intended Blueprint. No production or paid upgrade is authorized.
+- **Consequences:** Free services sleep after 15 minutes without inbound traffic, can take about a minute to wake, and use ephemeral local storage. Usage limits apply; if a payment method is attached, some overages may be billable. The user must create the Blueprint in the Render Dashboard because the connected direct-create action was blocked; Render generates the bearer token automatically. Verify TLS/auth/rate limits after deployment before sharing the URL.
 
 ## D-006 — Explicit local-only runtime mode until real adapters exist
 - **Status:** Accepted for the prototype
