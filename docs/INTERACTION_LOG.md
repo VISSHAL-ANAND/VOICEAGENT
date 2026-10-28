@@ -166,3 +166,10 @@ Keep this log concise. Record decisions that affect project direction, verified 
 - Compared official hosting documentation for Render Free, Koyeb Free, and Hugging Face Spaces. Render supports FastAPI and managed TLS but sleeps after 15 minutes idle and has ephemeral local storage; Koyeb Free has 512 MB RAM/0.1 vCPU and scales to zero after one hour in Frankfurt or Washington, D.C.; ordinary personal Hugging Face Docker/Gradio Spaces require a paid subscription.
 - Render is a provisional recommendation for a mock-only remote test, not a selected provider. No host, account, domain, deployment, or paid feature has been activated. User approval is required before creating/deploying a service.
 - Prompt cadence after this work unit: 3/4 since the last full Markdown audit; the next user prompt triggers the required full Markdown audit of every `.md` file and recursive tree verification.
+
+
+## 2026-10-28 — Remote-test rate limiting
+- User selected remote internet testing; no hosting provider or public deployment has been selected or authorized.
+- Added remote-mode in-process sliding-window throttling: default 60 requests per client IP per minute, configurable within validated bounds, 429 plus `Retry-After`, bounded client-key tracking, and no trust in caller-supplied `X-Forwarded-For`.
+- Added configuration and API regressions. GitHub Actions run #271 on commit `c24eb4c011a58a5a2d1e23b36a07c3a5d5c3e286` passed all 85 tests (one upstream Starlette/httpx deprecation warning).
+- Remaining before any public exposure: HTTPS/TLS and edge controls, distributed rate limiting, monitoring, platform access restrictions, deployment review. The prototype is mock-only and has not been deployed.
