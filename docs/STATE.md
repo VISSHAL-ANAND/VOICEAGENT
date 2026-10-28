@@ -75,3 +75,12 @@ Create the Render service from the checked-in Blueprint in the Render Dashboard,
 - User approved Render Free for a mock-only remote test. Added a `render.yaml` Blueprint with Free plan, Singapore region, health check, disabled auto-deploy, and a secret prompt for the bearer token.
 - Direct service creation was blocked by the connected action's safety checks; no service was created, no public URL exists, and no paid resource was activated.
 - Cadence reset to 0/4. Next step is dashboard Blueprint creation, secret entry, deployment, and post-deploy security verification.
+
+
+## Fourth-prompt full Markdown audit — 2026-10-28 (remote-host approval)
+- Read all 13 Markdown files on `main` and checked the repository's recursive tree; `truncated=false`.
+- Reconciled stale test-status references to the latest verified application run #282: 87 tests passed with one upstream Starlette/httpx deprecation warning.
+- Corrected duplicate/stale remote-security descriptions in `docs/ARCHITECTURE.md`, stale testing status, and host-selection state.
+- User approved Render Free for a mock-only remote test. Added a `render.yaml` Blueprint with Free plan, Singapore region, health check, disabled auto-deploy, and a secret prompt for the bearer token.
+- Direct service creation was blocked by the connected action's safety checks; no service was created, no public URL exists, and no paid resource was activated.
+- Cadence reset to 0/4. Next step is dashboard Blueprint creation, secret entry, deployment, and post-deploy security verification.
