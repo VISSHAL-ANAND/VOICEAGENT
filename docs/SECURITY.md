@@ -60,3 +60,10 @@ No security control should be marked complete until implementation and verificat
 
 ## Render deployment verification — 2026-10-28
 Render reports `voiceagent-remote-demo` is live on the Free plan. Startup logs show the application started successfully, and an unauthenticated `GET /` received 401. This supports that the bearer-token gate is active, but does not verify correct-token access or the health route. The web fetch tool could not independently retrieve the public endpoint. The actual Render service has an empty health-check path and automatic deployment enabled; change the health-check path to `/healthz` and disable automatic deployments in the dashboard. Never share the bearer token. This remains a public mock-only test and is not approved for real guest data or production bookings.
+
+
+## Secret-safe remote smoke test
+- Added manual-only workflow `.github/workflows/remote-smoke.yml` to check `/healthz` (200 and mock mode), unauthenticated API rejection (401), invalid-token rejection (401), and valid-token access (200 with the expected response shape).
+- It reads `VOICEAGENT_API_TOKEN` only from GitHub Actions Secrets, validates the expected HTTPS host, and prints status-only results without request headers, tokens, or response bodies.
+- **Setup is still required:** the repository owner must add the Render token privately as the repository Actions secret `VOICEAGENT_API_TOKEN`, then manually run **Actions → Remote demo smoke test → Run workflow**. Do not share the token with the assistant.
+- The workflow tests the live mock demo; it does not prove production readiness, distributed rate limiting, tenant isolation, or real booking/telephony behavior.
