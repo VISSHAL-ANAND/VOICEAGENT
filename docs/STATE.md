@@ -100,3 +100,10 @@ Create the Render service from the checked-in Blueprint in the Render Dashboard;
 - GitHub Actions documentation commits through run #333 passed; runs #334 and #335 were in progress at the last query. Previous latest app suite remains 87 passing tests in run #282. No new app code was changed in this work unit.
 - Still blocked by missing external decisions/materials: property API schema/auth/booking semantics, approved telephony and voice provider, actual India number/transfer eligibility and cost, and client privacy/recording policy. No real booking, telephony, live manager transfer, or production readiness is claimed. Keep synthetic data only and Free plan.
 - Audit cadence reset to 0/4.
+
+
+## Remote smoke-test automation — 2026-10-28
+- Added manual-only GitHub Actions workflow `.github/workflows/remote-smoke.yml` at commit `4860f9c8282af9159bbbed20d80f24a485d4f168`. It checks health 200/mock mode, missing-token 401, invalid-token 401, and valid-token properties API 200 with expected response shape. It does not print tokens or response payloads.
+- Owner action required: add Render's bearer token privately as repository Actions secret `VOICEAGENT_API_TOKEN`, then manually run **Actions → Remote demo smoke test → Run workflow**. Do not paste the token into chat or source.
+- Render settings remain unresolved at last inspection: `healthCheckPath=\"\"`, `autoDeploy=yes`. Available Render actions are read-only for these fields. Dashboard action remains required to set `/healthz` and disable auto-deploy.
+- No live booking, voice, phone-number, or manager-transfer integration was changed or claimed. All live endpoints remain synthetic mock-only.
