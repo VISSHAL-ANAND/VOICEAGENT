@@ -46,3 +46,11 @@ No security control should be marked complete until implementation and verificat
 - Booking and simulated handoff request schemas reject unexpected fields; required strings are whitespace-normalized before validation. Booking responses use a constrained status and carry the capacity result separately from the non-reservation status.
 - Regression tests verify unexpected booking fields and whitespace-only idempotency keys are rejected, and verify that selected room, dates, and guest count are preserved in the simulated result.
 - These checks are development guardrails, not a substitute for deployment secrets management, authentication, authorization, tenant isolation, rate limiting, request/body-size limits, CSRF protections where applicable, durable idempotency, or production review. The prototype must not be exposed as a public guest-facing service.
+
+
+## Remote-test access control — initial implementation
+- `VOICEAGENT_EXPOSURE` defaults to `local` and accepts only `local` or `remote`. Remote mode requires `VOICEAGENT_API_TOKEN` to be configured with at least 32 characters; placeholder values are rejected. The token field is excluded from settings' `repr` to reduce accidental disclosure.
+- In remote mode, API routes require an exact Bearer token and compare it using a constant-time comparison. Missing or invalid credentials receive 401 with a Bearer challenge. `/healthz` remains unauthenticated for basic health checks; do not put sensitive information in that response.
+- Interactive docs, ReDoc, and OpenAPI routes are disabled when the app is initialized in remote mode. Local mode preserves current developer behavior.
+- Tests cover missing/invalid/valid credentials, health access, local compatibility, weak/placeholder tokens, invalid exposure values, and token repr redaction.
+- **Not production-ready:** this control depends on the deployment explicitly setting `VOICEAGENT_EXPOSURE=remote`. HTTPS/TLS termination, request/body-size limits, rate limiting, brute-force/abuse controls, monitoring, platform access restrictions, security headers, and deployment-level verification are not yet implemented or verified. The in-memory demo booking state is not safe for production. Do not deploy publicly until those gaps are addressed.
