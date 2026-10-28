@@ -2,7 +2,7 @@
 
 VoiceAgent is being built as a phone-based AI receptionist for a company managing multiple homestays/hotels. The target product will answer guest calls, use verified property information, check availability and prices, create reservations through the existing management application, and transfer callers to a manager when requested.
 
-**Current status:** Local prototype with passing GitHub Actions tests. FastAPI health/property endpoints now include fictional room-type options and sample nightly prices; availability/booking-request endpoints remain simulation-only. The demo booking flow never reserves or confirms a real room. All room options and nightly prices shown by the property endpoints are fictional fixtures. Real property API, live availability/booking, voice, telephony, live manager transfer, and deployment are not implemented. Do not use this prototype for real guest calls.
+**Current status:** Mock-only FastAPI prototype with passing GitHub Actions tests. The user approved a Render Free remote demo deployment, but the service has not yet been created or deployed. The deployment blueprint is in `render.yaml`; the API token must be set as a secret in Render before first deploy. Fictional property/room fixtures and availability/booking/handoff simulations never reserve a real room. Real property API, live availability/booking, voice, telephony, and live manager transfer are not implemented. Do not use this prototype for real guest calls.
 
 ## Product goals
 - Voice conversations in Tamil, Hindi, English, Kannada, and Telugu.
@@ -34,7 +34,7 @@ cp .env.example .env
 uvicorn app.main:app --reload
 ```
 
-Open `http://127.0.0.1:8000/healthz` for the health response and `http://127.0.0.1:8000/docs` for the FastAPI API explorer. The automated test workflow has passed in GitHub Actions; the assistant has not deployed this application to a public server.
+Open `http://127.0.0.1:8000/healthz` for the health response and `http://127.0.0.1:8000/docs` for the FastAPI API explorer. The automated test workflow has passed in GitHub Actions. A limited remote test deployment is approved, but no public service has been created or deployed yet.
 
 ### Remote demo access — protected, not yet deployed
 The app supports an explicit `VOICEAGENT_EXPOSURE=remote` setting. Remote mode refuses to start unless `VOICEAGENT_API_TOKEN` is configured with at least 32 non-placeholder characters, requires `Authorization: Bearer <token>` for API routes except `/healthz`, disables interactive docs/OpenAPI routes, rejects request bodies larger than 64 KiB, and applies a configurable in-process limit of 60 requests per client IP per minute by default (`VOICEAGENT_RATE_LIMIT_PER_MINUTE`). The limiter returns HTTP 429 with `Retry-After` when exceeded. It deliberately does not trust caller-supplied `X-Forwarded-For` headers. Responses also include conservative browser security headers, with HSTS emitted only when the ASGI request scheme is HTTPS. Use a randomly generated token stored only in the hosting platform's secret settings; never commit it or put it in screenshots/logs. For example, generate a token with `python -c 'import secrets; print(secrets.token_urlsafe(48))'` in a trusted environment.
