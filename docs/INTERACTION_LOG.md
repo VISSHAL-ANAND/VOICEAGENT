@@ -195,3 +195,9 @@ Keep this log concise. Record decisions that affect project direction, verified 
 - Attempted direct service creation through the connected Render action; it was blocked by safety checks. No Render service, public URL, or paid resource was created. Next: create the Blueprint from the Render Dashboard, enter a privately generated token, deploy Free only, and verify HTTPS/auth/rate-limit behavior before sharing the URL.
 - Render Free limitations checked against official docs: sleeps after 15 minutes idle, wake-up may take about a minute, local filesystem is ephemeral, and usage limits apply. Do not add a payment method or upgrade without approval.
 - Full Markdown audit completed for all 13 Markdown files; recursive tree returned `truncated=false`. Corrected stale test evidence and duplicate remote-security documentation. Latest verified application CI remains run #282 (87 passed, one upstream deprecation warning). Cadence reset to 0/4.
+
+
+## 2026-10-28 — User completed Render deployment
+- User manually deployed `voiceagent-remote-demo` from the `main` branch into Render project STAY, Free plan, Singapore.
+- Render connector confirmed service status `LIVE`; build and deployment events succeeded; startup logs show FastAPI startup complete. An unauthenticated `GET /` returned 401.
+- Actual service settings do not match intended Blueprint for health-check path and auto-deploy: path is blank and auto-deploy is enabled. User needs to set `/healthz` and turn auto-deploy off in the dashboard. No token was requested or exposed. Health and authorized API checks remain pending.
