@@ -93,3 +93,9 @@ Changes are recorded after they are actually made and verified.
 - Added a constrained `capacity_status` separate from the invariant `simulated_not_reserved` booking-request status; response includes the property, dates, guest count, and selected room used by the simulation.
 - Booking and simulated handoff request schemas now reject unexpected JSON fields and normalize surrounding whitespace before validation. Added regressions for stay-detail consistency, over-capacity status preservation, unexpected fields, and whitespace-only idempotency keys.
 - An intermediate CI run exposed that the new response field was not yet wired into the simulator; the simulator was corrected, and GitHub Actions run #216 passed all 66 tests (one upstream deprecation warning).
+
+
+## 2026-10-28 — Initial remote-test authentication gate
+- Added `VOICEAGENT_EXPOSURE=local|remote` configuration. Remote mode requires a non-placeholder API token of at least 32 characters and rejects invalid configuration at startup.
+- Added Bearer-token checks to remote API routes (except `/healthz`), disabled interactive docs/OpenAPI routes when remote mode is active, and excluded the token from settings repr.
+- Added config and API security tests. GitHub Actions verification is pending; this is not a full internet-exposure approval. HTTPS, rate limits, request-size limits, monitoring, and deployment review remain open.
