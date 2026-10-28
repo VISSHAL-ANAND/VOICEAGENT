@@ -201,3 +201,9 @@ Keep this log concise. Record decisions that affect project direction, verified 
 - User manually deployed `voiceagent-remote-demo` from the `main` branch into Render project STAY, Free plan, Singapore.
 - Render connector confirmed service status `LIVE`; build and deployment events succeeded; startup logs show FastAPI startup complete. An unauthenticated `GET /` returned 401.
 - Actual service settings do not match intended Blueprint for health-check path and auto-deploy: path is blank and auto-deploy is enabled. User needs to set `/healthz` and turn auto-deploy off in the dashboard. No token was requested or exposed. Health and authorized API checks remain pending.
+
+
+## 2026-10-28 — Remote verification automation
+- Continued work after Render deployment. Added manual-only remote smoke workflow that tests `/healthz`, missing-token 401, invalid-token 401, and valid-token properties endpoint 200. It checks that the target host is the expected HTTPS Render demo and avoids printing tokens and response bodies.
+- Owner must add the Render token as GitHub Actions secret `VOICEAGENT_API_TOKEN` and manually run the workflow. The assistant does not request or receive the token.
+- Reconfirmed the Render dashboard settings still need owner changes: health-check path `/healthz`, auto-deploy OFF. The connected Render tools expose read-only service configuration for these fields.
