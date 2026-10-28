@@ -93,3 +93,51 @@ def test_request_body_at_limit_reaches_normal_validation(monkeypatch) -> None:
 
     # The body is within the size cap, so FastAPI's JSON validation handles it.
     assert response.status_code == 422
+
+
+
+def test_remote_rate_limit_blocks_excess_requests_and_sets_retry_after(monkeypatch) -> None:
+    monkeypatch.setattr(
+        main_module,
+        "settings",
+        Settings.from_env({
+            "VOICEAGENT_EXPOSURE": "remote",
+            "VOICEAGENT_API_TOKEN": "test-token-that-is-at-least-32-characters-long",
+            "VOICEAGENT_RATE_LIMIT_PER_MINUTE": "2",
+        }),
+    )
+    main_module.app.state.remote_rate_limiter.reset()
+    client = TestClient(main_module.app)
+
+    first = client.get("/healthz")
+    second = client.get("/healthz")
+    blocked = client.get("/healthz")
+
+    assert first.status_code == 200
+    assert second.status_code == 200
+    assert blocked.status_code == 429
+    assert blocked.json() == {"detail": "Request rate limit exceeded"}
+    assert int(blocked.headers["retry-after"]) >= 1
+    assert blocked.headers["cache-control"] == "no-store"
+    main_module.app.state.remote_rate_limiter.reset()
+
+
+def test_remote_rate_limit_uses_client_address_not_forwarded_header(monkeypatch) -> None:
+    monkeypatch.setattr(
+        main_module,
+        "settings",
+        Settings.from_env({
+            "VOICEAGENT_EXPOSURE": "remote",
+            "VOICEAGENT_API_TOKEN": "test-token-that-is-at-least-32-characters-long",
+            "VOICEAGENT_RATE_LIMIT_PER_MINUTE": "1",
+        }),
+    )
+    main_module.app.state.remote_rate_limiter.reset()
+    client = TestClient(main_module.app)
+
+    first = client.get("/healthz", headers={"X-Forwarded-For": "203.0.113.1"})
+    second = client.get("/healthz", headers={"X-Forwarded-For": "203.0.113.2"})
+
+    assert first.status_code == 200
+    assert second.status_code == 429
+    main_module.app.state.remote_rate_limiter.reset()
