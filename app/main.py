@@ -11,6 +11,7 @@ from app.booking_simulator import check_demo_availability, create_demo_booking_r
 from app.config import settings
 from app.catalog import get_property, list_properties
 from app.handoff_simulator import simulate_manager_handoff
+from app.security import RequestBodyLimitMiddleware
 from app.schemas import (
     AvailabilityResponse,
     BookingSimulationRequest,
@@ -37,6 +38,7 @@ app = FastAPI(
     redoc_url=None if settings.exposure == "remote" else "/redoc",
     openapi_url=None if settings.exposure == "remote" else "/openapi.json",
 )
+app.add_middleware(RequestBodyLimitMiddleware, max_body_bytes=65_536)
 
 
 @app.middleware("http")
