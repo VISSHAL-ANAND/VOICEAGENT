@@ -16,7 +16,7 @@ VoiceAgent is being built as a phone-based AI receptionist for a company managin
 - Python + FastAPI backend with validated local-only configuration.
 - Provider-neutral interfaces for voice sessions and the property-management API; the actual voice-provider, audio transport, and telephony adapters are not implemented.
 - Synthetic property and room-type fixtures with sample INR nightly prices, plus mocked external services before real credentials are available. Room prices and room labels are illustrative only—not quotes, inventory, or availability.
-- GitHub Actions run #243 on commit `f207f1969cc1cfdd969718d8851b842fec8efcd4` passed all 75 pytest tests, including remote bearer-token configuration and endpoint access checks. One upstream Starlette/httpx TestClient deprecation warning remains.
+- GitHub Actions run #254 on commit `cb53358b0f7075827b6780bb02da9c4be7ef1191` passed all 77 pytest tests, including remote bearer-token checks and oversized request-body rejection. One upstream Starlette/httpx TestClient deprecation warning remains.
 
 No paid service should be activated without explicit approval. Voice-model usage, phone numbers, calling, hosting, and database plans may incur costs.
 
@@ -37,7 +37,7 @@ uvicorn app.main:app --reload
 Open `http://127.0.0.1:8000/healthz` for the health response and `http://127.0.0.1:8000/docs` for the FastAPI API explorer. The automated test workflow has passed in GitHub Actions; the assistant has not deployed this application to a public server.
 
 ### Remote demo access — protected, not yet deployed
-The app now supports an explicit `VOICEAGENT_EXPOSURE=remote` setting. Remote mode refuses to start unless `VOICEAGENT_API_TOKEN` is configured with at least 32 characters, requires `Authorization: Bearer <token>` for API routes except `/healthz`, and disables the interactive docs/OpenAPI routes when the app starts in remote mode. Use a randomly generated token stored only in the hosting platform's secret settings; never commit it or put it in screenshots/logs. For example, generate a token with `python -c 'import secrets; print(secrets.token_urlsafe(48))'` in a trusted environment.
+The app now supports an explicit `VOICEAGENT_EXPOSURE=remote` setting. Remote mode refuses to start unless `VOICEAGENT_API_TOKEN` is configured with at least 32 characters, requires `Authorization: Bearer <token>` for API routes except `/healthz`, disables interactive docs/OpenAPI routes when the app starts in remote mode, and the app rejects request bodies larger than 64 KiB. Use a randomly generated token stored only in the hosting platform's secret settings; never commit it or put it in screenshots/logs. For example, generate a token with `python -c 'import secrets; print(secrets.token_urlsafe(48))'` in a trusted environment.
 
 This is only an initial access-control layer. It is not enough to declare the app safe for internet exposure: HTTPS/TLS, request-size limits, rate limiting, monitoring, deployment configuration review, and a production security review remain outstanding. The app is still mock-only. Do not expose it publicly until the deployment is configured with remote mode and the remaining controls are reviewed. No deployment has been performed.
 
