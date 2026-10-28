@@ -52,7 +52,7 @@ Update affected Markdown after each project work unit. On the fourth user prompt
 - This is fixture data only; no live availability, real quote, or booking capability was added.
 
 ## Next action
-Create the Render service from the checked-in Blueprint in the Render Dashboard, enter a privately generated bearer token in the prompted secret field, and deploy only the Free plan. The connected deployment action did not create a service. After deployment, verify HTTPS, `/healthz`, 401 for missing/wrong tokens, successful authenticated API access, rate-limit responses, and logs before sharing the URL. Do not add a payment method or upgrade without approval. Real API integration remains blocked on the other developer's sanitized schema/authentication contract; production readiness still requires tenant isolation, durable idempotency, privacy policy, and review. The voice/session contract exists but is not wired to a real adapter. Provider research remains preliminary; no voice/telephony provider or paid number is selected. Price-change behavior and uncertain booking outcome recovery remain blocked on the authoritative API contract. Ask before any further consequential provider, privacy, budget, or architecture choice.
+Create the Render service from the checked-in Blueprint in the Render Dashboard; it generates and stores the bearer token automatically. Deploy only the Free plan. The connected deployment action did not create a service. After deployment, verify HTTPS, `/healthz`, 401 for missing/wrong tokens, successful authenticated API access, rate-limit responses, and logs before sharing the URL. Do not add a payment method or upgrade without approval. Real API integration remains blocked on the other developer's sanitized schema/authentication contract; production readiness still requires tenant isolation, durable idempotency, privacy policy, and review. The voice/session contract exists but is not wired to a real adapter. Provider research remains preliminary; no voice/telephony provider or paid number is selected. Price-change behavior and uncertain booking outcome recovery remain blocked on the authoritative API contract. Ask before any further consequential provider, privacy, budget, or architecture choice.
 
 
 ## Remote rate limiting — 2026-10-28
@@ -72,9 +72,9 @@ Create the Render service from the checked-in Blueprint in the Render Dashboard,
 - Read all 13 Markdown files on `main` and checked the repository's recursive tree; `truncated=false`.
 - Reconciled stale test-status references to the latest verified application run #282: 87 tests passed with one upstream Starlette/httpx deprecation warning.
 - Corrected duplicate/stale remote-security descriptions in `docs/ARCHITECTURE.md`, stale testing status, and host-selection state.
-- User approved Render Free for a mock-only remote test. Added a `render.yaml` Blueprint with Free plan, Singapore region, health check, disabled auto-deploy, and a secret prompt for the bearer token.
+- User approved Render Free for a mock-only remote test. Added a `render.yaml` Blueprint with Free plan, Singapore region, health check, disabled auto-deploy, and a Render-generated 256-bit bearer token.
 - Direct service creation was blocked by the connected action's safety checks; no service was created, no public URL exists, and no paid resource was activated.
-- Cadence reset to 0/4. Next step is dashboard Blueprint creation, secret entry, deployment, and post-deploy security verification.
+- Cadence reset to 0/4. Next step is dashboard Blueprint creation, deployment, private token retrieval only if needed, and post-deploy security verification.
 
 
 ## Fourth-prompt full Markdown audit — 2026-10-28 (remote-host approval)
