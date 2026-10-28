@@ -108,3 +108,10 @@ For each meaningful change, record the exact commands executed, pass/fail outcom
 - Unknown or cross-property room selections must fail without storing the idempotency key; a corrected request may then use that key.
 - Reusing an idempotency key with a different room must return 409, while replaying the original room selection returns the original request ID.
 - Strict response-schema tests reject partial room metadata and room-capacity statuses without room metadata. All selected-room booking and schema guardrail tests passed in run #198 on commit `40daa12ba8975b8c575441b3d2775166a8187042`.
+
+
+## Remote access-control tests — added; CI verification pending
+- Remote configuration must reject missing, too-short, or placeholder API tokens and invalid exposure values.
+- Remote API requests must reject missing/wrong Bearer tokens with 401 and accept the configured token; `/healthz` remains accessible without a token.
+- Local-mode API behavior remains unchanged. The configured token must not appear in the settings repr.
+- These tests exercise application-level token gating only. They do not prove HTTPS, rate limiting, request-size limits, deployment settings, or full internet-exposure safety.
