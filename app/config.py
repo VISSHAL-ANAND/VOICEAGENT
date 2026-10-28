@@ -1,7 +1,7 @@
 """Validated, secret-free settings for the local prototype and protected remote demos."""
 
 import os
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from typing import Mapping
 
 from dotenv import load_dotenv
@@ -14,7 +14,7 @@ class Settings:
     mode: str = "local-mock"
     log_level: str = "INFO"
     exposure: str = "local"
-    api_token: str | None = None
+    api_token: str | None = field(default=None, repr=False)
 
     @classmethod
     def from_env(cls, environ: Mapping[str, str] | None = None) -> "Settings":
