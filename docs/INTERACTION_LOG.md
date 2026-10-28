@@ -192,7 +192,7 @@ Keep this log concise. Record decisions that affect project direction, verified 
 ## 2026-10-28 — Render Free approved; deployment blueprint prepared
 - User approved Render Free for a remote, mock-only test. This does not authorize a paid upgrade or production use.
 - Added `render.yaml` for a Free web service in Singapore, with `/healthz` health check, auto-deploy disabled, remote mode, and a private-secret prompt for the bearer token.
-- Attempted direct service creation through the connected Render action; it was blocked by safety checks. No Render service, public URL, or paid resource was created. Next: create the Blueprint from the Render Dashboard, enter a privately generated token, deploy Free only, and verify HTTPS/auth/rate-limit behavior before sharing the URL.
+- Attempted direct service creation through the connected Render action; it was blocked by safety checks. The direct Render create action was blocked, so the user manually created the service in the Render Dashboard. It is now live on Free; verify health/auth/rate limiting and correct the actual health-check and auto-deploy settings.
 - Render Free limitations checked against official docs: sleeps after 15 minutes idle, wake-up may take about a minute, local filesystem is ephemeral, and usage limits apply. Do not add a payment method or upgrade without approval.
 - Full Markdown audit completed for all 13 Markdown files; recursive tree returned `truncated=false`. Corrected stale test evidence and duplicate remote-security documentation. Latest verified application CI remains run #282 (87 passed, one upstream deprecation warning). Cadence reset to 0/4.
 
