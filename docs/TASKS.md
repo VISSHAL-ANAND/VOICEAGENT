@@ -50,7 +50,7 @@ Statuses: **TODO**, **BLOCKED**, **IN PROGRESS**, **DONE**. Mark a task DONE onl
   - Acceptance: selected adapter maps provider events without leaking raw payloads/errors; interruptions, clarification, language switching, and tool invocation are tested; mock and real modes remain clearly separated.
 
 ## P2 — Security and operations
-- [ ] **T-043: Complete remote-test security controls** — IN PROGRESS. Initial remote-mode bearer-token gate and docs disabling are implemented; verify CI, then address request-size limits, rate limiting/abuse protection, HTTPS and hosting configuration, monitoring, and a deployment review before public exposure.
+- [ ] **T-043: Complete remote-test security controls** — IN PROGRESS. Initial remote-mode bearer-token gate and docs disabling are implemented and verified by CI run #243 (75 tests passed); next address request-size limits, rate limiting/abuse protection, HTTPS and hosting configuration, monitoring, and a deployment review before public exposure.
 - [ ] **T-040: Define data handling policy** — call recording, transcripts, retention, access, deletion, and applicable compliance review.
 - [ ] **T-041: Add redacted structured logs and audit events** — no secrets or unnecessary personal data.
 - [ ] **T-042: Define operational recovery** — timeouts, retries, unknown booking outcome, rate limiting, alerts, backup/recovery.
