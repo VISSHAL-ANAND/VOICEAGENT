@@ -118,3 +118,10 @@ Changes are recorded after they are actually made and verified.
 - Added conservative security headers to responses, a restrictive CSP in remote mode, and conditional HSTS only when the ASGI request scheme is HTTPS.
 - Added regression coverage for expected headers and HTTPS-only HSTS behavior. GitHub Actions run #282 passed all 87 tests.
 - These application headers do not configure or prove HTTPS at the host/proxy layer.
+
+
+## 2026-10-28 — Render Free remote-test blueprint
+- User explicitly approved Render Free for a mock-only remote test; no paid plan or production deployment was approved.
+- Added `render.yaml` for a Singapore-region Free web service, `/healthz` health check, disabled auto-deploy, remote bearer-token mode, and a `sync: false` secret prompt.
+- The connected direct service-creation action was blocked by safety checks. No service or public URL was created; the Blueprint must be created from the Render Dashboard and the token entered privately.
+- Full Markdown audit completed across all 13 Markdown files; recursive tree returned `truncated=false`. Corrected stale test-count and remote-hosting status. Latest verified application CI remains run #282 (87 passed).
