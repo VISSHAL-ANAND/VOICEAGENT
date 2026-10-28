@@ -148,3 +148,10 @@ Keep this log concise. Record decisions that affect project direction, verified 
 - Booking and handoff request schemas reject unknown JSON fields; whitespace-only idempotency keys are rejected after whitespace normalization.
 - GitHub Actions run #216 on commit `3042e590ed8c63a7b503be872a90022d4ded341c` passed all 66 tests. One upstream Starlette/httpx TestClient deprecation warning remains.
 - An intermediate CI run failed because the response field was committed before the simulator populated it; the simulator was corrected and the subsequent run passed.
+
+
+## 2026-10-28 — User selected remote testing
+- User chose option C: remote testing over the internet. This authorizes planning for remote test access, not a paid hosting choice or immediate public deployment.
+- Added `VOICEAGENT_EXPOSURE=remote` configuration that requires a long non-placeholder API token, Bearer-token middleware for API routes except `/healthz`, and disabling interactive docs/OpenAPI routes when remote mode is active. Added configuration and endpoint security tests.
+- No secrets were generated or committed; no host was selected, no deployment occurred, and no paid service was activated.
+- CI verification is pending. Remaining blockers before internet exposure include HTTPS, rate limiting/abuse controls, request-size limits, monitoring, and deployment review.
