@@ -1,7 +1,7 @@
 # Testing and Verification Strategy
 
 ## Current status
-The mock-only FastAPI prototype and its tests are verified by GitHub Actions. The latest verified application-test run is #282 on commit `47653c39183d5f943aea3d502ab8b0ac21c73e52`: 87 tests passed with one Starlette/httpx deprecation warning. The user approved a Render Free remote test, but the service has not been created/deployed. Real API, voice-provider adapter, telephony, persistence, production concurrency across workers, and production behavior remain unverified. Never report tests as passing unless executed.
+The mock-only FastAPI prototype and its tests are verified by GitHub Actions. The latest verified application-test run is #282 on commit `47653c39183d5f943aea3d502ab8b0ac21c73e52`: 87 tests passed with one Starlette/httpx deprecation warning. The user deployed a Render Free remote test. Render logs show successful startup and an unauthenticated GET / returned 401, but health and authenticated API checks remain pending. Real API, voice-provider adapter, telephony, persistence, production concurrency across workers, and production behavior remain unverified. Never report tests as passing unless executed.
 
 ## Test layers
 1. **Unit tests:** date/occupancy validation, pricing rules, booking state transitions, language/session state, redaction.
@@ -133,8 +133,8 @@ For each meaningful change, record the exact commands executed, pass/fail outcom
 - This verifies application response behavior only. It does not verify TLS termination, reverse-proxy forwarding configuration, public reachability, or a hosting provider's perimeter.
 
 
-## Deployment verification plan — pending Render Blueprint creation
-After the service is created from `render.yaml`, verify:
+## Deployment verification plan — deployed service, checks pending
+For the manually created service, first correct the dashboard settings to health-check path `/healthz` and auto-deploy OFF, then verify:
 - The Render service uses the Free plan and Singapore region, and auto-deploy is disabled.
 - `VOICEAGENT_EXPOSURE=remote`, `VOICEAGENT_MODE=local-mock`, and the token exists only in Render's private environment settings.
 - HTTPS is served by the host; `/healthz` returns only the expected low-sensitivity health response.
