@@ -39,7 +39,7 @@ class Settings:
                 raise ValueError(
                     "Remote exposure requires VOICEAGENT_API_TOKEN with at least 32 characters."
                 )
-            if api_token.lower() in {"change-me", "changeme", "replace-me-with-a-secret"}:
+            if api_token.lower() in {"change-me", "changeme", "replace-me-with-a-secret"} or api_token.lower().startswith("replace-me"):
                 raise ValueError("VOICEAGENT_API_TOKEN must not be a placeholder.")
 
         return cls(
