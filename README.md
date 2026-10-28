@@ -73,3 +73,7 @@ Read [AGENTS.md](AGENTS.md) for engineering rules and [SOUL.md](SOUL.md) for the
 - [Prioritized tasks](docs/TASKS.md)
 - [Changelog](docs/CHANGELOG.md)
 - [Interaction log and handoffs](docs/INTERACTION_LOG.md)
+
+
+## Remote mock demo status
+The Render Free mock-only service is deployed and Render reports it live: `https://voiceagent-remote-demo.onrender.com`. The build and application startup succeeded; logs show unauthenticated access to `/` receives 401. Health and authenticated API checks remain pending. In the actual manually created service, the health-check path is blank and automatic deploys are enabled; correct these in Render Dashboard to `/healthz` and auto-deploy OFF. This public endpoint is for synthetic demo data only. No real bookings, guest data, voice calls, or manager transfers are supported.
