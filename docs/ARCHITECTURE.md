@@ -87,3 +87,5 @@ The demo booking-request endpoint also accepts an optional room ID. It validates
 
 ## Remote test access boundary — initial implementation
 `app/config.py` supports an explicit `VOICEAGENT_EXPOSURE=remote` setting that requires a 32-character-or-longer `VOICEAGENT_API_TOKEN`. In remote mode, all API routes except `/healthz` require a Bearer token, and interactive docs/OpenAPI routes are disabled at app initialization. The token is compared without ordinary string equality and excluded from settings repr. This is an initial access gate only, not a complete public deployment architecture; TLS, rate limiting, body-size limits, monitoring, and hosting configuration remain unresolved.
+
+The app also installs `RequestBodyLimitMiddleware` (`app/security.py`) with a 65,536-byte maximum request body. It checks declared Content-Length and counts streamed body chunks before forwarding a bounded body to FastAPI; oversized requests receive 413. This is a single-request application guard, not a replacement for reverse-proxy/server limits or rate limiting. CI run #254 passed the boundary and over-limit tests.
